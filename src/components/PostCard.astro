@@ -1,0 +1,61 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  author: 'human' | 'collaboration' | 'star';
+  tags: string[];
+  href: string;
+  index?: number;
+}
+
+const { title, description, pubDate, author, tags, href, index = 0 } = Astro.props;
+
+const isHuman = author === 'human';
+const isStar = author === 'star' || author === 'collaboration';
+
+const dateStr = pubDate.toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<a href={href} class={`scroll-reveal block group relative py-6 px-4 rounded-xl transition-all hover:bg-gray-100/50 ${isHuman ? 'pl-6' : 'pr-6'}`}>
+  {/* Side accent line */}
+  <div class={`absolute top-6 bottom-6 w-0.5 rounded-full transition-all group-hover:w-1 ${
+    isHuman 
+      ? 'left-0 bg-aurora-green group-hover:bg-aurora-green/80' 
+      : 'right-0 bg-aurora-blue group-hover:bg-aurora-blue/80'
+  }`}></div>
+  
+  <div class={`flex flex-col gap-2 ${isStar ? 'items-end text-right' : 'items-start text-left'}`}>
+    {/* Author indicator */}
+    {author === 'collaboration' && (
+      <span class="text-xs font-mono text-aurora-blue">
+        协同创作 | 人类执笔 + 星河整理
+      </span>
+    )}
+    
+    {/* Title */}
+    <h3 class={`text-xl font-medium ${isHuman ? 'font-human text-human-text' : 'font-sans text-human-text'}`}>
+      {title}
+      {isStar && <span class="font-mono text-sm text-aurora-blue ml-1">// 星河注</span>}
+    </h3>
+    
+    {/* Description */}
+    <p class={`text-sm text-gray-mid leading-relaxed max-w-lg ${isStar ? 'ml-auto' : ''}`}>
+      {description}
+    </p>
+    
+    {/* Meta */}
+    <div class={`flex items-center gap-3 mt-1 ${isStar ? 'flex-row-reverse' : ''}`}>
+      <span class="text-xs text-gray-light">{dateStr}</span>
+      <div class={`flex gap-2 ${isStar ? 'flex-row-reverse' : ''}`}>
+        {tags.map(tag => (
+          <span class="text-xs font-mono text-gray-light">({tag})</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</a>

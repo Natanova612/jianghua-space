@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  field?: 'human' | 'star' | 'mixed';
+}
+
+const { 
+  title, 
+  description = '姜华 × 星河 —— 人机协作舞台', 
+  ogImage = '/og-default.png',
+  field = 'human'
+} = Astro.props;
+
+const pageTitle = title === '姜华 × 星河' ? title : `${title} | 姜华 × 星河`;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>{pageTitle}</title>
+  
+  <!-- Preconnect to font CDNs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://chinese-font.netlify.app" crossorigin />
+  
+  <!-- Google Fonts: Noto Sans SC, JetBrains Mono, Newsreader, Long Cang, Orbitron -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Long+Cang&family=Newsreader:ital,wght@0,400;1,400&family=Noto+Sans+SC:wght@400;500;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet" />
+  
+  <!-- LXGW WenKai via chinese-font CDN (subset) -->
+  <link href="https://chinese-font.netlify.app/packages/lxgwwenkai/dist/LXGWWenKai-Regular/result.css" rel="stylesheet" />
+  
+</head>
+<body class={field === 'star' ? 'bg-ai-bg text-ai-text' : 'bg-human-bg text-human-text'}>
+  <slot />
+  
+  <script>
+    // Global IntersectionObserver for scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.15 });
+    
+    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

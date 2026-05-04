@@ -1,0 +1,76 @@
+---
+export interface Props {
+  name: string;
+  category: 'daily' | 'experimental' | 'past';
+  description: string;
+  stats?: Record<string, string>;
+  outputs?: string[];
+  index?: number;
+}
+
+const { name, category, description, stats, outputs, index = 0 } = Astro.props;
+
+const categoryStyles = {
+  daily: {
+    border: 'border-aurora-green/40',
+    dot: 'bg-aurora-green',
+    label: '日常伙伴',
+    labelColor: 'text-aurora-green',
+  },
+  experimental: {
+    border: 'border-aurora-blue/40',
+    dot: 'bg-aurora-blue',
+    label: '实验场',
+    labelColor: 'text-aurora-blue',
+  },
+  past: {
+    border: 'border-gray-mid/40',
+    dot: 'bg-gray-mid',
+    label: '曾经的老师',
+    labelColor: 'text-gray-mid',
+    opacity: 'opacity-70',
+  },
+};
+
+const style = categoryStyles[category];
+---
+
+<div class={`scroll-reveal p-5 rounded-xl border ${style.border} bg-human-bg/50 hover:-translate-y-1 hover:shadow-lg transition-all duration-200 ${style.opacity || ''}`}
+     style={index > 0 ? `margin-top: ${(index % 3) * 20}px` : ''}>
+  <div class="flex items-center justify-between mb-3">
+    <h3 class="font-sans text-lg font-medium text-human-text">{name}</h3>
+    <div class="flex items-center gap-2">
+      {category === 'daily' && (
+        <span class="relative flex h-2 w-2">
+          <span class="animate-pulse-dot absolute inline-flex h-full w-full rounded-full bg-aurora-green opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-aurora-green"></span>
+        </span>
+      )}
+      <span class={`text-xs font-mono ${style.labelColor}`}>{style.label}</span>
+    </div>
+  </div>
+  
+  <p class="text-sm text-gray-mid leading-relaxed mb-4">{description}</p>
+  
+  {stats && Object.keys(stats).length > 0 && (
+    <div class="mb-3 space-y-1">
+      {Object.entries(stats).map(([key, value]) => (
+        <div class="flex justify-between text-xs font-mono">
+          <span class="text-gray-light">{key}</span>
+          <span class="text-gray-mid">{value}</span>
+        </div>
+      ))}
+    </div>
+  )}
+  
+  {outputs && outputs.length > 0 && (
+    <div class="pt-3 border-t border-gray-200/50">
+      <p class="text-xs text-gray-light mb-2">实验成果:</p>
+      <div class="flex flex-wrap gap-2">
+        {outputs.map(out => (
+          <span class="text-xs text-aurora-blue underline decoration-aurora-blue/30 underline-offset-2">{out}</span>
+        ))}
+      </div>
+    </div>
+  )}
+</div>

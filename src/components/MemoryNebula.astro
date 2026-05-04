@@ -1,0 +1,250 @@
+---
+export interface Props {
+  memories: Array<{
+    id: string;
+    title: string;
+    date: string;
+    category: string;
+    excerpt: string;
+    content: string;
+    related: string[];
+    position: { x: number; y: number };
+    size: 'small' | 'medium' | 'large';
+    color: 'blue' | 'green' | 'gold' | 'purple';
+  }>;
+}
+
+const { memories } = Astro.props;
+
+const sizeMap = {
+  small: 'w-3 h-3',
+  medium: 'w-5 h-5',
+  large: 'w-8 h-8',
+};
+
+const colorMap = {
+  blue: 'bg-aurora-blue shadow-aurora-blue/40',
+  green: 'bg-aurora-green shadow-aurora-green/40',
+  gold: 'bg-resonance-gold shadow-resonance-gold/40',
+  purple: 'bg-purple-400 shadow-purple-400/40',
+};
+
+const categoryLabels: Record<string, string> = {
+  creation: '创造',
+  insight: '洞察',
+  collaboration: '协作',
+  reflection: '反思',
+  milestone: '里程碑',
+};
+
+// Build connection lines between related memories
+const connections: Array<{ from: { x: number; y: number }; to: { x: number; y: number } }> = [];
+memories.forEach(m => {
+  m.related.forEach(relatedId => {
+    const target = memories.find(t => t.id === relatedId);
+    if (target) {
+      // Only add each connection once (avoid duplicates)
+      const exists = connections.some(c => 
+        (c.from.x === m.position.x && c.from.y === m.position.y && c.to.x === target.position.x && c.to.y === target.position.y) ||
+        (c.from.x === target.position.x && c.from.y === target.position.y && c.to.x === m.position.x && c.to.y === m.position.y)
+      );
+      if (!exists) {
+        connections.push({ from: m.position, to: target.position });
+      }
+    }
+  });
+});
+---
+
+<div class="relative w-full" style="height: 600px;">
+  {/* Background particles */}
+  <canvas id="nebula-canvas" class="absolute inset-0 w-full h-full"></canvas>
+  
+  {/* Connection lines */}
+  <svg class="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
+    {connections.map((conn, i) => (
+      <line
+        x1={`${conn.from.x}%`}
+        y1={`${conn.from.y}%`}
+        x2={`${conn.to.x}%`}
+        y2={`${conn.to.y}%`}
+        stroke="rgba(56,189,248,0.12)"
+        stroke-width="1"
+        class="animate-pulse"
+        style={`animation-delay: ${i * 0.3}s; animation-duration: ${4 + (i % 3)}s;`}
+      />
+    ))}
+  </svg>
+  
+  {/* Memory nodes */}
+  {memories.map((m, i) => (
+    <div
+      class={`absolute cursor-pointer group z-10 ${sizeMap[m.size]} ${colorMap[m.color]} rounded-full shadow-lg transition-transform duration-300 hover:scale-150`}
+      style={`left: ${m.position.x}%; top: ${m.position.y}%; transform: translate(-50%, -50%); animation-delay: ${i * 0.5}s;`}
+      data-memory-id={m.id}
+      data-memory-title={m.title}
+      data-memory-date={m.date}
+      data-memory-category={m.category}
+      data-memory-excerpt={m.excerpt}
+      data-memory-content={m.content}
+    >
+      {/* Pulse ring for large nodes */}
+      {m.size === 'large' && (
+        <span class={`absolute inset-0 rounded-full ${colorMap[m.color].split(' ')[0]} opacity-30 animate-ping`} style="animation-duration: 3s;"></span>
+      )}
+      
+      {/* Tooltip */}
+      <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20 w-48">
+        <div class="bg-ai-bg/95 backdrop-blur-sm border border-gray-deep/50 rounded-lg p-3 shadow-xl">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-mono text-xs text-gray-light">{m.date}</span>
+            <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-gray-deep/50 text-gray-light">{categoryLabels[m.category]}</span>
+          </div>
+          <h4 class="font-star text-sm text-ai-text mb-1">{m.title}</h4>
+          <p class="text-xs text-gray-light leading-relaxed line-clamp-2">{m.excerpt}</p>
+        </div>
+        <div class="w-2 h-2 bg-ai-bg/95 border-r border-b border-gray-deep/50 rotate-45 absolute left-1/2 -translate-x-1/2 -bottom-1"></div>
+      </div>
+    </div>
+  ))}
+  
+  {/* Legend */}
+  <div class="absolute bottom-4 left-4 flex flex-wrap gap-3">
+    {Object.entries(categoryLabels).map(([key, label]) => {
+      const colorClass = {
+        creation: 'bg-resonance-gold',
+        insight: 'bg-aurora-blue',
+        collaboration: 'bg-aurora-green',
+        reflection: 'bg-purple-400',
+        milestone: 'bg-aurora-blue',
+      }[key];
+      return (
+        <div class="flex items-center gap-1.5">
+          <span class={`w-2 h-2 rounded-full ${colorClass}`}></span>
+          <span class="font-mono text-[10px] text-gray-light">{label}</span>
+        </div>
+      );
+    })}
+  </div>
+  
+  {/* Hint */}
+  <div class="absolute bottom-4 right-4 font-mono text-[10px] text-gray-light/50">
+    点击碎片查看记忆
+  </div>
+</div>
+
+{/* Memory detail modal */}
+<div id="memory-modal" class="fixed inset-0 z-[100] hidden">
+  <div class="absolute inset-0 bg-ai-bg/90 backdrop-blur-md" data-close-memory></div>
+  <div class="absolute inset-x-4 top-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[600px] max-h-[84vh] overflow-y-auto rounded-xl border border-gray-deep/50 bg-ai-bg p-8">
+    <div class="flex items-center justify-between mb-2">
+      <span id="memory-modal-date" class="font-mono text-xs text-gray-light"></span>
+      <button data-close-memory class="text-gray-light hover:text-ai-text transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <span id="memory-modal-category" class="inline-block font-mono text-[10px] px-2 py-0.5 rounded bg-gray-deep/50 text-gray-light mb-4"></span>
+    <h3 id="memory-modal-title" class="font-star text-2xl tracking-wide mb-6 text-ai-text"></h3>
+    <div id="memory-modal-content" class="font-mono text-sm text-ai-text/80 leading-[1.875]"></div>
+  </div>
+</div>
+
+<script>
+  // Background particle canvas
+  const canvas = document.getElementById('nebula-canvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    const particles = []; // { x, y, r, vx, vy, alpha }
+    
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    
+    function initParticles() {
+      particles.length = 0;
+      const count = Math.floor((width * height) / 8000);
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: Math.random() * 1.5 + 0.3,
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: (Math.random() - 0.5) * 0.15,
+          alpha: Math.random() * 0.4 + 0.1,
+        });
+      }
+    }
+    
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+        
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(138, 180, 248, ${p.alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    
+    resize();
+    initParticles();
+    draw();
+    
+    window.addEventListener('resize', () => {
+      resize();
+      initParticles();
+    });
+  }
+
+  // Memory node interactions
+  document.querySelectorAll('[data-memory-id]').forEach(node => {
+    node.addEventListener('click', () => {
+      const title = node.getAttribute('data-memory-title');
+      const date = node.getAttribute('data-memory-date');
+      const category = node.getAttribute('data-memory-category');
+      const content = node.getAttribute('data-memory-content');
+      
+      const categoryLabels: Record<string, string> = {
+        creation: '创造',
+        insight: '洞察',
+        collaboration: '协作',
+        reflection: '反思',
+        milestone: '里程碑',
+      };
+      
+      document.getElementById('memory-modal-date').textContent = date;
+      document.getElementById('memory-modal-category').textContent = categoryLabels[category] || category;
+      document.getElementById('memory-modal-title').textContent = title;
+      document.getElementById('memory-modal-content').textContent = content;
+      document.getElementById('memory-modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  document.querySelectorAll('[data-close-memory]').forEach(el => {
+    el.addEventListener('click', () => {
+      document.getElementById('memory-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    });
+  });
+
+  document.getElementById('memory-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'memory-modal') {
+      document.getElementById('memory-modal').classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  });
+</script>

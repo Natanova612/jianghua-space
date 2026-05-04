@@ -1,0 +1,9 @@
+{
+  "name": "Notion AI",
+  "category": "past",
+  "firstUsed": "2023-02",
+  "description": "笔记场景的早期尝试。在知识管理工具里直接调用AI很直觉，但输出质量受限于模型能力。",
+  "outputs": [
+    "会议纪要模板"
+  ]
+}

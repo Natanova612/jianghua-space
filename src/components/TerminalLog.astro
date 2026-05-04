@@ -1,0 +1,64 @@
+---
+export interface Props {
+  entryNumber: number;
+  date: string;
+  humanTrigger: string;
+  starResponse: string;
+  output?: string;
+  resonance?: string;
+}
+
+const { entryNumber, date, humanTrigger, starResponse, output, resonance } = Astro.props;
+
+// Calculate char count for typewriter animation
+const starCharCount = starResponse.length;
+---
+
+<article class="scroll-reveal mb-10">
+  {/* Divider */}
+  <div class="flex items-center gap-3 mb-4">
+    <div class="h-px flex-1 bg-gray-deep"></div>
+    <span class="font-mono text-xs text-gray-light">
+      [日志条目 #{String(entryNumber).padStart(3, '0')}]  {date}
+    </span>
+    <div class="h-px flex-1 bg-gray-deep"></div>
+  </div>
+  
+  {/* Human trigger */}
+  <div class="mb-4">
+    <p class="text-sm text-gray-light mb-1">姜华:</p>
+    <p class="text-sm leading-relaxed text-ai-text/80">{humanTrigger}</p>
+  </div>
+  
+  {/* Star response */}
+  <div class="mb-4">
+    <p class="text-sm text-aurora-blue mb-1 font-mono">星河&gt;</p>
+    <div class="overflow-hidden">
+      <p 
+        class="text-sm leading-relaxed text-aurora-blue/90 font-mono typewriter"
+        style={`--char-count: ${starCharCount}`}
+      >
+        {starResponse}
+      </p>
+    </div>
+  </div>
+  
+  {/* Output */}
+  {output && (
+    <div class="mb-4 p-4 rounded-lg border border-aurora-blue/20 bg-aurora-blue/5">
+      <p class="text-xs font-mono text-aurora-blue/60 mb-1">[输出]</p>
+      <p class="text-sm text-ai-text/80">{output}</p>
+    </div>
+  )}
+  
+  {/* Resonance */}
+  {resonance && (
+    <div class="flex gap-2 items-start">
+      <span class="text-resonance-gold text-lg">★</span>
+      <div>
+        <span class="text-xs font-mono text-resonance-gold/80">[共鸣标记]</span>
+        <p class="text-sm text-resonance-gold/90 mt-1 leading-relaxed">{resonance}</p>
+      </div>
+    </div>
+  )}
+</article>

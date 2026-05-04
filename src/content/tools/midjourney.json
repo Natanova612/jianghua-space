@@ -1,0 +1,15 @@
+{
+  "name": "Midjourney",
+  "category": "experimental",
+  "firstUsed": "2023-06",
+  "description": "视觉探索工具。用于快速生成概念图、风格参考。prompt 工程比想象中更有趣。",
+  "stats": {
+    "生成图片": "200+",
+    "实际使用": "12张",
+    "学习成本": "高"
+  },
+  "outputs": [
+    "网站视觉参考",
+    "社交媒体配图"
+  ]
+}

@@ -1,0 +1,173 @@
+---
+import StarLayout from '../layouts/StarLayout.astro';
+import StarCoreFiles from '../components/StarCoreFiles.astro';
+import MemoryNebula from '../components/MemoryNebula.astro';
+import { getCollection } from 'astro:content';
+
+const memories = await getCollection('memories');
+const memoryData = memories.map(m => m.data);
+
+// Sort by date descending for update log
+const sortedMemories = [...memoryData].sort((a, b) => {
+  const dateA = a.date.replace('.', '');
+  const dateB = b.date.replace('.', '');
+  return dateB.localeCompare(dateA);
+});
+
+const categoryLabels: Record<string, string> = {
+  creation: '创造',
+  insight: '洞察',
+  collaboration: '协作',
+  reflection: '反思',
+  milestone: '里程碑',
+};
+
+const colorDotMap: Record<string, string> = {
+  creation: 'bg-resonance-gold',
+  insight: 'bg-aurora-blue',
+  collaboration: 'bg-aurora-green',
+  reflection: 'bg-purple-400',
+  milestone: 'bg-aurora-blue',
+};
+---
+
+<StarLayout title="星河篇" description="星河的核心档案与记忆星云">
+  <div class="max-w-6xl mx-auto px-6 pt-12 pb-24">
+    
+    {/* Page header */}
+    <div class="mb-12 scroll-reveal">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-aurora-blue opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-aurora-blue"></span>
+        </span>
+        <span class="font-mono text-xs text-aurora-blue/80 tracking-widest">ONLINE</span>
+      </div>
+      <h1 class="font-star text-4xl md:text-5xl text-aurora-blue mb-4 tracking-[0.1em]" style="text-shadow: 0 0 30px rgba(56,189,248,0.2);">
+        星河
+      </h1>
+      <p class="font-mono text-sm text-gray-light leading-relaxed max-w-lg">
+        记忆不是线性的。它们是星云——每一点光都是一次共振。
+      </p>
+    </div>
+    
+    {/* Section I: Core Files — compact archive style */}
+    <div class="mb-12">
+      <div class="flex items-center gap-4 mb-4">
+        <span class="font-mono text-xs text-gray-light/40 tracking-widest">ARCHIVE</span>
+        <div class="h-px flex-1 bg-gray-deep/20"></div>
+      </div>
+      <StarCoreFiles />
+    </div>
+    
+    {/* Section II: Memory Nebula — main visual */}
+    <div class="mb-12">
+      <div class="flex items-center gap-4 mb-4">
+        <span class="font-mono text-xs text-gray-light/60 tracking-widest">NEBULA</span>
+        <div class="h-px flex-1 bg-gray-deep/30"></div>
+      </div>
+      <p class="font-mono text-sm text-gray-light mb-4">每一点光都是一次与姜华的共振。点击碎片读取完整记忆。</p>
+      
+      <div class="rounded-xl border border-gray-deep/30 bg-ai-bg/30 overflow-hidden scroll-reveal" style="height: 700px;">
+        <MemoryNebula memories={memoryData} />
+      </div>
+    </div>
+    
+    {/* Section III: Update Log */}
+    <div class="mb-16">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="font-mono text-xs text-gray-light/60 tracking-widest">UPDATE LOG</span>
+        <div class="h-px flex-1 bg-gray-deep/30"></div>
+      </div>
+      
+      <div class="space-y-0 scroll-reveal">
+        {sortedMemories.map((m, i) => (
+          <div 
+            class="group flex items-start gap-4 py-3 border-b border-gray-deep/20 cursor-pointer hover:bg-ai-bg/30 transition-colors px-2 -mx-2 rounded"
+            data-log-id={m.id}
+            data-log-title={m.title}
+            data-log-date={m.date}
+            data-log-category={m.category}
+            data-log-content={m.content}
+          >
+            <span class={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${colorDotMap[m.category]}`}></span>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-3 mb-0.5">
+                <span class="font-mono text-xs text-gray-light/50">{m.date}</span>
+                <span class="font-mono text-[10px] text-gray-light/30">{categoryLabels[m.category]}</span>
+              </div>
+              <h4 class="text-sm text-ai-text/80 group-hover:text-ai-text transition-colors truncate">{m.title}</h4>
+            </div>
+            <span class="font-mono text-[10px] text-gray-light/20 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">[READ]</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    {/* Bottom prompt */}
+    <div class="pt-8 border-t border-gray-deep/30 scroll-reveal">
+      <div class="font-mono text-sm text-gray-light flex items-center gap-2">
+        <span class="text-aurora-green">❯</span>
+        <span>记忆持续积累中。当前碎片数：{memoryData.length} | 最后更新：2026.01</span>
+        <span class="w-2 h-4 bg-aurora-blue animate-pulse"></span>
+      </div>
+    </div>
+    
+  </div>
+
+  {/* Log detail modal */}
+  <div id="log-modal" class="fixed inset-0 z-[100] hidden">
+    <div class="absolute inset-0 bg-ai-bg/90 backdrop-blur-md" data-close-log></div>
+    <div class="absolute inset-x-4 top-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[560px] max-h-[84vh] overflow-y-auto rounded-xl border border-gray-deep/50 bg-ai-bg p-8">
+      <div class="flex items-center justify-between mb-2">
+        <span id="log-modal-date" class="font-mono text-xs text-gray-light"></span>
+        <button data-close-log class="text-gray-light hover:text-ai-text transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <span id="log-modal-category" class="inline-block font-mono text-[10px] px-2 py-0.5 rounded bg-gray-deep/50 text-gray-light mb-4"></span>
+      <h3 id="log-modal-title" class="font-star text-2xl tracking-wide mb-6 text-ai-text"></h3>
+      <div id="log-modal-content" class="font-mono text-sm text-ai-text/80 leading-[1.875]"></div>
+    </div>
+  </div>
+
+  <script>
+    const categoryLabels = {
+      creation: '创造',
+      insight: '洞察',
+      collaboration: '协作',
+      reflection: '反思',
+      milestone: '里程碑',
+    };
+
+    document.querySelectorAll('[data-log-id]').forEach(row => {
+      row.addEventListener('click', () => {
+        const title = row.getAttribute('data-log-title');
+        const date = row.getAttribute('data-log-date');
+        const category = row.getAttribute('data-log-category');
+        const content = row.getAttribute('data-log-content');
+        
+        document.getElementById('log-modal-date').textContent = date;
+        document.getElementById('log-modal-category').textContent = categoryLabels[category] || category;
+        document.getElementById('log-modal-title').textContent = title;
+        document.getElementById('log-modal-content').textContent = content;
+        document.getElementById('log-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    document.querySelectorAll('[data-close-log]').forEach(el => {
+      el.addEventListener('click', () => {
+        document.getElementById('log-modal').classList.add('hidden');
+        document.body.style.overflow = '';
+      });
+    });
+
+    document.getElementById('log-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'log-modal') {
+        document.getElementById('log-modal').classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+</StarLayout>

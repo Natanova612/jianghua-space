@@ -1,0 +1,58 @@
+---
+import HumanLayout from '../layouts/HumanLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Extract all unique tags
+const allTags = [...new Set(posts.flatMap(p => p.data.tags))];
+---
+
+<HumanLayout title="学习与思考" description="碎片、金句、笔记——可截图的思想弹药库">
+  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    {/* Header */}
+    <div class="mb-12 scroll-reveal">
+      <h1 class="font-human text-3xl md:text-4xl text-human-text mb-4">学习与思考</h1>
+      <p class="text-gray-mid max-w-lg">
+        播客笔记、读书笔记、对话碎片——不是系统化的知识库，而是随时可能触发联想的思想火花。
+      </p>
+    </div>
+    
+    {/* Tags */}
+    <div class="flex flex-wrap gap-2 mb-12 scroll-reveal">
+      <span class="text-xs font-mono text-gray-light py-1">筛选:</span>
+      {allTags.map(tag => (
+        <a 
+          href={`/tags/${tag}`} 
+          class="text-xs font-mono text-gray-mid hover:text-aurora-green transition-colors py-1"
+        >
+          ({tag})
+        </a>
+      ))}
+    </div>
+    
+    {/* Posts List */}
+    <div class="divide-y divide-gray-100">
+      {posts.map((post, index) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          author={post.data.author}
+          tags={post.data.tags}
+          href={`/learning/${post.slug}`}
+          index={index}
+        />
+      ))}
+    </div>
+    
+    {/* Empty state if no posts */}
+    {posts.length === 0 && (
+      <div class="py-20 text-center">
+        <p class="text-gray-light">还没有文章。内容正在从各处分拣中...</p>
+      </div>
+    )}
+  </div>
+</HumanLayout>

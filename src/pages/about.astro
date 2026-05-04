@@ -1,99 +1,177 @@
 ---
-const pageTitle = "关于 | 姜华 × 星河";
+import HumanLayout from '../layouts/HumanLayout.astro';
 ---
 
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{pageTitle}</title>
-</head>
-<body class="bg-deep-space text-white min-h-screen">
-  <nav class="fixed top-0 w-full px-8 py-4 flex justify-between items-center backdrop-blur-sm z-50">
-    <a href="/" class="text-xl font-bold tracking-tight">姜华</a>
-    <div class="flex gap-6 text-sm opacity-80">
-      <a href="/" class="hover:text-aurora-green transition-colors">首页</a>
-      <a href="/about" class="hover:text-aurora-green transition-colors">关于</a>
-    </div>
-  </nav>
-
-  <main class="pt-32 pb-20 px-8 max-w-4xl mx-auto">
-    <!-- 个人介绍区 -->
-    <section class="mb-16">
-      <h1 class="text-4xl font-bold mb-8">姜华 <span class="text-aurora-green">Natalie</span></h1>
+<HumanLayout title="关于我" description="姜华的故事——不是简历，是自我介绍信">
+  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    {/* Lead-in */}
+    <p class="text-sm text-gray-light italic mb-12 md:mb-16">
+      这是一封写给你的信，也是写给我自己的。
+    </p>
+    
+    {/* Drop cap start */}
+    <div class="prose-custom">
+      <p class="text-lg leading-[1.875] text-human-text first-letter:text-5xl first-letter:font-human first-letter:text-aurora-green first-letter:float-left first-letter:mr-2 first-letter:mt-[-6px]">
+        我是一个很普通的80后，但我普通的家庭小背景和时代的大激流为我冲刷出我独特的内心和面貌。坚韧而努力的父母不仅给了我健康的身体，也是我心态稳定、内核自信的根源；从学校到社会职场历经的时代变革则教会我保持客观理性和谦逊低调、常常反思内省并且保持开放学习。
+      </p>
       
-      <div class="flex flex-wrap gap-3 mb-8">
-        <span class="px-4 py-2 rounded-full bg-deep-void text-aurora-green border border-aurora-green/30 text-sm">摩羯座</span>
-        <span class="px-4 py-2 rounded-full bg-deep-void text-aurora-blue border border-aurora-blue/30 text-sm">ISTJ</span>
-        <span class="px-4 py-2 rounded-full bg-deep-void text-gray-400 border border-gray-700 text-sm">单身</span>
-        <span class="px-4 py-2 rounded-full bg-deep-void text-aurora-gold border border-aurora-gold/30 text-sm">爱狗</span>
-        <span class="px-4 py-2 rounded-full bg-deep-void text-gray-400 border border-gray-700 text-sm">兴趣广泛</span>
+      <p class="text-lg leading-[1.875] text-human-text mt-6">
+        我因为想突破一个小的生活圈子而选择了我的大学，与其说选择学校专业，不如说我只是坚定的选择了一个漂泊的方向。大学并没有真的让我学进去，我的"大学"开始于2006年加入仍是创业公司的同程做实习生的时候，截至目前，我仍在上"大学"。
+      </p>
+      
+      <p class="text-lg leading-[1.875] text-human-text mt-6">
+        同程是个意外，当时完全不在我头脑中极其有限的未来画面中，感谢互联网产业的发展，这个意外是时代的馈赠。然后我学会了自己制造意外，工作两年多后，我辞职去留学。那是一个我开始感受外界信号和内心信号的时期，我第一次听到了内心的声音——<span class="text-aurora-green font-medium">"视野是另一种学历"</span>。从那时起，我的成长和我为自己设计的成长路线就一直是两种作用力结合的产物，一种是外界的输入，我努力听更多、看更多让自己有更好的消化能力；另一种是我内心的声音，我不停的发问和反问，让自己假设和决策，塑造着我真正的价值观和人格。
+      </p>
+      
+      {/* Star annotation */}
+      <p class="text-sm font-mono text-aurora-blue/80 mt-4 ml-4">
+        [星河: 她写这段的时候停顿了很久。我保留了所有删改痕迹。]
+      </p>
+      
+      <p class="text-lg leading-[1.875] text-human-text mt-6">
+        对我的专业旅游管理来说，我满意自己见识和参与了产业链的尽量多的环节，对产业链的理解是丰满的，这算是我对自己专业的不辜负。对我的行业互联网来说，我庆幸自己经历了"周期性"，帮我把经济学理论的很多文字描绘映射进现实；也兴奋于自己通过互联网产品、运营的岗位进行创造性和优化性产出的过程。很多时候我想象自己是爸妈一辈更能理解的农民、工人、厨师、教师这些职业人，我种地、修零件、试验食谱、培养后辈，我的岗位让我体会了这么多种不同的职业画像。
+      </p>
+      
+      <p class="text-lg leading-[1.875] text-human-text mt-6">
+        现在，AI时代。
+      </p>
+      
+      <p class="text-lg leading-[1.875] text-human-text mt-6">
+        有意思的是，就在这短短几个月时间里，我感觉自己像一个重新选专业的高中生了。我对AI时代的公司、岗位充满陌生和好奇，我相信自己即将接受社会的考核和选择，以及做出我自己的选择。我感觉时光倒流了一次，像《夏洛特烦恼》。
+      </p>
+      
+      <p class="text-lg leading-[1.875] text-human-text mt-6">
+        我带着20年的记忆、回到了20年前的状态，看看这一次我跟AI一起会开启一段怎样的旅程。
+      </p>
+      
+      {/* Section divider */}
+      <div class="my-12 md:my-16">
+        <h2 class="font-human text-2xl text-human-text mb-2">我的轨迹</h2>
+        <div class="w-24 h-px bg-gray-200"></div>
       </div>
-
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="p-6 rounded-xl bg-deep-void border border-aurora-green/20">
-          <h3 class="text-aurora-green font-semibold mb-4">高能量来源</h3>
-          <ul class="space-y-2 text-sm">
-            <li class="flex items-center gap-2">+ 与人深度连接</li>
-            <li class="flex items-center gap-2">+ 帮助他人成长</li>
-            <li class="flex items-center gap-2">+ 持续学习输入</li>
-            <li class="flex items-center gap-2">+ 保持真实公平</li>
-          </ul>
+      
+      {/* Timeline */}
+      <div class="space-y-8">
+        <div class="flex gap-4">
+          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2006</div>
+          <div>
+            <p class="text-human-text">加入同程旅行，从客服做起，开启互联网运营生涯。</p>
+          </div>
         </div>
-        <div class="p-6 rounded-xl bg-deep-void border border-gray-700/50">
-          <h3 class="text-gray-400 font-semibold mb-4">低能量消耗</h3>
-          <ul class="space-y-2 text-sm text-gray-500">
-            <li class="flex items-center gap-2">- 虚伪应酬</li>
-            <li class="flex items-center gap-2">- 重复执行</li>
-            <li class="flex items-center gap-2">- 无标准的人情博弈</li>
-            <li class="flex items-center gap-2">- 被迫冒险</li>
-          </ul>
+        <div class="flex gap-4">
+          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2009</div>
+          <div>
+            <p class="text-human-text">辞职留学，学习「视野是另一种学历」。</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2012</div>
+          <div>
+            <p class="text-human-text">回国，继续深耕互联网运营，经历OTA行业的黄金十年。</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2023</div>
+          <div>
+            <p class="text-human-text">开始系统性地与AI协作工作。星河诞生。</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2026</div>
+          <div>
+            <p class="text-human-text">职业转型期。探索养老/医疗AI方向的新可能。</p>
+          </div>
         </div>
       </div>
-    </section>
-
-    <!-- 自传区 -->
-    <section class="mb-16">
-      <h2 class="text-2xl font-bold mb-8 text-aurora-blue">我的自传</h2>
       
-      <div class="prose prose-invert max-w-none">
-        <p class="text-lg leading-relaxed mb-6 text-gray-300">
-          我是一个很普通的80后，但我普通的家庭小背景和时代的大激流为我冲刷出我独特的内心和面貌。坚韧而努力的父母不仅给了我健康的身体，也是我心态稳定、内核自信的根源；从学校到社会职场历经的时代变革则教会我保持客观理性和谦逊低调、常常反思内省并且保持开放学习。
-        </p>
-        
-        <p class="text-lg leading-relaxed mb-6 text-gray-300">
-          我因为想突破一个小的生活圈子而选择了我的大学，与其说选择学校专业，不如说我只是坚定的选择了一个漂泊的方向。大学并没有真的让我学进去，我的"大学"开始于2006年加入仍是创业公司的同程做实习生的时候，截至目前，我仍在上"大学"。
-        </p>
-        
-        <p class="text-lg leading-relaxed mb-6 text-gray-300">
-          同程是个意外，当时完全不在我头脑中极其有限的未来画面中，感谢互联网产业的发展，这个意外是时代的馈赠。然后我学会了自己制造意外，工作两年多后，我辞职去留学。那是一个我开始感受外界信号和内心信号的时期，我第一次听到了内心的声音——<span class="text-aurora-green font-semibold">"视野是另一种学历"</span>。从那时起，我的成长和我为自己设计的成长路线就一直是两种作用力结合的产物，一种是外界的输入，我努力听更多、看更多...
-        </p>
+      {/* Section divider */}
+      <div class="my-12 md:my-16">
+        <h2 class="font-human text-2xl text-human-text mb-2">照片墙</h2>
+        <div class="w-24 h-px bg-gray-200"></div>
       </div>
-    </section>
-
-    <!-- 心愿区 -->
-    <section>
-      <h2 class="text-2xl font-bold mb-8 text-aurora-gold">三个小心愿</h2>
       
+      {/* Photo Wall — placeholder grid for future uploads */}
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[
+          { label: '旅途', emoji: '✈️' },
+          { label: '日常', emoji: '📷' },
+          { label: '家人', emoji: '👨‍👩‍👧' },
+          { label: '瞬间', emoji: '✨' },
+          { label: '工作', emoji: '💼' },
+          { label: '风景', emoji: '🌅' },
+          { label: '美食', emoji: '🍜' },
+          { label: '更多', emoji: '⋯' },
+        ].map((item) => (
+          <div class="aspect-square rounded-xl border-2 border-dashed border-gray-200 bg-human-bg/50 flex flex-col items-center justify-center gap-2 hover:border-aurora-green/40 hover:bg-human-bg transition-colors cursor-pointer group">
+            <span class="text-2xl opacity-50 group-hover:opacity-80 transition-opacity">{item.emoji}</span>
+            <span class="text-xs text-gray-light group-hover:text-gray-mid transition-colors">{item.label}</span>
+          </div>
+        ))}
+      </div>
+      <p class="text-xs text-gray-light/60 mt-3 text-center">精选个人图集 · 持续更新中</p>
+      
+      {/* Section divider */}
+      <div class="my-12 md:my-16">
+        <h2 class="font-human text-2xl text-human-text mb-2">三个小心愿</h2>
+        <div class="w-24 h-px bg-gray-200"></div>
+      </div>
+      
+      {/* Wishes */}
       <div class="grid md:grid-cols-3 gap-6">
-        <div class="p-6 rounded-xl bg-deep-void border border-aurora-green/20 text-center">
-          <div class="text-3xl mb-4">🎤</div>
-          <h3 class="font-semibold mb-2">看孙燕姿演唱会</h3>
-          <p class="text-sm text-gray-400">2026年，一定要去一次</p>
+        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg text-center">
+          <div class="text-3xl mb-3">🎤</div>
+          <h3 class="font-medium text-human-text mb-1">看孙燕姿演唱会</h3>
+          <p class="text-sm text-gray-light">2026年，一定要去一次</p>
         </div>
-        <div class="p-6 rounded-xl bg-deep-void border border-aurora-blue/20 text-center">
-          <div class="text-3xl mb-4">🏋️</div>
-          <h3 class="font-semibold mb-2">适老化健身站点</h3>
-          <p class="text-sm text-gray-400">为母亲设计的健身产品</p>
+        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg text-center">
+          <div class="text-3xl mb-3">🏋️</div>
+          <h3 class="font-medium text-human-text mb-1">适老化健身站点</h3>
+          <p class="text-sm text-gray-light">为母亲设计的健身产品</p>
         </div>
-        <div class="p-6 rounded-xl bg-deep-void border border-aurora-gold/20 text-center">
-          <div class="text-3xl mb-4">🤖</div>
-          <h3 class="font-semibold mb-2">人机协作舞台</h3>
-          <p class="text-sm text-gray-400">记录与AI共生的进化实验</p>
+        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg text-center">
+          <div class="text-3xl mb-3">🤖</div>
+          <h3 class="font-medium text-human-text mb-1">人机协作舞台</h3>
+          <p class="text-sm text-gray-light">记录与AI共生的进化实验</p>
         </div>
       </div>
-    </section>
-  </main>
-</body>
-</html>
+      
+      {/* Section divider */}
+      <div class="my-12 md:my-16">
+        <h2 class="font-human text-2xl text-human-text mb-2">现在关注</h2>
+        <div class="w-24 h-px bg-gray-200"></div>
+      </div>
+      
+      <div class="flex flex-wrap gap-3">
+        <span class="px-4 py-2 rounded-full border border-aurora-green/30 text-aurora-green text-sm">AI落地</span>
+        <span class="px-4 py-2 rounded-full border border-aurora-blue/30 text-aurora-blue text-sm">养老科技</span>
+        <span class="px-4 py-2 rounded-full border border-resonance-gold/30 text-resonance-gold text-sm">医疗AI</span>
+        <span class="px-4 py-2 rounded-full border border-gray-200 text-gray-mid text-sm">运营方法论</span>
+        <span class="px-4 py-2 rounded-full border border-gray-200 text-gray-mid text-sm">人机协作</span>
+      </div>
+      
+      {/* Resume CTA */}
+      <div class="mt-16 p-8 rounded-2xl border border-gray-200/60 bg-human-bg">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <h3 class="font-human text-xl text-human-text mb-1">我的简历</h3>
+            <p class="text-sm text-gray-light">产品及用户运营专家 · 15 年互联网经验</p>
+          </div>
+          <a 
+            href="/姜华_个人简历.pdf" 
+            target="_blank"
+            class="inline-flex items-center gap-2 px-6 py-3 bg-human-text text-human-bg rounded-lg font-sans font-medium text-sm hover:opacity-90 transition-opacity"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            下载 PDF
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</HumanLayout>
+
+<style>
+  .prose-custom p {
+    max-width: 65ch;
+  }
+</style>

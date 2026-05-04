@@ -1,0 +1,39 @@
+---
+export interface Props {
+  field?: 'human' | 'star';
+}
+
+const { field = 'human' } = Astro.props;
+---
+
+<footer class={`py-10 px-6 border-t ${field === 'star' ? 'border-gray-deep/30' : 'border-gray-200/60'}`}>
+  <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="text-center md:text-left">
+      <p class={`text-sm font-medium ${field === 'star' ? 'font-mono text-aurora-blue' : 'font-human text-human-text'}`}>
+        姜华 × 星河
+      </p>
+      <p class={`text-xs mt-1 ${field === 'star' ? 'text-gray-light' : 'text-gray-light'}`}>
+        人机协作舞台 · 持续演化中
+      </p>
+    </div>
+    
+    <div class="flex items-center gap-6">
+      <a 
+        href="https://github.com/Natanova612/jianghua-space" 
+        target="_blank"
+        class={`text-xs transition-colors ${field === 'star' ? 'text-gray-light hover:text-aurora-blue' : 'text-gray-light hover:text-aurora-green'}`}
+      >
+        GitHub
+      </a>
+      <a 
+        href="/rss.xml" 
+        class={`text-xs transition-colors ${field === 'star' ? 'text-gray-light hover:text-aurora-blue' : 'text-gray-light hover:text-aurora-green'}`}
+      >
+        RSS
+      </a>
+      <span class={`text-xs ${field === 'star' ? 'text-gray-pale' : 'text-gray-pale'}`}>
+        © 2026
+      </span>
+    </div>
+  </div>
+</footer>

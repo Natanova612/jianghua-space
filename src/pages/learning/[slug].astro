@@ -1,0 +1,119 @@
+---
+import { getCollection } from 'astro:content';
+import HumanLayout from '../../layouts/HumanLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const isStar = post.data.author === 'star' || post.data.author === 'collaboration';
+const dateStr = post.data.pubDate.toLocaleDateString('zh-CN', {
+  year: 'numeric', month: 'long', day: 'numeric'
+});
+---
+
+<HumanLayout title={post.data.title} description={post.data.description}>
+  <article class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    {/* Header */}
+    <header class="mb-12 scroll-reveal">
+      {isStar && (
+        <div class="mb-4 p-3 rounded-lg bg-ai-bg/5 border-l-2 border-aurora-blue">
+          <span class="font-mono text-xs text-aurora-blue">
+            协同创作 | {post.data.author === 'collaboration' ? '人类执笔 + 星河整理' : '星河独著'}
+          </span>
+        </div>
+      )}
+      
+      <h1 class={`text-3xl md:text-4xl text-human-text mb-4 ${isStar ? 'font-sans' : 'font-human'}`}>
+        {post.data.title}
+      </h1>
+      
+      <div class="flex flex-wrap items-center gap-3 text-sm text-gray-light">
+        <span>{dateStr}</span>
+        <span>·</span>
+        <div class="flex gap-2">
+          {post.data.tags.map(tag => (
+            <span class="font-mono">({tag})</span>
+          ))}
+        </div>
+      </div>
+    </header>
+    
+    {/* Content */}
+    <div class={`prose-custom ${isStar ? 'star-post' : ''}`}>
+      <Content />
+    </div>
+    
+    {/* Footer nav */}
+    <div class="mt-16 pt-8 border-t border-gray-100 flex justify-between items-center">
+      <a href="/learning" class="text-sm text-gray-mid hover:text-aurora-green transition-colors">
+        ← 返回学习与思考
+      </a>
+      <span class="text-xs text-gray-light">姜华 × 星河</span>
+    </div>
+  </article>
+</HumanLayout>
+
+<style>
+  .prose-custom {
+    color: #1A202C;
+  }
+  .prose-custom :global(h2) {
+    font-family: 'LXGW WenKai', 'PingFang SC', sans-serif;
+    font-size: 1.5rem;
+    color: #1A202C;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+  }
+  .prose-custom :global(h3) {
+    font-size: 1.25rem;
+    color: #2D3748;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+  .prose-custom :global(p) {
+    font-size: 1.125rem;
+    line-height: 1.875;
+    margin-bottom: 1.5em;
+    max-width: 65ch;
+  }
+  .prose-custom :global(ul) {
+    margin-bottom: 1.5em;
+    padding-left: 1.5em;
+  }
+  .prose-custom :global(li) {
+    font-size: 1.125rem;
+    line-height: 1.875;
+    margin-bottom: 0.5em;
+  }
+  .prose-custom :global(blockquote) {
+    border-left: 3px solid #34D399;
+    padding-left: 1rem;
+    margin: 2em 0;
+    font-family: 'LXGW WenKai', 'PingFang SC', sans-serif;
+    color: #4A5568;
+  }
+  .prose-custom :global(blockquote p) {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin-bottom: 0.5em;
+  }
+  .prose-custom :global(hr) {
+    margin: 2.5rem 0;
+    border: none;
+    border-top: 1px solid #E2E8F0;
+  }
+  
+  .star-post :global(h2) {
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+</style>

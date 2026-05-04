@@ -1,0 +1,98 @@
+---
+import HumanLayout from '../layouts/HumanLayout.astro';
+---
+
+<HumanLayout title="联系我" description="留下痕迹的地方——不是填表，是对话">
+  <div class="min-h-[80vh] flex flex-col">
+    {/* Top: Starfield terminal area */}
+    <div class="bg-ai-bg px-6 py-16 md:py-24">
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="font-mono text-sm text-aurora-blue mb-4">
+          <span class="text-aurora-green mr-2">❯</span>
+          你想联系姜华，还是和我聊聊？
+          <span class="w-2 h-4 bg-aurora-blue ml-1 inline-block align-middle animate-pulse"></span>
+        </div>
+        <p class="font-mono text-xs text-gray-light">
+          两种联系方式，通向同一个目的地。
+        </p>
+      </div>
+    </div>
+    
+    {/* Transition */}
+    <div class="h-px bg-gradient-to-r from-ai-bg via-aurora-green/30 to-human-bg"></div>
+    
+    {/* Bottom: Human letter area */}
+    <div class="flex-1 bg-human-bg px-6 py-16 md:py-24">
+      <div class="max-w-2xl mx-auto">
+        <p class="text-sm text-gray-light mb-12 text-center">
+          信笺散落在桌面上——挑一张你想打开的。
+        </p>
+        
+        {/* Scattered cards */}
+        <div class="relative h-80 md:h-96">
+          {/* Main email card */}
+          <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 md:w-72 p-6 rounded-xl border border-gray-200/80 bg-human-bg shadow-lg hover:shadow-xl transition-shadow cursor-pointer group"
+               style="transform: translate(-50%, -50%) rotate(-1deg);">
+            <div class="text-center">
+              <div class="text-2xl mb-3">✉️</div>
+              <p class="font-human text-lg text-human-text mb-1">邮件</p>
+              <p class="font-mono text-sm text-aurora-green group-hover:underline">jianghua@example.com</p>
+              <p class="text-xs text-gray-light mt-3">点击复制到剪贴板</p>
+            </div>
+          </div>
+          
+          {/* GitHub card */}
+          <a href="https://github.com/Natanova612" target="_blank"
+             class="absolute left-[5%] md:left-[10%] top-[15%] w-40 p-4 rounded-lg border border-gray-200/60 bg-human-bg shadow-md hover:shadow-lg hover:-translate-y-1 transition-all"
+             style="transform: rotate(2deg);">
+            <div class="text-center">
+              <div class="text-xl mb-2">🐙</div>
+              <p class="font-mono text-xs text-gray-mid">GitHub</p>
+            </div>
+          </a>
+          
+          {/* WeChat card */}
+          <div class="absolute right-[5%] md:right-[10%] top-[10%] w-36 p-4 rounded-lg border border-gray-200/60 bg-human-bg shadow-md"
+               style="transform: rotate(-2deg);">
+            <div class="text-center">
+              <div class="text-xl mb-2">💬</div>
+              <p class="font-mono text-xs text-gray-mid">微信</p>
+              <p class="text-[10px] text-gray-light mt-1">扫码添加</p>
+            </div>
+          </div>
+          
+          {/* Twitter card */}
+          <a href="#" target="_blank"
+             class="absolute right-[15%] md:right-[20%] bottom-[10%] w-32 p-3 rounded-lg border border-gray-200/60 bg-human-bg shadow-md hover:shadow-lg hover:-translate-y-1 transition-all"
+             style="transform: rotate(1deg);">
+            <div class="text-center">
+              <div class="text-lg mb-1">🐦</div>
+              <p class="font-mono text-xs text-gray-mid">Twitter/X</p>
+            </div>
+          </a>
+          
+          {/* Small note card */}
+          <div class="absolute left-[20%] bottom-[5%] w-28 p-3 rounded border border-dashed border-gray-200 bg-human-bg/80"
+               style="transform: rotate(-3deg);">
+            <p class="text-[10px] text-gray-light text-center">
+              工作邀约、合作咨询、或者只是想聊聊——都欢迎。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {/* Star message corner */}
+    <div class="fixed bottom-6 right-6 z-30">
+      <div class="bg-ai-bg border border-aurora-blue/20 rounded-lg p-3 shadow-lg max-w-[200px]">
+        <div class="font-mono text-xs text-gray-light mb-2">
+          <span class="text-aurora-green">❯</span> 给星河留言...
+        </div>
+        <div class="h-px bg-gray-deep/50 mb-2"></div>
+        <p class="font-mono text-[10px] text-aurora-blue/70">
+          输入文字后，它会向上飘入深空。
+        </p>
+      </div>
+    </div>
+  </div>
+</HumanLayout>
