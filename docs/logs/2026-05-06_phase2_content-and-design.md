@@ -59,38 +59,35 @@
 
 ## 代码变更统计
 - 新增：`src/pages/resume.astro`
-- 大幅修改：`src/components/StarCoreFiles.astro`（弹窗重设计）
-- 修改：`src/pages/about.astro`（时间线、简历链接）
+- 新增：`src/components/PhotoWall.astro`（散落拍立得照片墙）
+- 大幅修改：`src/components/StarCoreFiles.astro`（终端弹窗重设计）
+- 修改：`src/pages/about.astro`（时间线、简历链接、照片墙）
 - 修改：`src/pages/contact.astro`（邮箱）
-- 本地 commit：2 个（resume + StarCoreFiles 弹窗）
-- 未推送：全部本地 commit 因网络问题未同步到 GitHub
+- 本地 commit：4 个
+- 已推送：全部成功同步到 GitHub
 
 ## 明日待办
 
 ### 高优先级
-- [ ] 解决代码同步问题（GitHub push）
-- [ ] 解决照片传输问题（7 张照片到 `public/photos/`）
-- [ ] 更新 about 页面照片墙（替换 8 个 emoji 占位格子为真实照片）
+- [ ] 域名实名认证通过后绑定 Vercel 自定义域名
+- [ ] 验证 Vercel 部署是否正常
+- [ ] 学习文章替换（如用户有真实文章素材）
 
 ### 中优先级
-- [ ] 学习文章替换（如用户有真实文章素材）
 - [ ] 星河记忆碎片替换（如用户有真实记忆素材）
 - [ ] 联系页面其他信息（微信二维码？GitHub 链接？Twitter？）
+- [ ] 关注标签调整
 
 ### 低优先级
-- [ ] 关注标签调整
 - [ ] 首页入场动画（目前为静态骨架）
-- [ ] Vercel 自定义域名绑定（等域名实名认证）
+- [ ] 场域切换 clip-path 动画
+- [ ] SEO 优化（OG 图、meta 标签）
 
-## 资源状态
+## 追加记录（22:50）— 照片墙完成 + 今日收尾
 
-| 资源 | 状态 |
-|------|------|
-| 本地代码 | ✅ 完整，已 commit |
-| GitHub 远程 | ⚠️ 缺少今天所有变更 + 7 张照片在根目录待整理 |
-| Vercel 部署 | ⚠️ 已导入仓库，但访问受限 |
-| 域名 `jiangpipa.com` | ⏳ 实名认证中 |
-| 照片 | ⚠️ 1/7 已下载到本地，6/7 待传输 |
+- PhotoWall 组件完成并 push 成功
+- 用户确认今日先结束，明日继续
+- 明日重点待用户确认
 
 ---
 
