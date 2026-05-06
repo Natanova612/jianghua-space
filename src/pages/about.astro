@@ -1,5 +1,6 @@
 ---
 import HumanLayout from '../layouts/HumanLayout.astro';
+import PhotoWall from '../components/PhotoWall.astro';
 ---
 
 <HumanLayout title="关于我" description="姜华的故事——不是简历，是自我介绍信">
@@ -90,25 +91,8 @@ import HumanLayout from '../layouts/HumanLayout.astro';
         <div class="w-24 h-px bg-gray-200"></div>
       </div>
       
-      {/* Photo Wall — placeholder grid for future uploads */}
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        {[
-          { label: '旅途', emoji: '✈️' },
-          { label: '日常', emoji: '📷' },
-          { label: '家人', emoji: '👨‍👩‍👧' },
-          { label: '瞬间', emoji: '✨' },
-          { label: '工作', emoji: '💼' },
-          { label: '风景', emoji: '🌅' },
-          { label: '美食', emoji: '🍜' },
-          { label: '更多', emoji: '⋯' },
-        ].map((item) => (
-          <div class="aspect-square rounded-xl border-2 border-dashed border-gray-200 bg-human-bg/50 flex flex-col items-center justify-center gap-2 hover:border-aurora-green/40 hover:bg-human-bg transition-colors cursor-pointer group">
-            <span class="text-2xl opacity-50 group-hover:opacity-80 transition-opacity">{item.emoji}</span>
-            <span class="text-xs text-gray-light group-hover:text-gray-mid transition-colors">{item.label}</span>
-          </div>
-        ))}
-      </div>
-      <p class="text-xs text-gray-light/60 mt-3 text-center">精选个人图集 · 持续更新中</p>
+      {/* Photo Wall — scattered polaroids */}
+      <PhotoWall />
       
       {/* Section divider */}
       <div class="my-12 md:my-16">

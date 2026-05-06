@@ -1,0 +1,229 @@
+---
+interface Photo {
+  src: string;
+  label: string;
+  rotation: number;
+  offsetY: number;
+  aspect: 'portrait' | 'landscape';
+}
+
+const photos: Photo[] = [
+  { src: '/photos/b70c3b87b100b1d1ec8e621566c3124a.JPG', label: '家人', rotation: -3, offsetY: 0, aspect: 'landscape' },
+  { src: '/photos/3214e9d79af6ecd258be8165cf734edf.jpg', label: '此刻', rotation: 2, offsetY: 16, aspect: 'portrait' },
+  { src: '/photos/48a806f2ce67282153c26e1ff968b107.JPG', label: '侧影', rotation: -2, offsetY: 8, aspect: 'landscape' },
+  { src: '/photos/58d253af3c2ec9dc0a96a1262d8d1f8d.JPG', label: '日常', rotation: 3, offsetY: 0, aspect: 'portrait' },
+  { src: '/photos/30c9dac3fe010dab0d058102458d7d35.JPG', label: '旅途', rotation: -1, offsetY: 20, aspect: 'portrait' },
+  { src: '/photos/5653aa0f818f20b4cddcbee4836fd44e.JPG', label: '风景', rotation: 2, offsetY: 12, aspect: 'portrait' },
+  { src: '/photos/f43ad5f09bac679d29fbbf434062929d.JPG', label: '瞬间', rotation: -3, offsetY: 4, aspect: 'portrait' },
+];
+---
+
+<div class="relative min-h-[500px] md:min-h-[600px]" id="photo-wall">
+  {/* Scattered polaroids */}
+  <div class="flex flex-wrap justify-center items-end gap-4 md:gap-6 px-4">
+    {photos.map((photo, i) => (
+      <div
+        class="polaroid group cursor-pointer"
+        data-photo-index={i}
+        style={`transform: rotate(${photo.rotation}deg) translateY(${photo.offsetY}px);`}
+      >
+        <div class="bg-white p-2.5 pb-10 rounded shadow-md transition-all duration-300 ease-out group-hover:shadow-xl group-hover:-translate-y-2 group-hover:rotate-0 group-hover:scale-105 group-hover:z-10 relative">
+          <div class={`bg-gray-100 rounded overflow-hidden ${photo.aspect === 'landscape' ? 'w-40 h-28 md:w-52 md:h-36' : 'w-32 h-40 md:w-40 md:h-52'}`}>
+            <img 
+              src={photo.src} 
+              alt={photo.label}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div class="absolute bottom-2 left-0 right-0 text-center">
+            <span class="font-human text-sm text-gray-400 group-hover:text-aurora-green transition-colors">
+              {photo.label}
+            </span>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {/* Hint text */}
+  <p class="text-xs text-gray-light/50 text-center mt-8 font-mono">
+    点击任意照片进入聚焦模式
+  </p>
+</div>
+
+{/* Lightbox Carousel */}
+<div id="photo-lightbox" class="fixed inset-0 z-[100] hidden">
+  {/* Backdrop */}
+  <div class="absolute inset-0 bg-human-bg/95 backdrop-blur-md" data-close-lightbox></div>
+  
+  {/* Close button */}
+  <button 
+    data-close-lightbox
+    class="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-md transition-colors"
+  >
+    <svg class="w-5 h-5 text-gray-mid" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+
+  {/* Main content */}
+  <div class="absolute inset-0 flex items-center justify-center px-4">
+    <div class="relative flex items-center gap-4 md:gap-8 max-w-4xl w-full">
+      
+      {/* Prev arrow */}
+      <button 
+        id="lightbox-prev"
+        class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-md transition-all hover:scale-110 shrink-0"
+      >
+        <svg class="w-5 h-5 md:w-6 md:h-6 text-gray-mid" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+
+      {/* Photo frame */}
+      <div class="flex-1 flex flex-col items-center">
+        <div 
+          id="lightbox-frame"
+          class="bg-white p-3 md:p-4 pb-12 md:pb-14 rounded shadow-2xl max-w-[80vw] md:max-w-[500px] transition-all duration-300"
+        >
+          <div class="bg-gray-100 rounded overflow-hidden">
+            <img 
+              id="lightbox-img"
+              src="" 
+              alt=""
+              class="w-full h-auto max-h-[60vh] md:max-h-[65vh] object-contain"
+            />
+          </div>
+        </div>
+        <p id="lightbox-label" class="font-human text-lg text-gray-mid mt-4"></p>
+        <p id="lightbox-counter" class="font-mono text-xs text-gray-light/40 mt-1"></p>
+      </div>
+
+      {/* Next arrow */}
+      <button 
+        id="lightbox-next"
+        class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-md transition-all hover:scale-110 shrink-0"
+      >
+        <svg class="w-5 h-5 md:w-6 md:h-6 text-gray-mid" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {/* Dots indicator */}
+  <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
+    {photos.map((_, i) => (
+      <button 
+        class="lightbox-dot w-2 h-2 rounded-full bg-gray-300 transition-all duration-200 hover:bg-gray-400"
+        data-dot-index={i}
+      ></button>
+    ))}
+  </div>
+</div>
+
+<script>
+  const photos = [
+    { src: '/photos/b70c3b87b100b1d1ec8e621566c3124a.JPG', label: '家人' },
+    { src: '/photos/3214e9d79af6ecd258be8165cf734edf.jpg', label: '此刻' },
+    { src: '/photos/48a806f2ce67282153c26e1ff968b107.JPG', label: '侧影' },
+    { src: '/photos/58d253af3c2ec9dc0a96a1262d8d1f8d.JPG', label: '日常' },
+    { src: '/photos/30c9dac3fe010dab0d058102458d7d35.JPG', label: '旅途' },
+    { src: '/photos/5653aa0f818f20b4cddcbee4836fd44e.JPG', label: '风景' },
+    { src: '/photos/f43ad5f09bac679d29fbbf434062929d.JPG', label: '瞬间' },
+  ];
+
+  let currentIndex = 0;
+  const lightbox = document.getElementById('photo-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxLabel = document.getElementById('lightbox-label');
+  const lightboxCounter = document.getElementById('lightbox-counter');
+  const dots = document.querySelectorAll('.lightbox-dot');
+
+  function updateLightbox(index) {
+    currentIndex = index;
+    const photo = photos[index];
+    lightboxImg.src = photo.src;
+    lightboxLabel.textContent = photo.label;
+    lightboxCounter.textContent = `${index + 1} / ${photos.length}`;
+    
+    dots.forEach((dot, i) => {
+      if (i === index) {
+        dot.classList.remove('bg-gray-300');
+        dot.classList.add('bg-aurora-green', 'w-5');
+      } else {
+        dot.classList.add('bg-gray-300');
+        dot.classList.remove('bg-aurora-green', 'w-5');
+      }
+    });
+  }
+
+  function openLightbox(index) {
+    updateLightbox(index);
+    lightbox.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function nextPhoto() {
+    updateLightbox((currentIndex + 1) % photos.length);
+  }
+
+  function prevPhoto() {
+    updateLightbox((currentIndex - 1 + photos.length) % photos.length);
+  }
+
+  // Click polaroid to open
+  document.querySelectorAll('.polaroid').forEach((p, i) => {
+    p.addEventListener('click', () => openLightbox(i));
+  });
+
+  // Dot navigation
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => updateLightbox(i));
+  });
+
+  // Arrow buttons
+  document.getElementById('lightbox-next').addEventListener('click', nextPhoto);
+  document.getElementById('lightbox-prev').addEventListener('click', prevPhoto);
+
+  // Close buttons
+  document.querySelectorAll('[data-close-lightbox]').forEach(el => {
+    el.addEventListener('click', closeLightbox);
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.classList.contains('hidden')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextPhoto();
+    if (e.key === 'ArrowLeft') prevPhoto();
+  });
+
+  // Swipe support
+  let touchStartX = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  });
+  lightbox.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+      diff > 0 ? nextPhoto() : prevPhoto();
+    }
+  });
+</script>
+
+<style>
+  .polaroid {
+    transition: z-index 0s;
+  }
+  .polaroid:hover {
+    z-index: 20;
+  }
+</style>
