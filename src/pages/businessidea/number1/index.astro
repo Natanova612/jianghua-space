@@ -1,0 +1,673 @@
+---
+// AI 店长商业计划展示站点
+// Route: /businessidea/number1/
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 店长 —— 让每家民宿都有一位智能管家</title>
+  <meta name="description" content="AI店长：为中小民宿打造的AI经营管理Agent，解决用不起、不会用、用不好的三不困境。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'deep-night': '#0a0f1c',
+            'midnight': '#0f172a',
+            'warm-amber': '#f59e0b',
+            'soft-coral': '#f87171',
+            'mint-green': '#34d399',
+            'star-blue': '#60a5fa',
+          },
+          fontFamily: {
+            'sans': ['Noto Sans SC', 'sans-serif'],
+            'mono': ['JetBrains Mono', 'monospace'],
+            'serif': ['Playfair Display', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: #0a0f1c;
+      color: #e2e8f0;
+    }
+    .glass {
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .glow-amber {
+      box-shadow: 0 0 40px -10px rgba(245,158,11,0.15);
+    }
+    .glow-coral {
+      box-shadow: 0 0 40px -10px rgba(248,113,113,0.15);
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #f59e0b 0%, #f87171 50%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(245,158,11,0.3), rgba(96,165,250,0.3), transparent);
+    }
+    .nav-link.active {
+      color: #f59e0b;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #f59e0b;
+      transition: width 0.3s;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  {/* Navigation */}
+  <nav class="fixed top-0 left-0 right-0 z-50 glass">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#hero" class="font-serif text-xl font-bold text-gradient">AI 店长</a>
+      <div class="hidden md:flex items-center gap-8 text-sm">
+        <a href="#problem" class="nav-link relative text-slate-400 hover:text-warm-amber transition-colors">市场空白</a>
+        <a href="#competitor" class="nav-link relative text-slate-400 hover:text-warm-amber transition-colors">竞品分析</a>
+        <a href="#solution" class="nav-link relative text-slate-400 hover:text-warm-amber transition-colors">解决方案</a>
+        <a href="#demo" class="nav-link relative text-slate-400 hover:text-warm-amber transition-colors">产品演示</a>
+        <a href="#business" class="nav-link relative text-slate-400 hover:text-warm-amber transition-colors">商业模式</a>
+        <a href="#contact" class="nav-link relative text-slate-400 hover:text-warm-amber transition-colors">联系我们</a>
+      </div>
+    </div>
+  </nav>
+
+  {/* ===== HERO ===== */}
+  <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+    {/* Background ambient glow */}
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-warm-amber/5 rounded-full blur-[100px]"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-star-blue/5 rounded-full blur-[100px]"></div>
+    
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+      <p class="font-mono text-xs text-warm-amber/70 tracking-[0.3em] uppercase mb-6">Business Plan 2026</p>
+      <h1 class="font-serif text-5xl md:text-7xl font-bold leading-tight mb-6">
+        让每家民宿<br>
+        <span class="text-gradient">都有一位智能管家</span>
+      </h1>
+      <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-4 leading-relaxed">
+        AI 店长是为中小民宿打造的 AI 经营管理 Agent。<br class="hidden md:block">
+        解决<strong class="text-warm-amber">用不起、不会用、用不好</strong>的三不困境。
+      </p>
+      <p class="text-sm text-slate-500 mb-12 font-mono">
+        结构性市场空白 · 18-24 个月黄金窗口期 · 自研大模型 + 多模态融合
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#solution" class="px-8 py-3.5 bg-warm-amber text-deep-night font-medium rounded-full hover:bg-amber-400 transition-colors">
+          了解 AI 店长
+        </a>
+        <a href="#contact" class="px-8 py-3.5 border border-slate-600 text-slate-300 rounded-full hover:border-warm-amber hover:text-warm-amber transition-colors">
+          成为合伙人 / 投资人
+        </a>
+      </div>
+    </div>
+    
+    {/* Scroll hint */}
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-600">
+      <span class="text-xs font-mono">SCROLL</span>
+      <div class="w-px h-8 bg-gradient-to-b from-slate-600 to-transparent"></div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-4xl mx-auto"></div>
+
+  {/* ===== PROBLEM ===== */}
+  <section id="problem" class="py-24 md:py-32">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="font-mono text-xs text-warm-amber/70 tracking-[0.3em] uppercase mb-4">THE PROBLEM</p>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">80% 的中小民宿，<br>正在被数字化遗忘</h2>
+      <p class="text-slate-400 max-w-2xl mb-16">
+        中国民宿行业超过 80% 为单体经营、客房数少于 20 间的微型物业。这一长尾市场的 AI 渗透率不足 5%，构成巨大的结构性空白。
+      </p>
+      
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="glass rounded-2xl p-8 glow-amber">
+          <div class="text-4xl mb-4">💸</div>
+          <h3 class="font-serif text-xl font-bold text-warm-amber mb-2">用不起</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            国际竞品 $100-500/月，相当于中小民宿 1.5-2.5% 的营收。国内竞品高级功能付费后性价比低，免费版功能鸡肋。
+          </p>
+        </div>
+        <div class="glass rounded-2xl p-8 glow-coral">
+          <div class="text-4xl mb-4">🤯</div>
+          <h3 class="font-serif text-xl font-bold text-soft-coral mb-2">不会用</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            产品复杂度高，需要专业 IT 人员配置。缺乏中文本地化支持，实施培训不足，上手周期长。
+          </p>
+        </div>
+        <div class="glass rounded-2xl p-8">
+          <div class="text-4xl mb-4">😤</div>
+          <h3 class="font-serif text-xl font-bold text-mint-green mb-2">用不好</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            AI 效果不达预期，自动化率虚高。将"自动回复"与"自动解决"混为一谈，实际运营中频繁转人工。
+          </p>
+        </div>
+      </div>
+      
+      {/* Key data */}
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="text-center">
+          <div class="font-serif text-3xl font-bold text-warm-amber">80%+</div>
+          <div class="text-xs text-slate-500 mt-1">单体经营占比</div>
+        </div>
+        <div class="text-center">
+          <div class="font-serif text-3xl font-bold text-soft-coral">&lt;5%</div>
+          <div class="text-xs text-slate-500 mt-1">AI 渗透率</div>
+        </div>
+        <div class="text-center">
+          <div class="font-serif text-3xl font-bold text-star-blue">20万+</div>
+          <div class="text-xs text-slate-500 mt-1">民宿市场主体</div>
+        </div>
+        <div class="text-center">
+          <div class="font-serif text-3xl font-bold text-mint-green">0</div>
+          <div class="text-xs text-slate-500 mt-1">国际竞品布局中国</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-4xl mx-auto"></div>
+
+  {/* ===== COMPETITOR ===== */}
+  <section id="competitor" class="py-24 md:py-32">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="font-mono text-xs text-warm-amber/70 tracking-[0.3em] uppercase mb-4">COMPETITIVE LANDSCAPE</p>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">国际市场技术领先但零布局中国<br>国内市场覆盖广但 AI 深度不足</h2>
+      <p class="text-slate-400 max-w-2xl mb-16">
+        深度剖析 12 家国内外竞品，揭示结构性市场空白与"AI 店长"的战略机遇。
+      </p>
+      
+      {/* International vs Domestic */}
+      <div class="grid md:grid-cols-2 gap-8 mb-16">
+        <div class="glass rounded-2xl p-8">
+          <h3 class="font-serif text-xl font-bold mb-6 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-star-blue"></span>
+            国际市场：技术领先，数字通胀
+          </h3>
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <span class="font-mono text-xs text-star-blue mt-1">01</span>
+              <div>
+                <p class="text-sm font-medium">自动化率宣称 80-97%，实际存疑</p>
+                <p class="text-xs text-slate-500">Visito AI 97%、Runnr.ai 95%、Duve 80-97% —— 缺乏第三方审计，定义模糊</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="font-mono text-xs text-star-blue mt-1">02</span>
+              <div>
+                <p class="text-sm font-medium">全部 7 家国际竞品零布局中国</p>
+                <p class="text-xs text-slate-500">合规周期 12-18 个月 + 技术适配 6-12 个月 + 生态重建 12-24 个月</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="font-mono text-xs text-star-blue mt-1">03</span>
+              <div>
+                <p class="text-sm font-medium">定价门槛高，中小民宿友好度低</p>
+                <p class="text-xs text-slate-500">$99-599/月，年度预付订阅制，与中国企业付费习惯冲突</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="glass rounded-2xl p-8">
+          <h3 class="font-serif text-xl font-bold mb-6 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full text-warm-amber" style="background:#f59e0b"></span>
+            国内市场：PMS 强，AI 浅
+          </h3>
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <span class="font-mono text-xs text-warm-amber mt-1">01</span>
+              <div>
+                <p class="text-sm font-medium">大模型应用浅层化</p>
+                <p class="text-xs text-slate-500">多基于通用 API 简单封装，未进行酒店垂直领域深度训练</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="font-mono text-xs text-warm-amber mt-1">02</span>
+              <div>
+                <p class="text-sm font-medium">多模态交互完全缺失</p>
+                <p class="text-xs text-slate-500">无一具备 Voice AI 或视觉 AI 能力，功能堆砌而非深耕</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="font-mono text-xs text-warm-amber mt-1">03</span>
+              <div>
+                <p class="text-sm font-medium">高端市场与出海盲区</p>
+                <p class="text-xs text-slate-500">聚焦中低端标准化场景，高端精品民宿、东南亚出海几乎空白</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Positioning Map */}
+      <div class="glass rounded-2xl p-8">
+        <h3 class="font-serif text-xl font-bold mb-6 text-center">竞争定位图</h3>
+        <div class="relative h-64 md:h-80">
+          {/* Axes */}
+          <div class="absolute left-8 top-8 bottom-8 w-px bg-slate-700"></div>
+          <div class="absolute left-8 right-8 bottom-8 h-px bg-slate-700"></div>
+          <span class="absolute left-2 top-1/2 -translate-y-1/2 -rotate-90 text-xs text-slate-500 font-mono">技术深度</span>
+          <span class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-slate-500 font-mono">市场覆盖</span>
+          
+          {/* Competitors */}
+          <div class="absolute left-[20%] bottom-[25%] text-xs text-slate-500 font-mono">订单来了</div>
+          <div class="absolute left-[25%] bottom-[20%] text-xs text-slate-500 font-mono">快商通</div>
+          <div class="absolute left-[70%] bottom-[70%] text-xs text-slate-500 font-mono">Duve</div>
+          <div class="absolute left-[75%] bottom-[65%] text-xs text-slate-500 font-mono">HiJiffy</div>
+          <div class="absolute left-[80%] bottom-[75%] text-xs text-slate-500 font-mono">Canary</div>
+          <div class="absolute left-[60%] bottom-[30%] text-xs text-slate-500 font-mono">Runnr.ai</div>
+          
+          {/* AI Dianzhang */}
+          <div class="absolute left-[75%] bottom-[85%]">
+            <div class="w-3 h-3 rounded-full bg-warm-amber shadow-[0_0_12px_rgba(245,158,11,0.5)]"></div>
+            <span class="text-xs text-warm-amber font-bold font-mono mt-1 block">AI 店长</span>
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 text-center mt-4">
+          AI 店长以"自研大模型 + 多模态融合"占据技术深度优势，以"中小民宿全覆盖"占据市场广度优势
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-4xl mx-auto"></div>
+
+  {/* ===== SOLUTION ===== */}
+  <section id="solution" class="py-24 md:py-32">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="font-mono text-xs text-warm-amber/70 tracking-[0.3em] uppercase mb-4">OUR SOLUTION</p>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">自研大模型 + 多模态融合<br>填补结构性空白</h2>
+      <p class="text-slate-400 max-w-2xl mb-16">
+        不仅是"客服工具"，更是"运营伙伴"。从被动响应进化到主动预测、从单点优化进化到系统智能。
+      </p>
+      
+      {/* Tech pillars */}
+      <div class="grid md:grid-cols-3 gap-6 mb-16">
+        <div class="glass rounded-2xl p-8 border-t-2 border-warm-amber">
+          <div class="font-mono text-xs text-warm-amber mb-3">01</div>
+          <h3 class="font-serif text-lg font-bold mb-3">自研酒店场景大模型</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            酒店垂直领域深度优化的中文 NLP，行业术语精准理解，对话风格品牌定制化。技术自主可控，迭代敏捷。
+          </p>
+        </div>
+        <div class="glass rounded-2xl p-8 border-t-2 border-soft-coral">
+          <div class="font-mono text-xs text-soft-coral mb-3">02</div>
+          <h3 class="font-serif text-lg font-bold mb-3">文本 + 语音 + 视觉融合</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            电话预订语音对话、证件视觉识别、AR 房间导航。全场景覆盖，将"AI 工具"重新定义为"AI 伙伴"。
+          </p>
+        </div>
+        <div class="glass rounded-2xl p-8 border-t-2 border-star-blue">
+          <div class="font-mono text-xs text-star-blue mb-3">03</div>
+          <h3 class="font-serif text-lg font-bold mb-3">动态 RAG 知识库</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            实时知识图谱更新，向量数据库检索，持续学习进化。越使用越智能，建立不可逆的数据壁垒。
+          </p>
+        </div>
+      </div>
+      
+      {/* Feature matrix */}
+      <div class="glass rounded-2xl p-8">
+        <h3 class="font-serif text-xl font-bold mb-8 text-center">AI 店长能力矩阵</h3>
+        <div class="grid md:grid-cols-2 gap-x-12 gap-y-6">
+          <div class="flex items-start gap-4">
+            <span class="text-warm-amber text-lg">✦</span>
+            <div>
+              <h4 class="font-medium mb-1">预订前：智能咨询</h4>
+              <p class="text-sm text-slate-500">7×24 自动回复，多轮对话理解需求，个性化推荐房型</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-warm-amber text-lg">✦</span>
+            <div>
+              <h4 class="font-medium mb-1">到店前：主动服务</h4>
+              <p class="text-sm text-slate-500">入住指引、天气提醒、周边推荐，预测性信息推送</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-warm-amber text-lg">✦</span>
+            <div>
+              <h4 class="font-medium mb-1">住中：即时响应</h4>
+              <p class="text-sm text-slate-500">设施报修、服务请求、问题解答，无缝人机协作</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-warm-amber text-lg">✦</span>
+            <div>
+              <h4 class="font-medium mb-1">离店后：复购运营</h4>
+              <p class="text-sm text-slate-500">感谢信、评价引导、老客召回、会员关怀</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-warm-amber text-lg">✦</span>
+            <div>
+              <h4 class="font-medium mb-1">经营：智能决策</h4>
+              <p class="text-sm text-slate-500">动态定价、竞品监控、收益预测、排班优化</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="text-warm-amber text-lg">✦</span>
+            <div>
+              <h4 class="font-medium mb-1">内容：自动生成</h4>
+              <p class="text-sm text-slate-500">OTA 描述、小红书笔记、朋友圈文案、回复模板</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-4xl mx-auto"></div>
+
+  {/* ===== DEMO ===== */}
+  <section id="demo" class="py-24 md:py-32">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="font-mono text-xs text-warm-amber/70 tracking-[0.3em] uppercase mb-4">PRODUCT DEMO</p>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">产品演示</h2>
+      <p class="text-slate-400 max-w-2xl mb-16">
+        从客人咨询到离店复购，AI 店长覆盖全生命周期。
+      </p>
+      
+      {/* Demo flow */}
+      <div class="space-y-8">
+        <div class="glass rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-center">
+          <div class="w-full md:w-1/2">
+            <div class="aspect-video bg-slate-800/50 rounded-xl flex items-center justify-center border border-slate-700/50">
+              <div class="text-center">
+                <div class="text-4xl mb-2">💬</div>
+                <p class="text-sm text-slate-500 font-mono">Demo Screenshot 1</p>
+                <p class="text-xs text-slate-600">智能对话界面</p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2">
+            <div class="font-mono text-xs text-warm-amber mb-2">STEP 01</div>
+            <h3 class="font-serif text-xl font-bold mb-3">客人咨询 → AI 自动接待</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              客人通过小程序/微信/WhatsApp 发起咨询，AI 店长自动识别意图、查询房态、推荐方案，7×24 秒级响应。复杂问题自动标记，人工无缝接管。
+            </p>
+          </div>
+        </div>
+        
+        <div class="glass rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-center">
+          <div class="w-full md:w-1/2 md:order-2">
+            <div class="aspect-video bg-slate-800/50 rounded-xl flex items-center justify-center border border-slate-700/50">
+              <div class="text-center">
+                <div class="text-4xl mb-2">📊</div>
+                <p class="text-sm text-slate-500 font-mono">Demo Screenshot 2</p>
+                <p class="text-xs text-slate-600">经营仪表盘</p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 md:order-1">
+            <div class="font-mono text-xs text-warm-amber mb-2">STEP 02</div>
+            <h3 class="font-serif text-xl font-bold mb-3">经营数据 → 智能决策</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              AI 店长实时分析入住率、竞品价格、节假日趋势，自动生成定价建议、营销方案、排班计划。老板每天花 5 分钟确认即可。
+            </p>
+          </div>
+        </div>
+        
+        <div class="glass rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-center">
+          <div class="w-full md:w-1/2">
+            <div class="aspect-video bg-slate-800/50 rounded-xl flex items-center justify-center border border-slate-700/50">
+              <div class="text-center">
+                <div class="text-4xl mb-2">🎯</div>
+                <p class="text-sm text-slate-500 font-mono">Demo Screenshot 3</p>
+                <p class="text-xs text-slate-600">老客复购运营</p>
+              </div>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2">
+            <div class="font-mono text-xs text-warm-amber mb-2">STEP 03</div>
+            <h3 class="font-serif text-xl font-bold mb-3">离店后 → 自动复购运营</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+              客人离店后，AI 店长自动发送感谢信、引导评价、记录偏好标签。下次客人再来前，主动推送个性化优惠，老客复购率提升 30%+。
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Workflow diagram placeholder */}
+      <div class="mt-16 glass rounded-2xl p-8">
+        <h3 class="font-serif text-lg font-bold mb-6 text-center">全生命周期流程图</h3>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <div class="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-sm">预订咨询</div>
+          <span class="text-slate-600">→</span>
+          <div class="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-sm">智能推荐</div>
+          <span class="text-slate-600">→</span>
+          <div class="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-sm">入住接待</div>
+          <span class="text-slate-600">→</span>
+          <div class="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-sm">住中服务</div>
+          <span class="text-slate-600">→</span>
+          <div class="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-sm">离店关怀</div>
+          <span class="text-slate-600">→</span>
+          <div class="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-sm">复购运营</div>
+        </div>
+        <p class="text-xs text-slate-600 text-center mt-6">
+          （完整产品流程图将在后续版本替换为真实截图）
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-4xl mx-auto"></div>
+
+  {/* ===== BUSINESS ===== */}
+  <section id="business" class="py-24 md:py-32">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="font-mono text-xs text-warm-amber/70 tracking-[0.3em] uppercase mb-4">BUSINESS MODEL</p>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">三阶段增长路径</h2>
+      <p class="text-slate-400 max-w-2xl mb-16">
+        18-24 个月黄金窗口期，从技术验证到品类定义。
+      </p>
+      
+      <div class="space-y-8">
+        {/* Phase 1 */}
+        <div class="glass rounded-2xl p-8 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1 h-full bg-warm-amber"></div>
+          <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/3">
+              <div class="font-mono text-xs text-warm-amber mb-2">PHASE 01 · 0-6 个月</div>
+              <h3 class="font-serif text-xl font-bold mb-2">技术验证与市场切入</h3>
+              <p class="text-sm text-slate-500">种子客户 50-100 家</p>
+            </div>
+            <div class="md:w-2/3 grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 class="text-sm font-medium mb-2 text-warm-amber">核心目标</h4>
+                <ul class="text-sm text-slate-400 space-y-1">
+                  <li>· 完成自研大模型核心能力</li>
+                  <li>· 验证多模态融合技术架构</li>
+                  <li>· 建立可验证的自动化率标准</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="text-sm font-medium mb-2 text-warm-amber">关键动作</h4>
+                <ul class="text-sm text-slate-400 space-y-1">
+                  <li>· 聚焦中小民宿，免费试用</li>
+                  <li>· 深度陪伴，积累场景数据</li>
+                  <li>· 获取行业标杆案例</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Phase 2 */}
+        <div class="glass rounded-2xl p-8 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1 h-full bg-soft-coral"></div>
+          <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/3">
+              <div class="font-mono text-xs text-soft-coral mb-2">PHASE 02 · 6-18 个月</div>
+              <h3 class="font-serif text-xl font-bold mb-2">规模扩张与壁垒建立</h3>
+              <p class="text-sm text-slate-500">客户规模 5,000-10,000 家</p>
+            </div>
+            <div class="md:w-2/3 grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 class="text-sm font-medium mb-2 text-soft-coral">核心目标</h4>
+                <ul class="text-sm text-slate-400 space-y-1">
+                  <li>· 完成多模态全功能矩阵</li>
+                  <li>· 建立数据飞轮效应</li>
+                  <li>· 树立行业自动化率标准</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="text-sm font-medium mb-2 text-soft-coral">关键动作</h4>
+                <ul class="text-sm text-slate-400 space-y-1">
+                  <li>· 拓展中高端精品酒店</li>
+                  <li>· 建立开放 API 生态</li>
+                  <li>· 启动出海东南亚准备</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Phase 3 */}
+        <div class="glass rounded-2xl p-8 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-1 h-full bg-star-blue"></div>
+          <div class="flex flex-col md:flex-row gap-8">
+            <div class="md:w-1/3">
+              <div class="font-mono text-xs text-star-blue mb-2">PHASE 03 · 18-24 个月</div>
+              <h3 class="font-serif text-xl font-bold mb-2">生态构建与品类定义</h3>
+              <p class="text-sm text-slate-500">客户规模 50,000+ 家</p>
+            </div>
+            <div class="md:w-2/3 grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 class="text-sm font-medium mb-2 text-star-blue">核心目标</h4>
+                <ul class="text-sm text-slate-400 space-y-1">
+                  <li>· 建立不可逆的生态壁垒</li>
+                  <li>· 定义"酒店 AI 店长"品类标准</li>
+                  <li>· 实现跨平台数据智能决策</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="text-sm font-medium mb-2 text-star-blue">关键动作</h4>
+                <ul class="text-sm text-slate-400 space-y-1">
+                  <li>· 拓展大型连锁酒店集团</li>
+                  <li>· 启动东南亚市场扩张</li>
+                  <li>· 建立开发者生态</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Pricing placeholder */}
+      <div class="mt-16 glass rounded-2xl p-8">
+        <h3 class="font-serif text-lg font-bold mb-4 text-center">定价策略</h3>
+        <p class="text-sm text-slate-500 text-center mb-6">
+          灵活定价模式：基础订阅 + 效果分成 + 企业定制<br>
+          中小民宿友好定价，成本可预测，无隐藏费用
+        </p>
+        <div class="text-center">
+          <span class="inline-block px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-sm text-slate-400">
+            （具体定价方案将在后续版本公布）
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider max-w-4xl mx-auto"></div>
+
+  {/* ===== CONTACT ===== */}
+  <section id="contact" class="py-24 md:py-32">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <p class="font-mono text-xs text-warm-amber/70 tracking-[0.3em] uppercase mb-4">JOIN US</p>
+      <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">与我们一起定义<br>酒店 AI 的下一个十年</h2>
+      <p class="text-slate-400 max-w-2xl mx-auto mb-12">
+        18-24 个月黄金窗口期，结构性空白 + 代际差技术壁垒。<br>
+        我们正在寻找志同道合的合伙人和投资人。
+      </p>
+      
+      <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        <div class="glass rounded-2xl p-8 text-left glow-amber">
+          <div class="text-3xl mb-4">🤝</div>
+          <h3 class="font-serif text-xl font-bold mb-3">成为合伙人</h3>
+          <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+            如果你在酒店/民宿行业有深厚资源，或者在 AI/技术领域有独到见解，欢迎加入我们一起打造 AI 店长。
+          </p>
+          <div class="text-sm text-slate-500 font-mono">
+            邮箱：<a href="mailto:Faraway1314@163.com" class="text-warm-amber hover:underline">Faraway1314@163.com</a>
+          </div>
+        </div>
+        
+        <div class="glass rounded-2xl p-8 text-left">
+          <div class="text-3xl mb-4">💡</div>
+          <h3 class="font-serif text-xl font-bold mb-3">投资合作</h3>
+          <p class="text-sm text-slate-400 mb-6 leading-relaxed">
+            结构性市场空白、18-24 个月黄金窗口期、自研大模型 + 多模态融合的技术壁垒。完整的商业计划书可单独提供。
+          </p>
+          <div class="text-sm text-slate-500 font-mono">
+            邮箱：<a href="mailto:Faraway1314@163.com" class="text-warm-amber hover:underline">Faraway1314@163.com</a>
+          </div>
+        </div>
+      </div>
+      
+      {/* Footer */}
+      <div class="mt-24 pt-8 border-t border-slate-800">
+        <p class="font-serif text-lg font-bold text-gradient mb-2">AI 店长</p>
+        <p class="text-xs text-slate-600 font-mono">
+          © 2026 AI 店长 · 让每家民宿都有一位智能管家
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* Active nav highlight on scroll */}
+  <script>
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    function updateActiveNav() {
+      let current = '';
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 120) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
+  </script>
+
+</body>
+</html>
