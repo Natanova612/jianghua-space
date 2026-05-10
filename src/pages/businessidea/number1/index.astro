@@ -120,10 +120,11 @@
         结构性市场空白 · 18-24 个月黄金窗口期 · 自研大模型 + 多模态融合
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#solution" class="px-8 py-3.5 bg-warm-amber text-deep-night font-medium rounded-full hover:bg-amber-400 transition-colors">
-          了解 AI 店长
+        <a href="#solution" class="group relative px-8 py-3.5 bg-warm-amber text-deep-night font-bold rounded-full shadow-[0_4px_20px_-4px_rgba(245,158,11,0.5)] hover:shadow-[0_8px_30px_-4px_rgba(245,158,11,0.7)] hover:-translate-y-0.5 transition-all duration-300">
+          <span class="relative z-10">了解 AI 店长</span>
+          <span class="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></span>
         </a>
-        <a href="#contact" class="px-8 py-3.5 border border-slate-600 text-slate-300 rounded-full hover:border-warm-amber hover:text-warm-amber transition-colors">
+        <a href="#contact" class="group px-8 py-3.5 border-2 border-slate-500 text-slate-300 rounded-full hover:border-warm-amber hover:text-warm-amber hover:shadow-[0_4px_20px_-4px_rgba(245,158,11,0.2)] hover:-translate-y-0.5 transition-all duration-300 font-medium">
           成为合伙人 / 投资人
         </a>
       </div>
@@ -644,10 +645,50 @@
     </div>
   </section>
 
+  {/* Side Navigation */}
+  <div id="side-nav" class="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3 opacity-0 transition-opacity duration-500">
+    <a href="#hero" class="side-nav-dot group relative flex items-center justify-end" data-section="hero">
+      <span class="side-nav-label mr-3 text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">首页</span>
+      <span class="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-warm-amber transition-colors"></span>
+    </a>
+    <a href="#problem" class="side-nav-dot group relative flex items-center justify-end" data-section="problem">
+      <span class="side-nav-label mr-3 text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">市场空白</span>
+      <span class="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-warm-amber transition-colors"></span>
+    </a>
+    <a href="#competitor" class="side-nav-dot group relative flex items-center justify-end" data-section="competitor">
+      <span class="side-nav-label mr-3 text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">竞品分析</span>
+      <span class="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-warm-amber transition-colors"></span>
+    </a>
+    <a href="#solution" class="side-nav-dot group relative flex items-center justify-end" data-section="solution">
+      <span class="side-nav-label mr-3 text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">解决方案</span>
+      <span class="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-warm-amber transition-colors"></span>
+    </a>
+    <a href="#demo" class="side-nav-dot group relative flex items-center justify-end" data-section="demo">
+      <span class="side-nav-label mr-3 text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">产品演示</span>
+      <span class="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-warm-amber transition-colors"></span>
+    </a>
+    <a href="#business" class="side-nav-dot group relative flex items-center justify-end" data-section="business">
+      <span class="side-nav-label mr-3 text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">商业模式</span>
+      <span class="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-warm-amber transition-colors"></span>
+    </a>
+    <a href="#contact" class="side-nav-dot group relative flex items-center justify-end" data-section="contact">
+      <span class="side-nav-label mr-3 text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">联系我们</span>
+      <span class="w-2 h-2 rounded-full bg-slate-600 group-hover:bg-warm-amber transition-colors"></span>
+    </a>
+  </div>
+
+  {/* Back to Top */}
+  <button id="back-to-top" class="fixed bottom-8 right-8 z-40 w-10 h-10 rounded-full glass flex items-center justify-center text-slate-400 hover:text-warm-amber hover:border-warm-amber/30 transition-all duration-300 opacity-0 translate-y-4 pointer-events-none">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+  </button>
+
   {/* Active nav highlight on scroll */}
   <script>
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
+    const sideNavDots = document.querySelectorAll('.side-nav-dot');
+    const sideNav = document.getElementById('side-nav');
+    const backToTop = document.getElementById('back-to-top');
     
     function updateActiveNav() {
       let current = '';
@@ -657,13 +698,41 @@
           current = section.getAttribute('id');
         }
       });
+      
+      // Top nav
       navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === '#' + current) {
           link.classList.add('active');
         }
       });
+      
+      // Side nav dots
+      sideNavDots.forEach(dot => {
+        const span = dot.querySelector('span:last-child');
+        if (dot.getAttribute('data-section') === current) {
+          span.classList.remove('bg-slate-600');
+          span.classList.add('bg-warm-amber', 'shadow-[0_0_8px_rgba(245,158,11,0.6)]');
+        } else {
+          span.classList.add('bg-slate-600');
+          span.classList.remove('bg-warm-amber', 'shadow-[0_0_8px_rgba(245,158,11,0.6)]');
+        }
+      });
+      
+      // Show/hide side nav & back to top
+      if (window.scrollY > 300) {
+        sideNav.classList.remove('opacity-0');
+        backToTop.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+      } else {
+        sideNav.classList.add('opacity-0');
+        backToTop.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+      }
     }
+    
+    // Back to top
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
     
     window.addEventListener('scroll', updateActiveNav);
     updateActiveNav();
