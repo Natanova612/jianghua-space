@@ -73,42 +73,11 @@ const colorDotMap: Record<string, string> = {
       </div>
     </div>
     
-    {/* Section III: Update Log */}
-    <div class="mb-16">
-      <div class="flex items-center gap-4 mb-6">
-        <span class="font-mono text-xs text-gray-light/60 tracking-widest">UPDATE LOG</span>
-        <div class="h-px flex-1 bg-gray-deep/30"></div>
-      </div>
-      
-      <div class="space-y-0 scroll-reveal">
-        {sortedMemories.map((m, i) => (
-          <div 
-            class="group flex items-start gap-4 py-3 border-b border-gray-deep/20 cursor-pointer hover:bg-ai-bg/30 transition-colors px-2 -mx-2 rounded"
-            data-log-id={m.id}
-            data-log-title={m.title}
-            data-log-date={m.date}
-            data-log-category={m.category}
-            data-log-content={m.content}
-          >
-            <span class={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${colorDotMap[m.category]}`}></span>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-3 mb-0.5">
-                <span class="font-mono text-xs text-gray-light/50">{m.date}</span>
-                <span class="font-mono text-[10px] text-gray-light/30">{categoryLabels[m.category]}</span>
-              </div>
-              <h4 class="text-sm text-ai-text/80 group-hover:text-ai-text transition-colors truncate">{m.title}</h4>
-            </div>
-            <span class="font-mono text-[10px] text-gray-light/20 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">[READ]</span>
-          </div>
-        ))}
-      </div>
-    </div>
-    
     {/* Bottom prompt */}
     <div class="pt-8 border-t border-gray-deep/30 scroll-reveal">
       <div class="font-mono text-sm text-gray-light flex items-center gap-2">
         <span class="text-aurora-green">❯</span>
-        <span>记忆持续积累中。当前碎片数：{memoryData.length} | 最后更新：2026.01</span>
+        <span>记忆持续积累中。当前碎片数：{memoryData.length} | 最后更新：2026.05</span>
         <span class="w-2 h-4 bg-aurora-blue animate-pulse"></span>
       </div>
     </div>

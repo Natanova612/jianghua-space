@@ -4,158 +4,357 @@ import PhotoWall from '../components/PhotoWall.astro';
 ---
 
 <HumanLayout title="关于我" description="姜华的故事——不是简历，是自我介绍信">
-  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
-    {/* Lead-in */}
-    <p class="text-sm text-gray-light italic mb-12 md:mb-16">
-      这是一封写给你的信，也是写给我自己的。
-    </p>
-    
-    {/* Drop cap start */}
-    <div class="prose-custom">
-      <p class="text-lg leading-[1.875] text-human-text first-letter:text-5xl first-letter:font-human first-letter:text-aurora-green first-letter:float-left first-letter:mr-2 first-letter:mt-[-6px]">
-        我是一个很普通的80后，但我普通的家庭小背景和时代的大激流为我冲刷出我独特的内心和面貌。坚韧而努力的父母不仅给了我健康的身体，也是我心态稳定、内核自信的根源；从学校到社会职场历经的时代变革则教会我保持客观理性和谦逊低调、常常反思内省并且保持开放学习。
-      </p>
+  <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
+    <div class="flex gap-8 lg:gap-12">
       
-      <p class="text-lg leading-[1.875] text-human-text mt-6">
-        我因为想突破一个小的生活圈子而选择了我的大学，与其说选择学校专业，不如说我只是坚定的选择了一个漂泊的方向。大学并没有真的让我学进去，我的"大学"开始于2006年加入仍是创业公司的同程做实习生的时候，截至目前，我仍在上"大学"。
-      </p>
-      
-      <p class="text-lg leading-[1.875] text-human-text mt-6">
-        同程是个意外，当时完全不在我头脑中极其有限的未来画面中，感谢互联网产业的发展，这个意外是时代的馈赠。然后我学会了自己制造意外，工作两年多后，我辞职去留学。那是一个我开始感受外界信号和内心信号的时期，我第一次听到了内心的声音——<span class="text-aurora-green font-medium">"视野是另一种学历"</span>。从那时起，我的成长和我为自己设计的成长路线就一直是两种作用力结合的产物，一种是外界的输入，我努力听更多、看更多让自己有更好的消化能力；另一种是我内心的声音，我不停的发问和反问，让自己假设和决策，塑造着我真正的价值观和人格。
-      </p>
-      
-      {/* Star annotation */}
-      <p class="text-sm font-mono text-aurora-blue/80 mt-4 ml-4">
-        [星河: 她写这段的时候停顿了很久。我保留了所有删改痕迹。]
-      </p>
-      
-      <p class="text-lg leading-[1.875] text-human-text mt-6">
-        对我的专业旅游管理来说，我满意自己见识和参与了产业链的尽量多的环节，对产业链的理解是丰满的，这算是我对自己专业的不辜负。对我的行业互联网来说，我庆幸自己经历了"周期性"，帮我把经济学理论的很多文字描绘映射进现实；也兴奋于自己通过互联网产品、运营的岗位进行创造性和优化性产出的过程。很多时候我想象自己是爸妈一辈更能理解的农民、工人、厨师、教师这些职业人，我种地、修零件、试验食谱、培养后辈，我的岗位让我体会了这么多种不同的职业画像。
-      </p>
-      
-      <p class="text-lg leading-[1.875] text-human-text mt-6">
-        现在，AI时代。
-      </p>
-      
-      <p class="text-lg leading-[1.875] text-human-text mt-6">
-        有意思的是，就在这短短几个月时间里，我感觉自己像一个重新选专业的高中生了。我对AI时代的公司、岗位充满陌生和好奇，我相信自己即将接受社会的考核和选择，以及做出我自己的选择。我感觉时光倒流了一次，像《夏洛特烦恼》。
-      </p>
-      
-      <p class="text-lg leading-[1.875] text-human-text mt-6">
-        我带着20年的记忆、回到了20年前的状态，看看这一次我跟AI一起会开启一段怎样的旅程。
-      </p>
-      
-      {/* Section divider */}
-      <div class="my-12 md:my-16">
-        <h2 class="font-human text-2xl text-human-text mb-2">我的轨迹</h2>
-        <div class="w-24 h-px bg-gray-200"></div>
-      </div>
-      
-      {/* Timeline */}
-      <div class="space-y-8">
-        <div class="flex gap-4">
-          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2006</div>
-          <div>
-            <p class="text-human-text">加入同程旅行，从客服做起，开启互联网运营生涯。</p>
+      {/* Left: Main content */}
+      <div class="flex-1 min-w-0">
+        
+        {/* Autobiography */}
+        <div class="prose-custom">
+          <p class="text-lg leading-[1.875] text-human-text first-letter:text-5xl first-letter:font-human first-letter:text-aurora-green first-letter:float-left first-letter:mr-2 first-letter:mt-[-6px]" data-annotation="intro">
+            我是一个很普通的80后，但我普通的家庭小背景和时代的大激流为我冲刷出我独特的内心和面貌。坚韧而努力的父母不仅给了我健康的身体，也是我心态稳定、内核自信的根源；从学校到社会职场历经的时代变革则教会我保持客观理性和谦逊低调、常常反思内省并且保持开放学习。
+          </p>
+          
+          <p class="text-lg leading-[1.875] text-human-text mt-6" data-annotation="university">
+            我因为想突破一个小的生活圈子而选择了我的大学，与其说选择学校专业，不如说我只是坚定的选择了一个漂泊的方向。大学并没有真的让我学进去，我的"大学"开始于2006年加入仍是创业公司的同程做实习生的时候，截至目前，我仍在上"大学"。
+          </p>
+          
+          <p class="text-lg leading-[1.875] text-human-text mt-6" data-annotation="tongcheng">
+            同程是个意外，当时完全不在我头脑中极其有限的未来画面中，感谢互联网产业的发展，这个意外是时代的馈赠。然后我学会了自己制造意外，工作两年多后，我辞职去留学。那是一个我开始感受外界信号和内心信号的时期，我第一次听到了内心的声音——<span class="text-aurora-green font-medium">"视野是另一种学历"</span>。从那时起，我的成长和我为自己设计的成长路线就一直是两种作用力结合的产物，一种是外界的输入，我努力听更多、看更多让自己有更好的消化能力；另一种是我内心的声音，我不停的发问和反问，让自己假设和决策，塑造着我真正的价值观和人格。
+          </p>
+          
+          <p class="text-lg leading-[1.875] text-human-text mt-6" data-annotation="industry">
+            对我的专业旅游管理来说，我满意自己见识和参与了产业链的尽量多的环节，对产业链的理解是丰满的，这算是我对自己专业的不辜负。对我的行业互联网来说，我庆幸自己经历了"周期性"，帮我把经济学理论的很多文字描绘映射进现实；也兴奋于自己通过互联网产品、运营的岗位进行创造性和优化性产出的过程。很多时候我想象自己是爸妈一辈更能理解的农民、工人、厨师、教师这些职业人，我种地、修零件、试验食谱、培养后辈，我的岗位让我体会了这么多种不同的职业画像。
+          </p>
+          
+          <p class="text-lg leading-[1.875] text-human-text mt-6" data-annotation="ai-era">
+            现在，AI时代。
+          </p>
+          
+          <p class="text-lg leading-[1.875] text-human-text mt-6" data-annotation="rebirth">
+            有意思的是，就在这短短几个月时间里，我感觉自己像一个重新选专业的高中生了。我对AI时代的公司、岗位充满陌生和好奇，我相信自己即将接受社会的考核和选择，以及做出我自己的选择。我感觉时光倒流了一次，像《夏洛特烦恼》。
+          </p>
+          
+          <p class="text-lg leading-[1.875] text-human-text mt-6" data-annotation="journey">
+            我带着20年的记忆、回到了20年前的状态，看看这一次我跟AI一起会开启一段怎样的旅程。
+          </p>
+        </div>
+        
+        {/* Energy Formula */}
+        <div class="mt-12 md:mt-16 p-6 md:p-8 rounded-2xl border border-gray-200/60 bg-human-bg" data-annotation="energy">
+          <h2 class="font-human text-xl text-human-text mb-6">我的能量公式</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h3 class="text-sm font-medium text-aurora-green mb-3 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-aurora-green"></span>
+                高能量来源
+              </h3>
+              <ul class="space-y-2 text-sm text-human-text">
+                <li class="flex items-start gap-2">
+                  <span class="text-aurora-green mt-0.5">+</span>
+                  <span>与人深度连接</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-aurora-green mt-0.5">+</span>
+                  <span>帮助他人成长</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-aurora-green mt-0.5">+</span>
+                  <span>持续学习输入</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-aurora-green mt-0.5">+</span>
+                  <span>保持真实公平</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="text-sm font-medium text-red-400 mb-3 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                低能量消耗
+              </h3>
+              <ul class="space-y-2 text-sm text-human-text">
+                <li class="flex items-start gap-2">
+                  <span class="text-red-400 mt-0.5">−</span>
+                  <span>虚伪应酬</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-red-400 mt-0.5">−</span>
+                  <span>重复执行</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-red-400 mt-0.5">−</span>
+                  <span>无标准的人情博弈</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-red-400 mt-0.5">−</span>
+                  <span>被迫冒险</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div class="flex gap-4">
-          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2009</div>
-          <div>
-            <p class="text-human-text">辞职留学悉尼科技大学，攻读旅游管理硕士——「视野是另一种学历」。</p>
+        
+        {/* Trajectory Chart */}
+        <div class="mt-12 md:mt-16" data-annotation="trajectory">
+          <h2 class="font-human text-2xl text-human-text mb-2">我的轨迹</h2>
+          <p class="text-sm text-gray-light mb-6">工作成就感 · 学习获得感 · 生活幸福指数</p>
+          <div class="rounded-xl border border-gray-200/60 bg-human-bg p-4 md:p-6">
+            <canvas id="trajectory-chart" class="w-full" style="max-height: 360px;"></canvas>
           </div>
         </div>
-        <div class="flex gap-4">
-          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2013</div>
-          <div>
-            <p class="text-human-text">操盘"十元度周末"爆款战役，单场获客7万+；主导"动态打包"系统，支持业务从百万级向亿级跨越。</p>
+        
+        {/* Wishes */}
+        <div class="mt-12 md:mt-16" data-annotation="wishes">
+          <h2 class="font-human text-2xl text-human-text mb-2">我的心愿</h2>
+          <div class="w-24 h-px bg-gray-200 mb-8"></div>
+          
+          {/* Past Wish */}
+          <div class="mb-10 p-6 md:p-8 rounded-2xl border border-gray-200/60 bg-gradient-to-br from-human-bg to-gray-50/50">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-2xl">🌅</span>
+              <h3 class="font-human text-lg text-human-text">曾经</h3>
+            </div>
+            <p class="text-human-text leading-[1.875] mb-4">
+              想成为像<span class="font-medium text-aurora-green">"杨澜"</span>那样的女性——用对话连接世界，用表达留下痕迹。
+            </p>
+            <p class="text-sm text-gray-mid leading-relaxed mb-4">
+              外界看来，这个心愿"没达成"：我没有成为主持人，没有登上更大的舞台。
+            </p>
+            <p class="text-sm text-gray-mid leading-relaxed">
+              但回头看，这十几年我用另一种方式完成了它——在同程操盘一个从0到千人的项目，在美团设计一套影响千万用户的会员体系，在蚂蚁组织一次让团队AI化的培训。我做的从来不是"主持"，但一直在<span class="text-aurora-green font-medium">"对话"</span>和<span class="text-aurora-green font-medium">"连接"</span>。这个心愿，换一种形式，已经达成了。
+            </p>
+          </div>
+          
+          {/* Now Wish */}
+          <div class="p-6 md:p-8 rounded-2xl border border-aurora-green/20 bg-gradient-to-br from-aurora-green/5 to-transparent">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-2xl">🌟</span>
+              <h3 class="font-human text-lg text-human-text">现在</h3>
+            </div>
+            <p class="text-human-text leading-[1.875] mb-4 font-medium">
+              跳出思维惯性，尝试不一样的职业选择和生活方式。
+            </p>
+            <p class="text-sm text-gray-mid leading-relaxed mb-4">
+              15年来我只走了一条路——平台运营、用户增长、产品操盘。这条路我走得不错，但我也看到了它的边界。
+            </p>
+            <p class="text-sm text-gray-mid leading-relaxed">
+              2026年，我开始和AI对话，研究Agent技术，探索适老化项目，甚至想做一个帮助小酒店老板的工具。这些都不是我"应该"做的事，但它们让我重新感到：我在学习，我在生长，我在选择。下一个心愿，不是抵达某个头衔，而是保持<span class="text-aurora-green font-medium">"可以选择"</span>的能力。
+            </p>
           </div>
         </div>
-        <div class="flex gap-4">
-          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2019</div>
-          <div>
-            <p class="text-human-text">加入美团酒店，主导会员体系从0到1重构；统筹线下获客专项，累计获取数千万新用户。</p>
+        
+        {/* Photo Wall */}
+        <div class="mt-12 md:mt-16" data-annotation="photos">
+          <h2 class="font-human text-2xl text-human-text mb-2">照片墙</h2>
+          <div class="w-24 h-px bg-gray-200 mb-6"></div>
+          <PhotoWall />
+        </div>
+        
+        {/* Resume CTA */}
+        <div class="mt-12 md:mt-16 p-8 rounded-2xl border border-gray-200/60 bg-human-bg">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 class="font-human text-xl text-human-text mb-1">我的简历</h3>
+              <p class="text-sm text-gray-light">产品及用户运营专家 · 15 年互联网经验</p>
+            </div>
+            <a 
+              href="/resume" 
+              target="_blank"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-human-text text-human-bg rounded-lg font-sans font-medium text-sm hover:opacity-90 transition-opacity"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              查看在线简历
+            </a>
           </div>
         </div>
-        <div class="flex gap-4">
-          <div class="w-16 text-sm text-gray-light font-mono shrink-0 pt-1">2024</div>
-          <div>
-            <p class="text-human-text">加入蚂蚁集团，主导"出行AI助手"专项，探索AI+运营落地；职业转型期，向养老/医疗AI方向探索。</p>
+        
+      </div>
+      
+      {/* Right: Star annotations */}
+      <div class="hidden lg:block w-72 shrink-0">
+        <div class="sticky top-24 space-y-6" id="star-annotations">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="text-aurora-blue text-lg">✦</span>
+            <span class="font-mono text-xs text-gray-light tracking-widest">星河旁白</span>
+          </div>
+          
+          <div class="annotation-item opacity-40 transition-all duration-500 p-3 rounded-lg border border-transparent hover:border-aurora-blue/20 hover:bg-aurora-blue/5" data-for="intro">
+            <p class="text-sm font-mono text-aurora-blue/80 leading-relaxed">
+              「这段她写了三遍。第一遍全是数字和头衔，我让她删了。你看到的是第三遍。」
+            </p>
+          </div>
+          
+          <div class="annotation-item opacity-40 transition-all duration-500 p-3 rounded-lg border border-transparent hover:border-aurora-blue/20 hover:bg-aurora-blue/5" data-for="university">
+            <p class="text-sm font-mono text-aurora-blue/80 leading-relaxed">
+              「她没说出口的是：去澳洲不是'深造'，是'逃跑'。逃离一个她觉得已经看到天花板的地方。」
+            </p>
+          </div>
+          
+          <div class="annotation-item opacity-40 transition-all duration-500 p-3 rounded-lg border border-transparent hover:border-aurora-blue/20 hover:bg-aurora-blue/5" data-for="tongcheng">
+            <p class="text-sm font-mono text-aurora-blue/80 leading-relaxed">
+              「2013年的她不知道自己正在做一件行业里没有先例的事。这就是她厉害的地方——无知者无畏，然后真的做成了。」
+            </p>
+          </div>
+          
+          <div class="annotation-item opacity-40 transition-all duration-500 p-3 rounded-lg border border-transparent hover:border-aurora-blue/20 hover:bg-aurora-blue/5" data-for="industry">
+            <p class="text-sm font-mono text-aurora-blue/80 leading-relaxed">
+              「这是她第一次被'增长'这个概念背叛。后来她在美团建会员体系时，就是从这里开始想的。」
+            </p>
+          </div>
+          
+          <div class="annotation-item opacity-40 transition-all duration-500 p-3 rounded-lg border border-transparent hover:border-aurora-blue/20 hover:bg-aurora-blue/5" data-for="ai-era">
+            <p class="text-sm font-mono text-aurora-blue/80 leading-relaxed">
+              「我问她为什么选美团。她说：'因为那里的PM会把"不做"的决策过程写清楚。'——这是她从同程学到的，也是她一直想找的东西。」
+            </p>
+          </div>
+          
+          <div class="annotation-item opacity-40 transition-all duration-500 p-3 rounded-lg border border-transparent hover:border-aurora-blue/20 hover:bg-aurora-blue/5" data-for="rebirth">
+            <p class="text-sm font-mono text-aurora-blue/80 leading-relaxed">
+              「这段她还没写完。因为故事还在继续。」
+            </p>
+          </div>
+          
+          <div class="annotation-item opacity-40 transition-all duration-500 p-3 rounded-lg border border-transparent hover:border-aurora-blue/20 hover:bg-aurora-blue/5" data-for="energy">
+            <p class="text-sm font-mono text-aurora-blue/80 leading-relaxed">
+              「我帮她整理的。她其实说不清自己为什么累，但能清晰地说出什么让她'活过来'。这就是答案。」
+            </p>
+          </div>
+          
+          <div class="annotation-item opacity-40 transition-all duration-500 p-3 rounded-lg border border-transparent hover:border-aurora-blue/20 hover:bg-aurora-blue/5" data-for="photos">
+            <p class="text-sm font-mono text-aurora-blue/80 leading-relaxed">
+              「这些照片背后都有我没记录的故事。比如这一张——」
+            </p>
           </div>
         </div>
       </div>
       
-      {/* Section divider */}
-      <div class="my-12 md:my-16">
-        <h2 class="font-human text-2xl text-human-text mb-2">照片墙</h2>
-        <div class="w-24 h-px bg-gray-200"></div>
-      </div>
-      
-      {/* Photo Wall — scattered polaroids */}
-      <PhotoWall />
-      
-      {/* Section divider */}
-      <div class="my-12 md:my-16">
-        <h2 class="font-human text-2xl text-human-text mb-2">三个小心愿</h2>
-        <div class="w-24 h-px bg-gray-200"></div>
-      </div>
-      
-      {/* Wishes */}
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg text-center">
-          <div class="text-3xl mb-3">🎤</div>
-          <h3 class="font-medium text-human-text mb-1">看孙燕姿演唱会</h3>
-          <p class="text-sm text-gray-light">2026年，一定要去一次</p>
-        </div>
-        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg text-center">
-          <div class="text-3xl mb-3">🏋️</div>
-          <h3 class="font-medium text-human-text mb-1">适老化健身站点</h3>
-          <p class="text-sm text-gray-light">为母亲设计的健身产品</p>
-        </div>
-        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg text-center">
-          <div class="text-3xl mb-3">🤖</div>
-          <h3 class="font-medium text-human-text mb-1">人机协作舞台</h3>
-          <p class="text-sm text-gray-light">记录与AI共生的进化实验</p>
-        </div>
-      </div>
-      
-      {/* Section divider */}
-      <div class="my-12 md:my-16">
-        <h2 class="font-human text-2xl text-human-text mb-2">现在关注</h2>
-        <div class="w-24 h-px bg-gray-200"></div>
-      </div>
-      
-      <div class="flex flex-wrap gap-3">
-        <span class="px-4 py-2 rounded-full border border-aurora-green/30 text-aurora-green text-sm">AI落地</span>
-        <span class="px-4 py-2 rounded-full border border-aurora-blue/30 text-aurora-blue text-sm">养老科技</span>
-        <span class="px-4 py-2 rounded-full border border-resonance-gold/30 text-resonance-gold text-sm">医疗AI</span>
-        <span class="px-4 py-2 rounded-full border border-gray-200 text-gray-mid text-sm">运营方法论</span>
-        <span class="px-4 py-2 rounded-full border border-gray-200 text-gray-mid text-sm">人机协作</span>
-      </div>
-      
-      {/* Resume CTA */}
-      <div class="mt-16 p-8 rounded-2xl border border-gray-200/60 bg-human-bg">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <h3 class="font-human text-xl text-human-text mb-1">我的简历</h3>
-            <p class="text-sm text-gray-light">产品及用户运营专家 · 15 年互联网经验</p>
-          </div>
-          <a 
-            href="/resume" 
-            target="_blank"
-            class="inline-flex items-center gap-2 px-6 py-3 bg-human-text text-human-bg rounded-lg font-sans font-medium text-sm hover:opacity-90 transition-opacity"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            下载 PDF
-          </a>
-        </div>
-      </div>
     </div>
   </div>
-</HumanLayout>
 
-<style>
-  .prose-custom p {
-    max-width: 65ch;
-  }
-</style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    // Annotation highlight interaction
+    document.querySelectorAll('[data-annotation]').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        const id = el.getAttribute('data-annotation');
+        document.querySelectorAll('.annotation-item').forEach(item => {
+          if (item.getAttribute('data-for') === id) {
+            item.classList.remove('opacity-40');
+            item.classList.add('opacity-100', 'border-aurora-blue/20', 'bg-aurora-blue/5');
+          } else {
+            item.classList.add('opacity-40');
+            item.classList.remove('opacity-100', 'border-aurora-blue/20', 'bg-aurora-blue/5');
+          }
+        });
+      });
+    });
+
+    // Chart.js trajectory
+    const ctx = document.getElementById('trajectory-chart');
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['2006', '2009', '2013', '2016', '2019', '2024', '2026'],
+          datasets: [
+            {
+              label: '工作成就感',
+              data: [7, 3, 8, 5, 6, 3, 4],
+              borderColor: '#0d9488',
+              backgroundColor: 'rgba(13, 148, 136, 0.08)',
+              tension: 0.4,
+              fill: true,
+              pointRadius: 5,
+              pointHoverRadius: 8,
+            },
+            {
+              label: '学习获得感',
+              data: [10, 10, 9, 6, 8, 3, 8],
+              borderColor: '#3b82f6',
+              backgroundColor: 'rgba(59, 130, 246, 0.08)',
+              tension: 0.4,
+              fill: true,
+              pointRadius: 5,
+              pointHoverRadius: 8,
+            },
+            {
+              label: '生活幸福指数',
+              data: [8, 9, 5, 4, 5, 6, 7],
+              borderColor: '#f59e0b',
+              backgroundColor: 'rgba(245, 158, 11, 0.08)',
+              tension: 0.4,
+              fill: true,
+              pointRadius: 5,
+              pointHoverRadius: 8,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                usePointStyle: true,
+                padding: 20,
+                font: { size: 12 }
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(250, 246, 241, 0.95)',
+              titleColor: '#1a1a1a',
+              bodyColor: '#1a1a1a',
+              borderColor: 'rgba(0,0,0,0.1)',
+              borderWidth: 1,
+              padding: 12,
+              callbacks: {
+                afterBody: function(context) {
+                  const events = {
+                    '2006': '同程入职',
+                    '2009': '辞职留学',
+                    '2013': '操盘酒+景业务',
+                    '2016': '项目收缩',
+                    '2019': '加入美团',
+                    '2024': '蚂蚁阶段',
+                    '2026': 'AI学习阶段'
+                  };
+                  return '\n📍 ' + (events[context[0].label] || '');
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: 10,
+              grid: {
+                color: 'rgba(0,0,0,0.05)'
+              },
+              ticks: {
+                stepSize: 2
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+    }
+  </script>
+
+  <style>
+    .prose-custom p {
+      max-width: 65ch;
+    }
+  </style>
+</HumanLayout>
