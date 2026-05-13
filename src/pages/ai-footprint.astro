@@ -304,5 +304,44 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
       color: #374151;
       border: 1px solid rgba(0, 0, 0, 0.06);
     }
+    .case-content .case-table {
+      width: 100%;
+      font-size: 0.85em;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    .case-content .case-table th {
+      text-align: left;
+      padding: 8px 10px;
+      font-weight: 600;
+      color: #374151;
+      background: rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      white-space: nowrap;
+    }
+    .case-content .case-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      color: #4b5563;
+      vertical-align: top;
+    }
+    .case-content .case-table tr:hover td {
+      background: rgba(0, 0, 0, 0.015);
+    }
+    .case-content .risk-high {
+      color: #dc2626;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .case-content .risk-mid {
+      color: #ea580c;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .case-content .risk-low {
+      color: #ca8a04;
+      font-weight: 600;
+      white-space: nowrap;
+    }
   </style>
 </HumanLayout>
