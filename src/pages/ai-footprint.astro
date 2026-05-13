@@ -53,167 +53,158 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
         </p>
       </div>
       
-      {/* ========== SECTION I: AI画像 ========== */}
-      <div class="mb-20">
-        <div class="flex items-center gap-4 mb-10">
-          <span class="font-mono text-xs text-gray-light/50 tracking-widest">PROFILE</span>
-          <div class="h-px flex-1 bg-gray-100"></div>
-        </div>
+      {/* ========== Two-column layout: Cases main + Profile sidebar ========== */}
+      <div class="grid md:grid-cols-3 gap-8">
         
-        {/* Fusion Dimensions */}
-        <div class="grid md:grid-cols-2 gap-8 mb-12">
-          <div>
-            <h2 class="font-human text-xl text-human-text mb-6">生活融合度</h2>
-            <div class="space-y-5">
-              {dimensions.map(d => (
-                <div>
-                  <div class="flex items-center justify-between mb-1.5">
-                    <span class="text-sm text-human-text">{d.name}</span>
-                    <span class="text-xs font-mono text-gray-light">{d.level}%</span>
-                  </div>
-                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div 
-                      class={`h-full rounded-full ${d.color} transition-all duration-1000`}
-                      style={`width: ${d.level}%`}
-                    ></div>
-                  </div>
-                  <p class="text-[11px] text-gray-light mt-1">常用: {d.tools.join('、')}</p>
-                </div>
-              ))}
-            </div>
+        {/* ========== MAIN: AI应用案例 ========== */}
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-4 mb-8">
+            <span class="font-mono text-xs text-gray-light/50 tracking-widest">CASES</span>
+            <div class="h-px flex-1 bg-gray-100"></div>
           </div>
           
-          {/* Summary card */}
-          <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg">
-            <h3 class="font-human text-lg text-human-text mb-4">画像摘要</h3>
-            <div class="space-y-3 text-sm text-gray-mid">
-              <div class="flex items-start gap-3">
-                <span class="text-aurora-blue font-mono text-xs mt-0.5">01</span>
-                <p><strong class="text-human-text">高频场景</strong>：学习研究（90%）> 工作运营（85%）> 代码开发（75%）</p>
-              </div>
-              <div class="flex items-start gap-3">
-                <span class="text-aurora-green font-mono text-xs mt-0.5">02</span>
-                <p><strong class="text-human-text">主力工具</strong>：Claude（深度）+ ChatGPT（广度）双线并行</p>
-              </div>
-              <div class="flex items-start gap-3">
-                <span class="text-resonance-gold font-mono text-xs mt-0.5">03</span>
-                <p><strong class="text-human-text">融合模式</strong>：AI承担信息处理（宽而浅），人类负责价值判断（窄而深）</p>
-              </div>
-              <div class="flex items-start gap-3">
-                <span class="text-purple-400 font-mono text-xs mt-0.5">04</span>
-                <p><strong class="text-human-text">待提升</strong>：生活决策（50%）——仍在学习让AI介入个人判断的边界</p>
-              </div>
-            </div>
+          <h2 class="font-human text-xl text-human-text mb-2">应用案例</h2>
+          <p class="text-sm text-gray-mid mb-6">真实的人机协作故事——研究、应用、心得与踩过的坑。</p>
+          
+          {/* Filter tabs */}
+          <div class="flex flex-wrap gap-2 mb-6" id="case-filters">
+            <button class="filter-btn active px-4 py-1.5 rounded-full text-xs font-mono border border-human-text bg-human-text text-human-bg transition-all" data-filter="all">全部</button>
+            <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-aurora-blue hover:text-aurora-blue transition-all" data-filter="research">研究</button>
+            <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-aurora-green hover:text-aurora-green transition-all" data-filter="application">应用</button>
+            <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-resonance-gold hover:text-resonance-gold transition-all" data-filter="insight">心得</button>
+            <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-red-400 hover:text-red-400 transition-all" data-filter="pitfall">坑点</button>
+          </div>
+          
+          {/* Case cards */}
+          <div class="space-y-4" id="case-list">
+            {sortedCases.map(c => {
+              const typeStyle = typeLabels[c.data.type];
+              return (
+                <div 
+                  class="case-card group p-6 rounded-xl border border-gray-200/60 bg-human-bg/30 hover:bg-human-bg hover:border-gray-300 transition-all cursor-pointer scroll-reveal"
+                  data-case-type={c.data.type}
+                  data-case-title={c.data.title}
+                  data-case-date={c.data.date}
+                  data-case-type-label={typeStyle.label}
+                  data-case-type-color={typeStyle.color}
+                  data-case-type-bg={typeStyle.bg}
+                  data-case-content={c.data.content}
+                >
+                  <div class="flex flex-col md:flex-row md:items-start gap-4">
+                    {/* Type badge */}
+                    <div class="shrink-0">
+                      <span class={`inline-block px-3 py-1 rounded-full text-xs font-mono border ${typeStyle.bg} ${typeStyle.color}`}>
+                        {typeStyle.label}
+                      </span>
+                    </div>
+                    
+                    {/* Content */}
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center gap-3 mb-2">
+                        <h3 class="font-human text-lg text-human-text group-hover:text-aurora-green transition-colors">{c.data.title}</h3>
+                        <span class="text-xs font-mono text-gray-light">{c.data.date}</span>
+                      </div>
+                      <p class="text-sm text-gray-mid leading-relaxed mb-3">{c.data.excerpt}</p>
+                      <div class="flex flex-wrap gap-2">
+                        {c.data.tags.map(tag => (
+                          <span class="text-xs text-gray-light">#{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {/* Arrow */}
+                    <div class="shrink-0 self-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <svg class="w-5 h-5 text-gray-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
         
-        {/* Tool Matrix */}
-        <h2 class="font-human text-xl text-human-text mb-6">工具使用矩阵</h2>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="border-b border-gray-100">
-                <th class="text-left py-3 pr-4 font-medium text-gray-light text-xs tracking-wider">工具</th>
-                <th class="text-left py-3 pr-4 font-medium text-gray-light text-xs tracking-wider">使用场景</th>
-                <th class="text-left py-3 pr-4 font-medium text-gray-light text-xs tracking-wider">频次</th>
-                <th class="text-left py-3 font-medium text-gray-light text-xs tracking-wider">状态</th>
-              </tr>
-            </thead>
-            <tbody>
-              {toolProfiles.map(tool => (
-                <tr class="border-b border-gray-50 hover:bg-human-bg/50 transition-colors group">
-                  <td class="py-3 pr-4">
-                    <span class="font-medium text-human-text">{tool.name}</span>
-                  </td>
-                  <td class="py-3 pr-4 text-gray-mid">{tool.scene}</td>
-                  <td class="py-3 pr-4">
-                    <span class={`inline-block px-2 py-0.5 rounded text-xs font-mono ${
+        {/* ========== SIDEBAR: AI画像 ========== */}
+        <div class="md:col-span-1">
+          <div class="md:sticky md:top-24 space-y-6">
+            
+            {/* Profile header */}
+            <div class="flex items-center gap-4 mb-2">
+              <span class="font-mono text-xs text-gray-light/50 tracking-widest">PROFILE</span>
+              <div class="h-px flex-1 bg-gray-100"></div>
+            </div>
+            
+            {/* Fusion Dimensions - compact */}
+            <div>
+              <h2 class="font-human text-base text-human-text mb-4">生活融合度</h2>
+              <div class="space-y-3">
+                {dimensions.map(d => (
+                  <div>
+                    <div class="flex items-center justify-between mb-1">
+                      <span class="text-xs text-human-text">{d.name}</span>
+                      <span class="text-[10px] font-mono text-gray-light">{d.level}%</span>
+                    </div>
+                    <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div 
+                        class={`h-full rounded-full ${d.color} transition-all duration-1000`}
+                        style={`width: ${d.level}%`}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Summary card - compact */}
+            <div class="p-4 rounded-xl border border-gray-200/60 bg-human-bg">
+              <h3 class="font-human text-sm text-human-text mb-3">画像摘要</h3>
+              <div class="space-y-2 text-xs text-gray-mid">
+                <div class="flex items-start gap-2">
+                  <span class="text-aurora-blue font-mono text-[10px] mt-0.5">01</span>
+                  <p><strong class="text-human-text">高频场景</strong>：学习研究 > 工作运营 > 代码开发</p>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-aurora-green font-mono text-[10px] mt-0.5">02</span>
+                  <p><strong class="text-human-text">主力工具</strong>：Claude + ChatGPT 双线并行</p>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-resonance-gold font-mono text-[10px] mt-0.5">03</span>
+                  <p><strong class="text-human-text">融合模式</strong>：AI宽而浅，人类窄而深</p>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-purple-400 font-mono text-[10px] mt-0.5">04</span>
+                  <p><strong class="text-human-text">待提升</strong>：生活决策（50%）</p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Tool Matrix - compact list */}
+            <div>
+              <h3 class="font-human text-sm text-human-text mb-3">工具矩阵</h3>
+              <div class="space-y-2">
+                {toolProfiles.map(tool => (
+                  <div class="flex items-center justify-between text-xs">
+                    <div class="flex items-center gap-2">
+                      <span class={`inline-block w-1.5 h-1.5 rounded-full ${
+                        tool.status === '主力' ? 'bg-aurora-green' :
+                        tool.status === '辅助' ? 'bg-aurora-blue' :
+                        tool.status === '学习中' ? 'bg-resonance-gold' :
+                        'bg-gray-300'
+                      }`}></span>
+                      <span class="text-human-text">{tool.name}</span>
+                    </div>
+                    <span class={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
                       tool.freq === '每日' ? 'bg-aurora-blue/10 text-aurora-blue' :
                       tool.freq === '每周' ? 'bg-aurora-green/10 text-aurora-green' :
                       'bg-gray-100 text-gray-mid'
                     }`}>{tool.freq}</span>
-                  </td>
-                  <td class="py-3">
-                    <span class={`inline-block w-2 h-2 rounded-full mr-1.5 ${
-                      tool.status === '主力' ? 'bg-aurora-green' :
-                      tool.status === '辅助' ? 'bg-aurora-blue' :
-                      tool.status === '学习中' ? 'bg-resonance-gold' :
-                      'bg-gray-300'
-                    }`}></span>
-                    <span class="text-xs text-gray-light">{tool.status}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      
-      {/* ========== SECTION II: AI应用案例 ========== */}
-      <div>
-        <div class="flex items-center gap-4 mb-10">
-          <span class="font-mono text-xs text-gray-light/50 tracking-widest">CASES</span>
-          <div class="h-px flex-1 bg-gray-100"></div>
-        </div>
-        
-        <h2 class="font-human text-xl text-human-text mb-2">应用案例</h2>
-        <p class="text-sm text-gray-mid mb-8">真实的人机协作故事——研究、应用、心得与踩过的坑。</p>
-        
-        {/* Filter tabs */}
-        <div class="flex flex-wrap gap-2 mb-8" id="case-filters">
-          <button class="filter-btn active px-4 py-1.5 rounded-full text-xs font-mono border border-human-text bg-human-text text-human-bg transition-all" data-filter="all">全部</button>
-          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-aurora-blue hover:text-aurora-blue transition-all" data-filter="research">研究</button>
-          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-aurora-green hover:text-aurora-green transition-all" data-filter="application">应用</button>
-          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-resonance-gold hover:text-resonance-gold transition-all" data-filter="insight">心得</button>
-          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-red-400 hover:text-red-400 transition-all" data-filter="pitfall">坑点</button>
-        </div>
-        
-        {/* Case cards */}
-        <div class="space-y-4" id="case-list">
-          {sortedCases.map(c => {
-            const typeStyle = typeLabels[c.data.type];
-            return (
-              <div 
-                class="case-card group p-6 rounded-xl border border-gray-200/60 bg-human-bg/30 hover:bg-human-bg hover:border-gray-300 transition-all cursor-pointer scroll-reveal"
-                data-case-type={c.data.type}
-                data-case-title={c.data.title}
-                data-case-date={c.data.date}
-                data-case-type-label={typeStyle.label}
-                data-case-type-color={typeStyle.color}
-                data-case-type-bg={typeStyle.bg}
-                data-case-content={c.data.content}
-              >
-                <div class="flex flex-col md:flex-row md:items-start gap-4">
-                  {/* Type badge */}
-                  <div class="shrink-0">
-                    <span class={`inline-block px-3 py-1 rounded-full text-xs font-mono border ${typeStyle.bg} ${typeStyle.color}`}>
-                      {typeStyle.label}
-                    </span>
                   </div>
-                  
-                  {/* Content */}
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-3 mb-2">
-                      <h3 class="font-human text-lg text-human-text group-hover:text-aurora-green transition-colors">{c.data.title}</h3>
-                      <span class="text-xs font-mono text-gray-light">{c.data.date}</span>
-                    </div>
-                    <p class="text-sm text-gray-mid leading-relaxed mb-3">{c.data.excerpt}</p>
-                    <div class="flex flex-wrap gap-2">
-                      {c.data.tags.map(tag => (
-                        <span class="text-xs text-gray-light">#{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* Arrow */}
-                  <div class="shrink-0 self-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <svg class="w-5 h-5 text-gray-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                  </div>
-                </div>
+                ))}
               </div>
-            );
-          })}
+            </div>
+            
+          </div>
         </div>
+        
       </div>
       
     </div>
