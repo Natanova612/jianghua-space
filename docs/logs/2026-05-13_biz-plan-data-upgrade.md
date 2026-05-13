@@ -60,10 +60,21 @@
 
 无。
 
-## 下一步计划
+## 相关文件
 
-**Mock一家真实民宿**：根据真实民宿的基础信息，将站点上的通用/占位内容全面替换为具象化案例，增强可信度和代入感。
+- `src/pages/businessidea/number1/index.astro`（主要修改文件）
+- Git 提交：`bd7d18d`
+
+## 下一步计划（状态更新）
+
+- [x] **Mock一家真实民宿** → 已完成（见 `2026-05-13_biz-plan-mock-suishanju.md`）
 
 ---
 
 > "结构性空白 + 代际差技术壁垒 = 品类定义机会。" —— AI 店长
+
+**关联日志**：
+- `2026-05-13_biz-plan-mock-suishanju.md`
+- `2026-05-13_biz-plan-demo-ui-mock.md`
+- `2026-05-13_biz-plan-knowledge-engine.md`
+- `2026-05-13_biz-plan-final-fixes.md`

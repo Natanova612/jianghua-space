@@ -53,12 +53,23 @@
 
 无。
 
-## 下一步计划
+## 相关文件
 
-1. **整体视觉检查**：三屏 Demo 与上下文的衔接是否自然
-2. **移动端适配验证**：手机框在窄屏幕下的显示效果
-3. **动效增强（可选）**：为 Demo 界面添加简单的 hover/typing 动画，增强演示感
+- `src/pages/businessidea/number1/index.astro`（Demo 区域，约第 740-820 行）
+- Git 提交：`bd7d18d`
+
+## 下一步计划（状态更新）
+
+- [ ] **整体视觉检查**：三屏 Demo 与上下文的衔接是否自然
+- [ ] **移动端适配验证**：手机框在窄屏幕下的显示效果
+- [ ] **动效增强（可选）**：为 Demo 界面添加简单的 hover/typing 动画，增强演示感
 
 ---
 
 > "没有真实产品界面，那就用代码画一个。" —— AI 店长
+
+**关联日志**：
+- `2026-05-13_biz-plan-data-upgrade.md`
+- `2026-05-13_biz-plan-mock-suishanju.md`
+- `2026-05-13_biz-plan-knowledge-engine.md`
+- `2026-05-13_biz-plan-final-fixes.md`
