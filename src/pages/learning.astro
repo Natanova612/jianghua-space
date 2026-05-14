@@ -8,14 +8,14 @@ posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 const allTags = [...new Set(posts.flatMap(p => p.data.tags))];
 
-// Color palette for groups
+// Color palette for groups — warm tones matching human field
 const groupColors: Record<number, { fill: string; stroke: string; glow: string }> = {
-  0: { fill: '#FFD700', stroke: '#B8860B', glow: 'rgba(255,215,0,0.35)' },
-  1: { fill: '#4A90E2', stroke: '#2E5C8A', glow: 'rgba(74,144,226,0.3)' },
-  2: { fill: '#9B59B6', stroke: '#6C3483', glow: 'rgba(155,89,182,0.3)' },
-  3: { fill: '#50C878', stroke: '#2E8B57', glow: 'rgba(80,200,120,0.3)' },
-  4: { fill: '#FF8C42', stroke: '#CC5500', glow: 'rgba(255,140,66,0.3)' },
-  5: { fill: '#FF6B6B', stroke: '#CC0000', glow: 'rgba(255,107,107,0.3)' },
+  0: { fill: '#D4A574', stroke: '#A67C52', glow: 'rgba(212,165,116,0.35)' },
+  1: { fill: '#C17817', stroke: '#8A5410', glow: 'rgba(193,120,23,0.3)' },
+  2: { fill: '#5B8BA0', stroke: '#3D5F6E', glow: 'rgba(91,139,160,0.3)' },
+  3: { fill: '#7D9B76', stroke: '#5A7354', glow: 'rgba(125,155,118,0.3)' },
+  4: { fill: '#C97B63', stroke: '#9A5D4A', glow: 'rgba(201,123,99,0.3)' },
+  5: { fill: '#B5838D', stroke: '#8A626A', glow: 'rgba(181,131,141,0.3)' },
 };
 
 const groupNames: Record<number, string> = {
@@ -50,11 +50,11 @@ const groupNames: Record<number, string> = {
     </div>
 
     {/* Network Graph View */}
-    <div id="network-container" class="relative rounded-xl border border-gray-200/60 bg-gradient-to-br from-[#0a0e17] via-[#111827] to-[#1a1f3a] overflow-hidden" style="min-height: 520px;">
+    <div id="network-container" class="relative rounded-xl border border-gray-200/80 bg-gradient-to-br from-[#FAF6F1] via-[#F5F0E8] to-[#EDE7DB] overflow-hidden" style="min-height: 520px;">
       <svg id="learning-graph" class="w-full h-full" style="min-height: 520px;"></svg>
 
       {/* Detail Panel */}
-      <div id="detail-panel" class="absolute right-4 top-4 w-64 max-h-[calc(100%-2rem)] overflow-y-auto rounded-xl border border-gray-200/20 bg-ai-bg/90 backdrop-blur-md p-4 shadow-2xl hidden transition-all z-20">
+      <div id="detail-panel" class="absolute right-4 top-4 w-64 max-h-[calc(100%-2rem)] overflow-y-auto rounded-xl border border-gray-200/60 bg-human-bg/95 backdrop-blur-md p-4 shadow-xl hidden transition-all z-20">
         <div class="flex items-center justify-between mb-3">
           <span id="detail-type" class="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-deep/50 text-gray-light"></span>
           <button id="close-detail" class="text-gray-light hover:text-ai-text transition-colors">
@@ -75,7 +75,7 @@ const groupNames: Record<number, string> = {
           return (
             <div class="flex items-center gap-1.5">
               <span class="w-2.5 h-2.5 rounded-full" style={`background:${color.fill};box-shadow:0 0 6px ${color.glow}`}></span>
-              <span class="font-mono text-[10px] text-gray-300">{name}</span>
+              <span class="font-mono text-[10px] text-gray-600">{name}</span>
             </div>
           );
         })}
@@ -270,10 +270,7 @@ const groupNames: Record<number, string> = {
         .selectAll('line')
         .data(links)
         .join('line')
-        .attr('stroke', (d) => {
-          const src = nodes.find(n => n.id === d.source.id || n.id === d.source);
-          return src ? groupColors[src.group]?.fill || '#94a3b8' : '#94a3b8';
-        })
+        .attr('stroke', '#C4B9A8')
         .attr('stroke-width', (d) => d.strength * 0.8)
         .attr('stroke-dasharray', (d) => d.desc ? '4,3' : 'none');
 
@@ -321,9 +318,9 @@ const groupNames: Record<number, string> = {
         .attr('font-size', (d) => d.level === 0 ? '11px' : d.level === 1 ? '10px' : '9px')
         .attr('font-family', "'Noto Sans SC', sans-serif")
         .attr('font-weight', (d) => d.level === 0 ? '700' : '500')
-        .attr('fill', '#e2e8f0')
+        .attr('fill', '#1A202C')
         .style('pointer-events', 'none')
-        .style('text-shadow', '0 1px 4px rgba(0,0,0,0.8)');
+        .style('text-shadow', 'none');
 
       // Event labels on hover handled via tooltip
 
@@ -332,22 +329,22 @@ const groupNames: Record<number, string> = {
         .attr('class', 'learning-tooltip')
         .style('position', 'absolute')
         .style('visibility', 'hidden')
-        .style('background', 'rgba(15,23,42,0.95)')
-        .style('border', '1px solid rgba(148,163,184,0.2)')
+        .style('background', 'rgba(250,246,241,0.98)')
+        .style('border', '1px solid rgba(193,120,23,0.15)')
         .style('border-radius', '8px')
         .style('padding', '8px 12px')
         .style('font-size', '11px')
-        .style('color', '#e2e8f0')
+        .style('color', '#1A202C')
         .style('pointer-events', 'none')
         .style('z-index', '50')
         .style('max-width', '200px')
-        .style('box-shadow', '0 4px 20px rgba(0,0,0,0.4)');
+        .style('box-shadow', '0 4px 16px rgba(26,32,44,0.08)');
 
       // Interactions
       node.on('mouseenter', function(event, d) {
         d3.select(this).select('circle').transition().duration(200).attr('r', d.r * 1.4);
         tooltip.style('visibility', 'visible')
-          .html(`<div class="font-bold mb-0.5">${d.name.replace('\n', '')}</div><div class="text-[10px] text-slate-400">${d.lastActive} · ${d.event ? '学习事件' : d.level === 2 ? '子主题' : d.level === 1 ? '主题' : '中心'}</div><div class="text-[10px] text-slate-300 mt-1 line-clamp-2">${d.desc}</div>`);
+          .html(`<div class="font-bold mb-0.5" style="color:#1A202C">${d.name.replace('\n', '')}</div><div class="text-[10px]" style="color:#8A7E6B">${d.lastActive} · ${d.event ? '学习事件' : d.level === 2 ? '子主题' : d.level === 1 ? '主题' : '中心'}</div><div class="text-[10px] mt-1 line-clamp-2" style="color:#5A5247">${d.desc}</div>`);
       }).on('mousemove', function(event) {
         tooltip.style('left', (event.pageX + 12) + 'px').style('top', (event.pageY - 12) + 'px');
       }).on('mouseleave', function(event, d) {
@@ -358,11 +355,15 @@ const groupNames: Record<number, string> = {
         showDetail(d);
       });
 
-      // Zoom
-      const zoom = d3.zoom().scaleExtent([0.5, 3]).on('zoom', (event) => {
-        svg.selectAll('g').attr('transform', event.transform);
-      });
+      // Zoom — gentle scale range, lower sensitivity
+      const zoom = d3.zoom()
+        .scaleExtent([0.85, 1.6])
+        .wheelDelta((event) => -event.deltaY * 0.002)
+        .on('zoom', (event) => {
+          svg.selectAll('g').attr('transform', event.transform);
+        });
       svg.call(zoom);
+      svg.call(zoom.transform, d3.zoomIdentity);
 
       // Tick
       simulation.on('tick', () => {
@@ -395,17 +396,17 @@ const groupNames: Record<number, string> = {
 
       // Progress dots
       const progressHtml = Array(5).fill(0).map((_, i) =>
-        `<span class="inline-block w-2 h-2 rounded-full ${i < d.progress ? '' : 'bg-gray-700'}" style="${i < d.progress ? `background:${color?.fill};box-shadow:0 0 4px ${color?.glow}` : ''}"></span>`
+        `<span class="inline-block w-2 h-2 rounded-full" style="${i < d.progress ? `background:${color?.fill};box-shadow:0 0 4px ${color?.glow}` : 'background:#E5E0D8'}"></span>`
       ).join(' ');
-      document.getElementById('detail-progress').innerHTML = `<div class="flex items-center gap-1.5 mb-1"><span class="text-[10px] text-gray-400">学习进度</span><span class="text-[10px] text-gray-500">${d.progress}/5</span></div><div class="flex gap-1">${progressHtml}</div>`;
+      document.getElementById('detail-progress').innerHTML = `<div class="flex items-center gap-1.5 mb-1"><span class="text-[10px] text-gray-500">学习进度</span><span class="text-[10px] text-gray-400">${d.progress}/5</span></div><div class="flex gap-1">${progressHtml}</div>`;
 
       // Related events
       const relatedLinks = links.filter(l => (l.source.id || l.source) === d.id && nodes.find(n => n.id === (l.target.id || l.target))?.event);
       const eventsHtml = relatedLinks.map(l => {
         const ev = nodes.find(n => n.id === (l.target.id || l.target));
-        return ev ? `<div class="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30"><div class="text-[10px] text-slate-400">${ev.lastActive}</div><div class="text-xs text-slate-200 font-medium">${ev.name}</div><div class="text-[10px] text-slate-400 line-clamp-2 mt-0.5">${ev.desc}</div></div>` : '';
+        return ev ? `<div class="p-2 rounded-lg bg-[#F5F0E8] border border-[#E5E0D8]"><div class="text-[10px] text-gray-400">${ev.lastActive}</div><div class="text-xs font-medium" style="color:#1A202C">${ev.name}</div><div class="text-[10px] text-gray-500 line-clamp-2 mt-0.5">${ev.desc}</div></div>` : '';
       }).join('');
-      document.getElementById('detail-events').innerHTML = eventsHtml || '<div class="text-[10px] text-slate-500">暂无具体学习事件</div>';
+      document.getElementById('detail-events').innerHTML = eventsHtml || '<div class="text-[10px] text-gray-400">暂无具体学习事件</div>';
 
       panel.classList.remove('hidden');
     }
