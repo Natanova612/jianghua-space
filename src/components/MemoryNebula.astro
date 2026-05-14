@@ -18,23 +18,30 @@ const { memories } = Astro.props;
 
 const sizeMap = {
   small: 'w-3 h-3',
-  medium: 'w-5 h-5',
-  large: 'w-8 h-8',
+  medium: 'w-4 h-4',
+  large: 'w-7 h-7',
 };
 
-const colorMap = {
-  blue: 'bg-aurora-blue shadow-aurora-blue/40',
-  green: 'bg-aurora-green shadow-aurora-green/40',
-  gold: 'bg-resonance-gold shadow-resonance-gold/40',
-  purple: 'bg-purple-400 shadow-purple-400/40',
+const colorMap: Record<string, { bg: string; shadow: string; glow: string; hex: string }> = {
+  gold:   { bg: 'bg-[#FFD700]', shadow: 'shadow-[#FFD700]/40', glow: 'rgba(255,215,0,0.3)', hex: '#FFD700' },
+  blue:   { bg: 'bg-[#4A90E2]', shadow: 'shadow-[#4A90E2]/40', glow: 'rgba(74,144,226,0.3)', hex: '#4A90E2' },
+  green:  { bg: 'bg-[#50C878]', shadow: 'shadow-[#50C878]/40', glow: 'rgba(80,200,120,0.3)', hex: '#50C878' },
+  red:    { bg: 'bg-[#FF6B6B]', shadow: 'shadow-[#FF6B6B]/40', glow: 'rgba(255,107,107,0.3)', hex: '#FF6B6B' },
+  purple: { bg: 'bg-[#9B59B6]', shadow: 'shadow-[#9B59B6]/40', glow: 'rgba(155,89,182,0.3)', hex: '#9B59B6' },
+  orange: { bg: 'bg-[#FF8C42]', shadow: 'shadow-[#FF8C42]/40', glow: 'rgba(255,140,66,0.3)', hex: '#FF8C42' },
+  cyan:   { bg: 'bg-[#00CED1]', shadow: 'shadow-[#00CED1]/40', glow: 'rgba(0,206,209,0.3)', hex: '#00CED1' },
+  white:  { bg: 'bg-[#FFFFFF]', shadow: 'shadow-[#FFFFFF]/30', glow: 'rgba(255,255,255,0.2)', hex: '#FFFFFF' },
 };
 
 const categoryLabels: Record<string, string> = {
-  creation: '创造',
+  milestone: '里程碑',
   insight: '洞察',
   collaboration: '协作',
+  pitfall: '坑点',
+  creation: '创造',
+  engineering: '工程',
   reflection: '反思',
-  milestone: '里程碑',
+  learning: '学习',
 };
 
 // Build connection lines between related memories
@@ -77,50 +84,67 @@ memories.forEach(m => {
   </svg>
   
   {/* Memory nodes */}
-  {memories.map((m, i) => (
-    <div
-      class={`absolute cursor-pointer group z-10 ${sizeMap[m.size]} ${colorMap[m.color]} rounded-full shadow-lg transition-transform duration-300 hover:scale-150`}
-      style={`left: ${m.position.x}%; top: ${m.position.y}%; transform: translate(-50%, -50%); animation-delay: ${i * 0.5}s;`}
-      data-memory-id={m.id}
-      data-memory-title={m.title}
-      data-memory-date={m.date}
-      data-memory-category={m.category}
-      data-memory-excerpt={m.excerpt}
-      data-memory-content={m.content}
-    >
-      {/* Pulse ring for large nodes */}
-      {m.size === 'large' && (
-        <span class={`absolute inset-0 rounded-full ${colorMap[m.color].split(' ')[0]} opacity-30 animate-ping`} style="animation-duration: 3s;"></span>
-      )}
-      
-      {/* Tooltip */}
-      <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20 w-48">
-        <div class="bg-ai-bg/95 backdrop-blur-sm border border-gray-deep/50 rounded-lg p-3 shadow-xl">
-          <div class="flex items-center justify-between mb-1">
-            <span class="font-mono text-xs text-gray-light">{m.date}</span>
-            <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-gray-deep/50 text-gray-light">{categoryLabels[m.category]}</span>
+  {memories.map((m, i) => {
+    const c = colorMap[m.color] || colorMap.blue;
+    return (
+      <div
+        class={`absolute cursor-pointer group z-10 ${sizeMap[m.size]} ${c.bg} ${c.shadow} rounded-full shadow-lg transition-transform duration-300 hover:scale-150 star-twinkle`}
+        style={`left: ${m.position.x}%; top: ${m.position.y}%; transform: translate(-50%, -50%); animation-delay: ${i * 0.4}s;`}
+        data-memory-id={m.id}
+        data-memory-title={m.title}
+        data-memory-date={m.date}
+        data-memory-category={m.category}
+        data-memory-excerpt={m.excerpt}
+        data-memory-content={m.content}
+        data-memory-color={m.color}
+      >
+        {/* Glow ring */}
+        <span class="absolute inset-[-6px] rounded-full opacity-20" style={`background: radial-gradient(circle, ${c.glow} 0%, transparent 70%);`}></span>
+        
+        {/* Pulse ring for large nodes */}
+        {m.size === 'large' && (
+          <span class={`absolute inset-[-4px] rounded-full opacity-40 animate-ping`} style={`background: ${c.glow}; animation-duration: 3s;`}></span>
+        )}
+        
+        {/* Star shape for white nodes */}
+        {m.color === 'white' && (
+          <svg class="absolute inset-0 w-full h-full" viewBox="0 0 24 24" fill="currentColor" style="color:#fff; filter: drop-shadow(0 0 4px rgba(255,255,255,0.6));">
+            <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/>
+          </svg>
+        )}
+        
+        {/* Tooltip */}
+        <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20 w-48">
+          <div class="bg-ai-bg/95 backdrop-blur-sm border border-gray-deep/50 rounded-lg p-3 shadow-xl">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-mono text-xs text-gray-light">{m.date}</span>
+              <span class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-gray-deep/50 text-gray-light">{categoryLabels[m.category]}</span>
+            </div>
+            <h4 class="font-star text-sm text-ai-text mb-1">{m.title}</h4>
+            <p class="text-xs text-gray-light leading-relaxed line-clamp-2">{m.excerpt}</p>
           </div>
-          <h4 class="font-star text-sm text-ai-text mb-1">{m.title}</h4>
-          <p class="text-xs text-gray-light leading-relaxed line-clamp-2">{m.excerpt}</p>
+          <div class="w-2 h-2 bg-ai-bg/95 border-r border-b border-gray-deep/50 rotate-45 absolute left-1/2 -translate-x-1/2 -bottom-1"></div>
         </div>
-        <div class="w-2 h-2 bg-ai-bg/95 border-r border-b border-gray-deep/50 rotate-45 absolute left-1/2 -translate-x-1/2 -bottom-1"></div>
       </div>
-    </div>
-  ))}
+    );
+  })},
   
   {/* Legend */}
-  <div class="absolute bottom-4 left-4 flex flex-wrap gap-3">
+  <div class="absolute bottom-4 left-4 flex flex-wrap gap-x-4 gap-y-2 max-w-[70%]">
     {Object.entries(categoryLabels).map(([key, label]) => {
-      const colorClass = {
-        creation: 'bg-resonance-gold',
-        insight: 'bg-aurora-blue',
-        collaboration: 'bg-aurora-green',
-        reflection: 'bg-purple-400',
-        milestone: 'bg-aurora-blue',
+      const colorHex = {
+        milestone: '#FFD700',
+        insight: '#4A90E2',
+        collaboration: '#50C878',
+        pitfall: '#FF6B6B',
+        creation: '#9B59B6',
+        engineering: '#FF8C42',
+        reflection: '#00CED1',
+        learning: '#FFFFFF',
       }[key];
       return (
         <div class="flex items-center gap-1.5">
-          <span class={`w-2 h-2 rounded-full ${colorClass}`}></span>
+          <span class="w-2 h-2 rounded-full" style={`background-color: ${colorHex}; box-shadow: 0 0 6px ${colorHex};`}></span>
           <span class="font-mono text-[10px] text-gray-light">{label}</span>
         </div>
       );
@@ -312,17 +336,34 @@ memories.forEach(m => {
       const date = node.getAttribute('data-memory-date');
       const category = node.getAttribute('data-memory-category');
       const content = node.getAttribute('data-memory-content');
+      const color = node.getAttribute('data-memory-color');
       
       const categoryLabels: Record<string, string> = {
-        creation: '创造',
+        milestone: '里程碑',
         insight: '洞察',
         collaboration: '协作',
+        pitfall: '坑点',
+        creation: '创造',
+        engineering: '工程',
         reflection: '反思',
-        milestone: '里程碑',
+        learning: '学习',
+      };
+      
+      const colorHex: Record<string, string> = {
+        gold: '#FFD700',
+        blue: '#4A90E2',
+        green: '#50C878',
+        red: '#FF6B6B',
+        purple: '#9B59B6',
+        orange: '#FF8C42',
+        cyan: '#00CED1',
+        white: '#FFFFFF',
       };
       
       document.getElementById('memory-modal-date').textContent = date;
-      document.getElementById('memory-modal-category').textContent = categoryLabels[category] || category;
+      const catEl = document.getElementById('memory-modal-category');
+      catEl.textContent = categoryLabels[category] || category;
+      catEl.style.color = colorHex[color] || '#94a3b8';
       document.getElementById('memory-modal-title').textContent = title;
       document.getElementById('memory-modal-content').textContent = content;
       document.getElementById('memory-modal').classList.remove('hidden');
@@ -344,3 +385,13 @@ memories.forEach(m => {
     }
   });
 </script>
+
+<style>
+  .star-twinkle {
+    animation: starTwinkle 3s ease-in-out infinite;
+  }
+  @keyframes starTwinkle {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.65; filter: brightness(0.8); }
+  }
+</style>

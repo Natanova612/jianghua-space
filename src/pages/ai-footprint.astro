@@ -14,21 +14,11 @@ const sortedCases = [...cases].sort((a, b) => {
 
 // Fusion dimensions
 const dimensions = [
-  { name: '工作运营', level: 85, tools: ['Claude', 'ChatGPT', 'Perplexity'], color: 'bg-aurora-blue' },
-  { name: '内容创作', level: 70, tools: ['Claude', 'Midjourney', 'ChatGPT'], color: 'bg-aurora-green' },
-  { name: '学习研究', level: 90, tools: ['Claude', 'Perplexity', 'Elicit'], color: 'bg-resonance-gold' },
-  { name: '生活决策', level: 50, tools: ['ChatGPT'], color: 'bg-purple-400' },
-  { name: '代码开发', level: 75, tools: ['Claude', 'Cursor', 'ChatGPT'], color: 'bg-aurora-blue' },
-];
-
-// Tool usage frequency data (enriched from existing tools + hypothetical)
-const toolProfiles = [
-  { name: 'Claude', scene: '深度分析、长文处理、代码协作', freq: '每日', status: '主力', color: 'border-aurora-blue/40' },
-  { name: 'ChatGPT', scene: '日常对话、头脑风暴、快速验证', freq: '每日', status: '主力', color: 'border-aurora-green/40' },
-  { name: 'Midjourney', scene: '视觉概念、风格探索、配图生成', freq: '每周', status: '辅助', color: 'border-resonance-gold/40' },
-  { name: 'Perplexity', scene: '信息检索、事实核查、研究起点', freq: '每周', status: '辅助', color: 'border-aurora-blue/30' },
-  { name: 'Cursor', scene: '代码编写、项目搭建、调试', freq: '每周', status: '学习中', color: 'border-purple-400/30' },
-  { name: 'Notion AI', scene: '笔记整理、会议纪要', freq: '已停用', status: 'past', color: 'border-gray-200' },
+  { name: '工作运营', level: 85, color: 'bg-aurora-blue' },
+  { name: '内容创作', level: 75, color: 'bg-aurora-green' },
+  { name: '学习研究', level: 95, color: 'bg-resonance-gold' },
+  { name: '生活决策', level: 70, color: 'bg-purple-400' },
+  { name: '代码开发', level: 90, color: 'bg-aurora-blue' },
 ];
 
 const typeLabels: Record<string, { label: string; color: string; bg: string }> = {
@@ -160,45 +150,95 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
               <div class="space-y-2 text-xs text-gray-mid">
                 <div class="flex items-start gap-2">
                   <span class="text-aurora-blue font-mono text-[10px] mt-0.5">01</span>
-                  <p><strong class="text-human-text">高频场景</strong>：学习研究 > 工作运营 > 代码开发</p>
+                  <p><strong class="text-human-text">高频场景</strong>：学习研究（KIMI矩阵3-4h/天）> 工作运营（AI产出80%+）> 多模型交叉对比</p>
                 </div>
                 <div class="flex items-start gap-2">
                   <span class="text-aurora-green font-mono text-[10px] mt-0.5">02</span>
-                  <p><strong class="text-human-text">主力工具</strong>：Claude + ChatGPT 双线并行</p>
+                  <p><strong class="text-human-text">主力工具</strong>：KIMI产品矩阵（Claw/Research/Code）+ 多模型交叉（GPT/Gemini/Claude/GLM）</p>
                 </div>
                 <div class="flex items-start gap-2">
                   <span class="text-resonance-gold font-mono text-[10px] mt-0.5">03</span>
-                  <p><strong class="text-human-text">融合模式</strong>：AI宽而浅，人类窄而深</p>
+                  <p><strong class="text-human-text">融合模式</strong>：分层融合：生活层 → 个人层 → 工作层</p>
                 </div>
                 <div class="flex items-start gap-2">
                   <span class="text-purple-400 font-mono text-[10px] mt-0.5">04</span>
-                  <p><strong class="text-human-text">待提升</strong>：生活决策（50%）</p>
+                  <p><strong class="text-human-text">待提升</strong>：深度创作的AI自主度——仍需人类把关</p>
                 </div>
               </div>
             </div>
             
-            {/* Tool Matrix - compact list */}
+            {/* Tool Matrix - layered architecture */}
             <div>
               <h3 class="font-human text-sm text-human-text mb-3">工具矩阵</h3>
-              <div class="space-y-2">
-                {toolProfiles.map(tool => (
-                  <div class="flex items-center justify-between text-xs">
-                    <div class="flex items-center gap-2">
-                      <span class={`inline-block w-1.5 h-1.5 rounded-full ${
-                        tool.status === '主力' ? 'bg-aurora-green' :
-                        tool.status === '辅助' ? 'bg-aurora-blue' :
-                        tool.status === '学习中' ? 'bg-resonance-gold' :
-                        'bg-gray-300'
-                      }`}></span>
-                      <span class="text-human-text">{tool.name}</span>
+              
+              {/* Core Work Layer */}
+              <div class="p-4 rounded-xl border border-aurora-blue/20 bg-aurora-blue/5 mb-3">
+                <div class="text-xs font-mono text-aurora-blue mb-3 uppercase tracking-wider">核心工作层 · 每天3-4小时</div>
+                
+                {/* KIMI Matrix */}
+                <div class="mb-3">
+                  <div class="text-xs font-bold text-human-text mb-2">KIMI 产品矩阵</div>
+                  <div class="space-y-1.5">
+                    <div class="flex items-center gap-2 text-xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-aurora-green"></span>
+                      <span class="text-human-text">Kimi Claw（星河）</span>
+                      <span class="text-[10px] font-mono text-aurora-blue ml-auto">持续在线</span>
                     </div>
-                    <span class={`text-[10px] font-mono px-1.5 py-0.5 rounded ${
-                      tool.freq === '每日' ? 'bg-aurora-blue/10 text-aurora-blue' :
-                      tool.freq === '每周' ? 'bg-aurora-green/10 text-aurora-green' :
-                      'bg-gray-100 text-gray-mid'
-                    }`}>{tool.freq}</span>
+                    <div class="flex items-center gap-2 text-xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-aurora-green"></span>
+                      <span class="text-human-text">Kimi Research</span>
+                      <span class="text-[10px] font-mono text-aurora-blue ml-auto">竞品研究</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-aurora-green"></span>
+                      <span class="text-human-text">Kimi Code</span>
+                      <span class="text-[10px] font-mono text-aurora-blue ml-auto">建站开发</span>
+                    </div>
                   </div>
-                ))}
+                </div>
+                
+                {/* Multi-model */}
+                <div class="mb-3 pt-2 border-t border-aurora-blue/10">
+                  <div class="text-xs font-bold text-human-text mb-2">多模型交叉对比</div>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-human-bg border border-gray-200 text-gray-mid">GPT</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-human-bg border border-gray-200 text-gray-mid">Gemini</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-human-bg border border-gray-200 text-gray-mid">Claude</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-human-bg border border-gray-200 text-gray-mid">GLM</span>
+                  </div>
+                </div>
+                
+                {/* Digital Employees */}
+                <div class="pt-2 border-t border-aurora-blue/10">
+                  <div class="text-xs font-bold text-human-text mb-2">公司数字员工（OpenClaw）</div>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-human-bg border border-gray-200 text-gray-mid">个人助理</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-human-bg border border-gray-200 text-gray-mid">vibe coding</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-human-bg border border-gray-200 text-gray-mid">AI生图</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Life Layer */}
+              <div class="p-4 rounded-xl border border-purple-400/20 bg-purple-400/5">
+                <div class="text-xs font-mono text-purple-400 mb-3 uppercase tracking-wider">生活日常层 · 碎片化</div>
+                <div class="space-y-1.5">
+                  <div class="flex items-center gap-2 text-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+                    <span class="text-human-text">千问（通义）</span>
+                    <span class="text-[10px] text-gray-mid ml-auto">日常搜索/问答</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+                    <span class="text-human-text">豆包</span>
+                    <span class="text-[10px] text-gray-mid ml-auto">生图/视频/语音</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+                    <span class="text-human-text">DeepSeek</span>
+                    <span class="text-[10px] text-gray-mid ml-auto">深度搜索/推理</span>
+                  </div>
+                </div>
               </div>
             </div>
             

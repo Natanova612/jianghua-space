@@ -44,7 +44,7 @@ const memories = defineCollection({
     id: z.string(),
     title: z.string(),
     date: z.string(),
-    category: z.enum(['creation', 'insight', 'collaboration', 'reflection', 'milestone']),
+    category: z.enum(['milestone', 'insight', 'collaboration', 'pitfall', 'creation', 'engineering', 'reflection', 'learning']),
     excerpt: z.string(),
     content: z.string(),
     related: z.array(z.string()),
@@ -53,7 +53,7 @@ const memories = defineCollection({
       y: z.number(),
     }),
     size: z.enum(['small', 'medium', 'large']),
-    color: z.enum(['blue', 'green', 'gold', 'purple']),
+    color: z.enum(['gold', 'blue', 'green', 'red', 'purple', 'orange', 'cyan', 'white']),
   }),
 });
 

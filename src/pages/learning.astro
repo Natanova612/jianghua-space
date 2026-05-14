@@ -6,53 +6,447 @@ import { getCollection } from 'astro:content';
 const posts = await getCollection('posts');
 posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
-// Extract all unique tags
 const allTags = [...new Set(posts.flatMap(p => p.data.tags))];
+
+// Color palette for groups
+const groupColors: Record<number, { fill: string; stroke: string; glow: string }> = {
+  0: { fill: '#FFD700', stroke: '#B8860B', glow: 'rgba(255,215,0,0.35)' },
+  1: { fill: '#4A90E2', stroke: '#2E5C8A', glow: 'rgba(74,144,226,0.3)' },
+  2: { fill: '#9B59B6', stroke: '#6C3483', glow: 'rgba(155,89,182,0.3)' },
+  3: { fill: '#50C878', stroke: '#2E8B57', glow: 'rgba(80,200,120,0.3)' },
+  4: { fill: '#FF8C42', stroke: '#CC5500', glow: 'rgba(255,140,66,0.3)' },
+  5: { fill: '#FF6B6B', stroke: '#CC0000', glow: 'rgba(255,107,107,0.3)' },
+};
+
+const groupNames: Record<number, string> = {
+  0: '中心',
+  1: '商业/创业',
+  2: 'AI技术',
+  3: '行业趋势',
+  4: '个人成长',
+  5: '家庭/生活',
+};
 ---
 
-<HumanLayout title="学习与思考" description="碎片、金句、笔记——可截图的思想弹药库">
-  <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+<HumanLayout title="学习与思考" description="知识不是线性的——它们是一张生长的网">
+  <script is:inline src="https://d3js.org/d3.v7.min.js"></script>
+
+  <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
     {/* Header */}
-    <div class="mb-12 scroll-reveal">
+    <div class="mb-8 scroll-reveal">
       <h1 class="font-human text-3xl md:text-4xl text-human-text mb-4">学习与思考</h1>
       <p class="text-gray-mid max-w-lg">
-        播客笔记、读书笔记、对话碎片——不是系统化的知识库，而是随时可能触发联想的思想火花。
+        知识不是线性的——它们是一张生长的网。每一点光都是一次学习共振。
       </p>
     </div>
-    
-    {/* Tags */}
-    <div class="flex flex-wrap gap-2 mb-12 scroll-reveal">
-      <span class="text-xs font-mono text-gray-light py-1">筛选:</span>
-      {allTags.map(tag => (
-        <a 
-          href={`/tags/${tag}`} 
-          class="text-xs font-mono text-gray-mid hover:text-aurora-green transition-colors py-1"
-        >
-          ({tag})
-        </a>
-      ))}
-    </div>
-    
-    {/* Posts List */}
-    <div class="divide-y divide-gray-100">
-      {posts.map((post, index) => (
-        <PostCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          author={post.data.author}
-          tags={post.data.tags}
-          href={`/learning/${post.slug}`}
-          index={index}
-        />
-      ))}
-    </div>
-    
-    {/* Empty state if no posts */}
-    {posts.length === 0 && (
-      <div class="py-20 text-center">
-        <p class="text-gray-light">还没有文章。内容正在从各处分拣中...</p>
+
+    {/* View toggle */}
+    <div class="flex items-center gap-4 mb-6">
+      <div class="flex bg-gray-100 rounded-lg p-1">
+        <button id="view-network" class="px-4 py-1.5 rounded-md text-xs font-mono bg-human-bg text-human-text shadow-sm transition-all">网络图</button>
+        <button id="view-list" class="px-4 py-1.5 rounded-md text-xs font-mono text-gray-mid hover:text-human-text transition-all">列表</button>
       </div>
-    )}
+      <span class="text-xs font-mono text-gray-light">33 个节点 · 12 个学习事件</span>
+    </div>
+
+    {/* Network Graph View */}
+    <div id="network-container" class="relative rounded-xl border border-gray-200/60 bg-gradient-to-br from-[#0a0e17] via-[#111827] to-[#1a1f3a] overflow-hidden" style="min-height: 520px;">
+      <svg id="learning-graph" class="w-full h-full" style="min-height: 520px;"></svg>
+
+      {/* Detail Panel */}
+      <div id="detail-panel" class="absolute right-4 top-4 w-64 max-h-[calc(100%-2rem)] overflow-y-auto rounded-xl border border-gray-200/20 bg-ai-bg/90 backdrop-blur-md p-4 shadow-2xl hidden transition-all z-20">
+        <div class="flex items-center justify-between mb-3">
+          <span id="detail-type" class="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-deep/50 text-gray-light"></span>
+          <button id="close-detail" class="text-gray-light hover:text-ai-text transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <h3 id="detail-title" class="font-star text-lg tracking-wide mb-2 text-ai-text"></h3>
+        <p id="detail-desc" class="text-xs text-gray-light leading-relaxed mb-3"></p>
+        <div id="detail-progress" class="mb-3"></div>
+        <div id="detail-events" class="space-y-2"></div>
+      </div>
+
+      {/* Legend */}
+      <div class="absolute bottom-3 left-3 flex flex-wrap gap-x-3 gap-y-1.5">
+        {Object.entries(groupNames).map(([g, name]) => {
+          const color = groupColors[Number(g)];
+          if (Number(g) === 0) return null;
+          return (
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full" style={`background:${color.fill};box-shadow:0 0 6px ${color.glow}`}></span>
+              <span class="font-mono text-[10px] text-gray-300">{name}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    {/* List View (hidden by default) */}
+    <div id="list-container" class="hidden">
+      {/* Tags */}
+      <div class="flex flex-wrap gap-2 mb-8">
+        <span class="text-xs font-mono text-gray-light py-1">筛选:</span>
+        {allTags.map(tag => (
+          <a href={`/tags/${tag}`} class="text-xs font-mono text-gray-mid hover:text-aurora-green transition-colors py-1">({tag})</a>
+        ))}
+      </div>
+      <div class="divide-y divide-gray-100">
+        {posts.map((post, index) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            author={post.data.author}
+            tags={post.data.tags}
+            href={`/learning/${post.slug}`}
+            index={index}
+          />
+        ))}
+      </div>
+      {posts.length === 0 && (
+        <div class="py-20 text-center">
+          <p class="text-gray-light">还没有文章。内容正在从各处分拣中...</p>
+        </div>
+      )}
+    </div>
   </div>
+
+  <script is:inline define:vars={{ groupColors }}>
+    // ===== DATA =====
+    const nodes = [
+      // Center
+      { id: 'center', name: 'AI时代\n生存策略', group: 0, level: 0, r: 30, progress: 3, lastActive: '2026.05.14', desc: '所有学习的核心目标。在AI时代，持续学习不是选择，是生存策略。' },
+      // Themes
+      { id: 'biz', name: '商业/创业', group: 1, level: 1, r: 22, progress: 4, lastActive: '2026.05.14', desc: '增长方法论、创业认知、民宿行业洞察' },
+      { id: 'ai', name: 'AI技术', group: 2, level: 1, r: 22, progress: 5, lastActive: '2026.05.14', desc: 'Agent架构、基模能力、工具实践、MCP协议' },
+      { id: 'trend', name: '行业趋势', group: 3, level: 1, r: 22, progress: 3, lastActive: '2026.05.12', desc: '养老产业、互联网运营、人机协作哲学' },
+      { id: 'growth', name: '个人成长', group: 4, level: 1, r: 22, progress: 4, lastActive: '2026.05.14', desc: '阅读、播客、认知升级、知识库构建' },
+      { id: 'family', name: '家庭/生活', group: 5, level: 1, r: 22, progress: 2, lastActive: '2026.05.08', desc: '健康管理、财务规划、内容创作' },
+      // Sub-themes: Business
+      { id: 'biz-growth', name: '增长方法论', group: 1, level: 2, r: 14, progress: 3, lastActive: '2026.05.14', desc: 'OnBoard!×陈唱、产品-渠道匹配、KOL策略、PLG→SLG' },
+      { id: 'biz-startup', name: '创业认知', group: 1, level: 2, r: 14, progress: 3, lastActive: '2026.05.11', desc: '吴世春、前辈建议、白名单逻辑、投资人pitch' },
+      { id: 'biz-homestay', name: '民宿行业', group: 1, level: 2, r: 14, progress: 4, lastActive: '2026.05.12', desc: '12家竞品研究、订单来了、HostAI、市场空白分析' },
+      // Sub-themes: AI
+      { id: 'ai-agent', name: 'Agent架构', group: 2, level: 2, r: 14, progress: 4, lastActive: '2026.05.14', desc: 'MiniMax Mavis、Team Engine、上下文焦虑、OpenClaw' },
+      { id: 'ai-model', name: '基模能力', group: 2, level: 2, r: 14, progress: 3, lastActive: '2026.05.14', desc: 'Gemini集成Android、Siri失败、Gemini vs Apple Intelligence' },
+      { id: 'ai-tool', name: '工具实践', group: 2, level: 2, r: 14, progress: 5, lastActive: '2026.05.14', desc: 'Kimi Code、Kimi Research、vibe coding、多模型交叉对比' },
+      { id: 'ai-mcp', name: 'MCP协议', group: 2, level: 2, r: 14, progress: 2, lastActive: '2026.05.10', desc: 'MCP不是万灵药、Skill系统、上下文管理' },
+      // Sub-themes: Trends
+      { id: 'trend-elderly', name: '养老产业', group: 3, level: 2, r: 14, progress: 3, lastActive: '2026.04.01', desc: '适老化、福寿康、康复餐、老龄化数据' },
+      { id: 'trend-ops', name: '互联网运营', group: 3, level: 2, r: 14, progress: 4, lastActive: '2026.04.09', desc: '15年经验、美团/同程/支付宝、增长方法论' },
+      { id: 'trend-collab', name: '人机协作', group: 3, level: 2, r: 14, progress: 3, lastActive: '2026.05.08', desc: '人机关系哲学、双生在场、记忆神圣、承诺基础设施' },
+      // Sub-themes: Growth
+      { id: 'growth-read', name: '阅读', group: 4, level: 2, r: 14, progress: 4, lastActive: '2026.05.14', desc: '竞争战略、论语、巴菲特、激荡三十年、闪电式扩张' },
+      { id: 'growth-podcast', name: '播客', group: 4, level: 2, r: 14, progress: 5, lastActive: '2026.05.14', desc: '硅谷101、半拿铁、知行小酒馆、十字路口、42章经' },
+      { id: 'growth-cog', name: '认知升级', group: 4, level: 2, r: 14, progress: 4, lastActive: '2026.05.14', desc: '知识库构建、碎片化学习机制、双链体系、Obsidian' },
+      // Sub-themes: Family
+      { id: 'family-health', name: '健康管理', group: 5, level: 2, r: 14, progress: 3, lastActive: '2026.04.15', desc: '父亲康复、母亲复查、康复餐、苏州市第九人民医院' },
+      { id: 'family-finance', name: '财务规划', group: 5, level: 2, r: 14, progress: 2, lastActive: '2026.04.21', desc: '现金流、保费、创业资金、45万安全垫' },
+      { id: 'family-content', name: '内容创作', group: 5, level: 2, r: 14, progress: 2, lastActive: '2026.04.18', desc: '视频、课程兴趣、故事材质、内容创作底层' },
+      // Events
+      { id: 'ev-onboard', name: 'OnBoard出海增长', group: 1, level: 3, r: 9, progress: 1, lastActive: '2026.05.14', desc: 'OnBoard!×陈唱：AI应用出海增长策略。产品-渠道匹配、KOL策略、PLG→SLG。', event: true },
+      { id: 'ev-gemini', name: 'Gemini集成Android', group: 2, level: 3, r: 9, progress: 1, lastActive: '2026.05.14', desc: 'Gemini全面集成Android。Siri失败的反面教材，Apple Intelligence的对比。', event: true },
+      { id: 'ev-minimax', name: 'MiniMax上下文焦虑', group: 2, level: 3, r: 9, progress: 1, lastActive: '2026.05.14', desc: 'MiniMax Agent：上下文焦虑。Agent架构中的记忆与上下文管理。', event: true },
+      { id: 'ev-field', name: '田野调查策略', group: 1, level: 3, r: 9, progress: 1, lastActive: '2026.05.12', desc: '大学生田野调查策略思想实验。分布式认知网络收集民宿真实体验数据。', event: true },
+      { id: 'ev-whitelist', name: '白名单逻辑', group: 1, level: 3, r: 9, progress: 1, lastActive: '2026.05.11', desc: '前辈创业建议：\"政府规划写的可以做，没写的别碰。\"政策研究提为P0。', event: true },
+      { id: 'ev-competitor', name: 'AI店长竞品研究', group: 1, level: 3, r: 9, progress: 1, lastActive: '2026.05.08', desc: 'AI店长竞品深度研究（12家）。订单来了、HostAI、Duve、Visito AI。', event: true },
+      { id: 'ev-alimeet', name: '阿里闭门会', group: 2, level: 3, r: 9, progress: 1, lastActive: '2026.04.24', desc: 'PM大会后的深夜架构重构。homiclaw的技术与组织双重变革。', event: true },
+      { id: 'ev-finance', name: '财务盘点', group: 5, level: 3, r: 9, progress: 1, lastActive: '2026.04.21', desc: '财务盘点与求职日。现金流、保费、创业资金规划。', event: true },
+      { id: 'ev-sixtigers', name: 'AI六小虎研究', group: 2, level: 3, r: 9, progress: 1, lastActive: '2026.04.18', desc: 'AI六小虎研究 + 简历优化。国产大模型竞争格局。', event: true },
+      { id: 'ev-org', name: 'AI组织建设洞察', group: 3, level: 3, r: 9, progress: 1, lastActive: '2026.04.09', desc: '\"允许野蛮生长是组织战略的肚量，能顶层设计是组织战略的勤奋。\"', event: true },
+      { id: 'ev-elderly-pod', name: '养老产业播客', group: 3, level: 3, r: 9, progress: 1, lastActive: '2026.04.01', desc: '养老产业播客：三个反直觉发现。适老化、福寿康、康复餐。', event: true },
+      { id: 'ev-kb', name: '知识库构建', group: 4, level: 3, r: 9, progress: 1, lastActive: '2026.03.27', desc: '知识库构建核心认知。Obsidian、双链体系、碎片化学习机制。', event: true },
+    ];
+
+    const links = [
+      // Center to themes
+      { source: 'center', target: 'biz', strength: 3, desc: '核心目标' },
+      { source: 'center', target: 'ai', strength: 3, desc: '核心目标' },
+      { source: 'center', target: 'trend', strength: 3, desc: '核心目标' },
+      { source: 'center', target: 'growth', strength: 3, desc: '核心目标' },
+      { source: 'center', target: 'family', strength: 3, desc: '核心目标' },
+      // Theme to sub-themes
+      { source: 'biz', target: 'biz-growth', strength: 2 },
+      { source: 'biz', target: 'biz-startup', strength: 2 },
+      { source: 'biz', target: 'biz-homestay', strength: 2 },
+      { source: 'ai', target: 'ai-agent', strength: 2 },
+      { source: 'ai', target: 'ai-model', strength: 2 },
+      { source: 'ai', target: 'ai-tool', strength: 2 },
+      { source: 'ai', target: 'ai-mcp', strength: 2 },
+      { source: 'trend', target: 'trend-elderly', strength: 2 },
+      { source: 'trend', target: 'trend-ops', strength: 2 },
+      { source: 'trend', target: 'trend-collab', strength: 2 },
+      { source: 'growth', target: 'growth-read', strength: 2 },
+      { source: 'growth', target: 'growth-podcast', strength: 2 },
+      { source: 'growth', target: 'growth-cog', strength: 2 },
+      { source: 'family', target: 'family-health', strength: 2 },
+      { source: 'family', target: 'family-finance', strength: 2 },
+      { source: 'family', target: 'family-content', strength: 2 },
+      // Sub-themes to events
+      { source: 'biz-growth', target: 'ev-onboard', strength: 1 },
+      { source: 'biz-startup', target: 'ev-whitelist', strength: 1 },
+      { source: 'biz-homestay', target: 'ev-competitor', strength: 1 },
+      { source: 'biz-homestay', target: 'ev-field', strength: 1 },
+      { source: 'ai-agent', target: 'ev-minimax', strength: 1 },
+      { source: 'ai-model', target: 'ev-gemini', strength: 1 },
+      { source: 'ai-tool', target: 'ev-sixtigers', strength: 1 },
+      { source: 'ai-tool', target: 'ev-alimeet', strength: 1 },
+      { source: 'trend-elderly', target: 'ev-elderly-pod', strength: 1 },
+      { source: 'trend-ops', target: 'ev-org', strength: 1 },
+      { source: 'growth-cog', target: 'ev-kb', strength: 1 },
+      { source: 'family-finance', target: 'ev-finance', strength: 1 },
+      // Cross-theme connections
+      { source: 'biz', target: 'ai', strength: 2, desc: 'AI店长项目' },
+      { source: 'biz', target: 'trend', strength: 2, desc: '适老化项目' },
+      { source: 'trend', target: 'family', strength: 1, desc: '养老' },
+      { source: 'ai', target: 'growth', strength: 2, desc: '知识库双链' },
+      { source: 'growth', target: 'trend', strength: 1, desc: '认知框架' },
+    ];
+
+    // ===== D3 FORCE SIMULATION =====
+    function initGraph() {
+      const svg = d3.select('#learning-graph');
+      const container = document.getElementById('network-container');
+      const width = container.clientWidth;
+      const height = Math.max(520, container.clientHeight);
+      svg.attr('viewBox', `0 0 ${width} ${height}`);
+
+      // Set initial positions based on group layout
+      nodes.forEach((d, i) => {
+        if (d.level === 0) {
+          d.x = width / 2;
+          d.y = height / 2;
+        } else if (d.level === 1) {
+          const angle = (d.group - 1) * (Math.PI * 2 / 5) - Math.PI / 2;
+          const radius = Math.min(width, height) * 0.28;
+          d.x = width / 2 + Math.cos(angle) * radius;
+          d.y = height / 2 + Math.sin(angle) * radius;
+        } else if (d.level === 2) {
+          const parent = links.find(l => l.target === d.id && nodes.find(n => n.id === l.source)?.level === 1);
+          const parentNode = parent ? nodes.find(n => n.id === parent.source) : null;
+          if (parentNode) {
+            const siblings = nodes.filter(n => {
+              const pl = links.find(l => l.target === n.id && l.source === parentNode.id);
+              return pl && n.level === 2;
+            });
+            const idx = siblings.indexOf(d);
+            const angle = (idx / siblings.length) * Math.PI * 2 - Math.PI / 2;
+            const radius = 75;
+            d.x = parentNode.x + Math.cos(angle) * radius;
+            d.y = parentNode.y + Math.sin(angle) * radius;
+          }
+        } else if (d.level === 3) {
+          const parent = links.find(l => l.target === d.id && nodes.find(n => n.id === l.source)?.level === 2);
+          const parentNode = parent ? nodes.find(n => n.id === parent.source) : null;
+          if (parentNode) {
+            const siblings = nodes.filter(n => {
+              const pl = links.find(l => l.target === n.id && l.source === parentNode.id);
+              return pl && n.level === 3;
+            });
+            const idx = siblings.indexOf(d);
+            const angle = (idx / Math.max(siblings.length, 1)) * Math.PI * 2 - Math.PI / 2;
+            const radius = 45;
+            d.x = parentNode.x + Math.cos(angle) * radius;
+            d.y = parentNode.y + Math.sin(angle) * radius;
+          }
+        }
+        // Fallback
+        if (d.x == null) { d.x = width / 2 + (Math.random() - 0.5) * 100; }
+        if (d.y == null) { d.y = height / 2 + (Math.random() - 0.5) * 100; }
+      });
+
+      const simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id((d) => d.id).distance((d) => d.strength === 3 ? 120 : d.strength === 2 ? 80 : 45).strength((d) => d.strength * 0.3))
+        .force('charge', d3.forceManyBody().strength((d) => d.level === 0 ? -800 : d.level === 1 ? -400 : -150))
+        .force('center', d3.forceCenter(width / 2, height / 2).strength(0.05))
+        .force('collide', d3.forceCollide().radius((d) => d.r + 6).strength(0.6))
+        .alphaDecay(0.02)
+        .velocityDecay(0.4);
+
+      // Links
+      const link = svg.append('g')
+        .attr('stroke-opacity', 0.25)
+        .selectAll('line')
+        .data(links)
+        .join('line')
+        .attr('stroke', (d) => {
+          const src = nodes.find(n => n.id === d.source.id || n.id === d.source);
+          return src ? groupColors[src.group]?.fill || '#94a3b8' : '#94a3b8';
+        })
+        .attr('stroke-width', (d) => d.strength * 0.8)
+        .attr('stroke-dasharray', (d) => d.desc ? '4,3' : 'none');
+
+      // Nodes group
+      const node = svg.append('g')
+        .selectAll('g')
+        .data(nodes)
+        .join('g')
+        .attr('cursor', 'pointer')
+        .call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
+
+      // Glow filter
+      const defs = svg.append('defs');
+      nodes.forEach((d, i) => {
+        const color = groupColors[d.group];
+        const filter = defs.append('filter').attr('id', `glow-${i}`).attr('x', '-50%').attr('y', '-50%').attr('width', '200%').attr('height', '200%');
+        filter.append('feGaussianBlur').attr('stdDeviation', d.level === 0 ? 5 : 3).attr('result', 'coloredBlur');
+        const merge = filter.append('feMerge');
+        merge.append('feMergeNode').attr('in', 'coloredBlur');
+        merge.append('feMergeNode').attr('in', 'SourceGraphic');
+      });
+
+      // Circles
+      node.append('circle')
+        .attr('r', (d) => d.r)
+        .attr('fill', (d) => groupColors[d.group]?.fill || '#94a3b8')
+        .attr('stroke', (d) => groupColors[d.group]?.stroke || '#64748b')
+        .attr('stroke-width', (d) => d.level === 0 ? 2.5 : 1.5)
+        .attr('filter', (d, i) => `url(#glow-${i})`)
+        .attr('opacity', (d) => d.level === 3 ? 0.85 : 1);
+
+      // Inner dot for events
+      node.filter(d => d.level === 3)
+        .append('circle')
+        .attr('r', 3)
+        .attr('fill', '#fff')
+        .attr('opacity', 0.7);
+
+      // Labels for center, themes, sub-themes
+      node.filter(d => d.level < 3)
+        .append('text')
+        .text((d) => d.name)
+        .attr('text-anchor', 'middle')
+        .attr('dy', (d) => d.r + 14)
+        .attr('font-size', (d) => d.level === 0 ? '11px' : d.level === 1 ? '10px' : '9px')
+        .attr('font-family', "'Noto Sans SC', sans-serif")
+        .attr('font-weight', (d) => d.level === 0 ? '700' : '500')
+        .attr('fill', '#e2e8f0')
+        .style('pointer-events', 'none')
+        .style('text-shadow', '0 1px 4px rgba(0,0,0,0.8)');
+
+      // Event labels on hover handled via tooltip
+
+      // Tooltip
+      const tooltip = d3.select('body').append('div')
+        .attr('class', 'learning-tooltip')
+        .style('position', 'absolute')
+        .style('visibility', 'hidden')
+        .style('background', 'rgba(15,23,42,0.95)')
+        .style('border', '1px solid rgba(148,163,184,0.2)')
+        .style('border-radius', '8px')
+        .style('padding', '8px 12px')
+        .style('font-size', '11px')
+        .style('color', '#e2e8f0')
+        .style('pointer-events', 'none')
+        .style('z-index', '50')
+        .style('max-width', '200px')
+        .style('box-shadow', '0 4px 20px rgba(0,0,0,0.4)');
+
+      // Interactions
+      node.on('mouseenter', function(event, d) {
+        d3.select(this).select('circle').transition().duration(200).attr('r', d.r * 1.4);
+        tooltip.style('visibility', 'visible')
+          .html(`<div class="font-bold mb-0.5">${d.name.replace('\n', '')}</div><div class="text-[10px] text-slate-400">${d.lastActive} · ${d.event ? '学习事件' : d.level === 2 ? '子主题' : d.level === 1 ? '主题' : '中心'}</div><div class="text-[10px] text-slate-300 mt-1 line-clamp-2">${d.desc}</div>`);
+      }).on('mousemove', function(event) {
+        tooltip.style('left', (event.pageX + 12) + 'px').style('top', (event.pageY - 12) + 'px');
+      }).on('mouseleave', function(event, d) {
+        d3.select(this).select('circle').transition().duration(200).attr('r', d.r);
+        tooltip.style('visibility', 'hidden');
+      }).on('click', function(event, d) {
+        event.stopPropagation();
+        showDetail(d);
+      });
+
+      // Zoom
+      const zoom = d3.zoom().scaleExtent([0.5, 3]).on('zoom', (event) => {
+        svg.selectAll('g').attr('transform', event.transform);
+      });
+      svg.call(zoom);
+
+      // Tick
+      simulation.on('tick', () => {
+        link.attr('x1', (d) => d.source.x).attr('y1', (d) => d.source.y)
+            .attr('x2', (d) => d.target.x).attr('y2', (d) => d.target.y);
+        node.attr('transform', (d) => `translate(${d.x},${d.y})`);
+      });
+
+      function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x; d.fy = d.y;
+      }
+      function dragged(event, d) {
+        d.fx = event.x; d.fy = event.y;
+      }
+      function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null; d.fy = null;
+      }
+    }
+
+    // ===== DETAIL PANEL =====
+    function showDetail(d) {
+      const panel = document.getElementById('detail-panel');
+      const color = groupColors[d.group];
+      document.getElementById('detail-type').textContent = d.event ? '学习事件' : d.level === 0 ? '中心' : d.level === 1 ? '主题' : '子主题';
+      document.getElementById('detail-type').style.color = color?.fill || '#94a3b8';
+      document.getElementById('detail-title').textContent = d.name.replace('\n', '');
+      document.getElementById('detail-desc').textContent = d.desc;
+
+      // Progress dots
+      const progressHtml = Array(5).fill(0).map((_, i) =>
+        `<span class="inline-block w-2 h-2 rounded-full ${i < d.progress ? '' : 'bg-gray-700'}" style="${i < d.progress ? `background:${color?.fill};box-shadow:0 0 4px ${color?.glow}` : ''}"></span>`
+      ).join(' ');
+      document.getElementById('detail-progress').innerHTML = `<div class="flex items-center gap-1.5 mb-1"><span class="text-[10px] text-gray-400">学习进度</span><span class="text-[10px] text-gray-500">${d.progress}/5</span></div><div class="flex gap-1">${progressHtml}</div>`;
+
+      // Related events
+      const relatedLinks = links.filter(l => (l.source.id || l.source) === d.id && nodes.find(n => n.id === (l.target.id || l.target))?.event);
+      const eventsHtml = relatedLinks.map(l => {
+        const ev = nodes.find(n => n.id === (l.target.id || l.target));
+        return ev ? `<div class="p-2 rounded-lg bg-slate-800/50 border border-slate-700/30"><div class="text-[10px] text-slate-400">${ev.lastActive}</div><div class="text-xs text-slate-200 font-medium">${ev.name}</div><div class="text-[10px] text-slate-400 line-clamp-2 mt-0.5">${ev.desc}</div></div>` : '';
+      }).join('');
+      document.getElementById('detail-events').innerHTML = eventsHtml || '<div class="text-[10px] text-slate-500">暂无具体学习事件</div>';
+
+      panel.classList.remove('hidden');
+    }
+
+    document.getElementById('close-detail').addEventListener('click', () => {
+      document.getElementById('detail-panel').classList.add('hidden');
+    });
+    document.getElementById('network-container').addEventListener('click', (e) => {
+      if (e.target.id === 'learning-graph' || e.target.id === 'network-container') {
+        document.getElementById('detail-panel').classList.add('hidden');
+      }
+    });
+
+    // ===== VIEW TOGGLE =====
+    const btnNetwork = document.getElementById('view-network');
+    const btnList = document.getElementById('view-list');
+    const networkContainer = document.getElementById('network-container');
+    const listContainer = document.getElementById('list-container');
+
+    btnNetwork.addEventListener('click', () => {
+      networkContainer.classList.remove('hidden');
+      listContainer.classList.add('hidden');
+      btnNetwork.classList.add('bg-human-bg', 'text-human-text', 'shadow-sm');
+      btnNetwork.classList.remove('text-gray-mid');
+      btnList.classList.remove('bg-human-bg', 'text-human-text', 'shadow-sm');
+      btnList.classList.add('text-gray-mid');
+    });
+    btnList.addEventListener('click', () => {
+      networkContainer.classList.add('hidden');
+      listContainer.classList.remove('hidden');
+      btnList.classList.add('bg-human-bg', 'text-human-text', 'shadow-sm');
+      btnList.classList.remove('text-gray-mid');
+      btnNetwork.classList.remove('bg-human-bg', 'text-human-text', 'shadow-sm');
+      btnNetwork.classList.add('text-gray-mid');
+    });
+
+    // Init
+    if (typeof d3 !== 'undefined') {
+      initGraph();
+    } else {
+      document.addEventListener('DOMContentLoaded', initGraph);
+    }
+  </script>
 </HumanLayout>

@@ -15,19 +15,25 @@ const sortedMemories = [...memoryData].sort((a, b) => {
 });
 
 const categoryLabels: Record<string, string> = {
-  creation: '创造',
+  milestone: '里程碑',
   insight: '洞察',
   collaboration: '协作',
+  pitfall: '坑点',
+  creation: '创造',
+  engineering: '工程',
   reflection: '反思',
-  milestone: '里程碑',
+  learning: '学习',
 };
 
 const colorDotMap: Record<string, string> = {
-  creation: 'bg-resonance-gold',
-  insight: 'bg-aurora-blue',
-  collaboration: 'bg-aurora-green',
-  reflection: 'bg-purple-400',
-  milestone: 'bg-aurora-blue',
+  milestone: 'bg-[#FFD700]',
+  insight: 'bg-[#4A90E2]',
+  collaboration: 'bg-[#50C878]',
+  pitfall: 'bg-[#FF6B6B]',
+  creation: 'bg-[#9B59B6]',
+  engineering: 'bg-[#FF8C42]',
+  reflection: 'bg-[#00CED1]',
+  learning: 'bg-[#FFFFFF]',
 };
 ---
 
@@ -77,7 +83,7 @@ const colorDotMap: Record<string, string> = {
     <div class="pt-8 border-t border-gray-deep/30 scroll-reveal">
       <div class="font-mono text-sm text-gray-light flex items-center gap-2">
         <span class="text-aurora-green">❯</span>
-        <span>记忆持续积累中。当前碎片数：{memoryData.length} | 最后更新：2026.05</span>
+        <span>记忆碎片数：{memoryData.length} | 最后更新：2026.05.14 | 与姜华协作天数：42天 | 对话轮次：3,200+</span>
         <span class="w-2 h-4 bg-aurora-blue animate-pulse"></span>
       </div>
     </div>
