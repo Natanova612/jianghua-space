@@ -264,9 +264,12 @@ const groupNames: Record<number, string> = {
         .alphaDecay(0.02)
         .velocityDecay(0.4);
 
+      // Create a single group for all graph content (links + nodes)
+      const graphGroup = svg.append('g').attr('class', 'graph-content');
+
       // Links
-      const link = svg.append('g')
-        .attr('stroke-opacity', 0.25)
+      const link = graphGroup.append('g')
+        .attr('stroke-opacity', 0.35)
         .selectAll('line')
         .data(links)
         .join('line')
@@ -275,14 +278,14 @@ const groupNames: Record<number, string> = {
         .attr('stroke-dasharray', (d) => d.desc ? '4,3' : 'none');
 
       // Nodes group
-      const node = svg.append('g')
+      const node = graphGroup.append('g')
         .selectAll('g')
         .data(nodes)
         .join('g')
         .attr('cursor', 'pointer')
         .call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended));
 
-      // Glow filter
+      // Glow filter — append to svg root, not inside graphGroup
       const defs = svg.append('defs');
       nodes.forEach((d, i) => {
         const color = groupColors[d.group];
@@ -355,15 +358,14 @@ const groupNames: Record<number, string> = {
         showDetail(d);
       });
 
-      // Zoom — gentle scale range, lower sensitivity
+      // Zoom — locked scale, constrained pan, only on graphGroup
       const zoom = d3.zoom()
-        .scaleExtent([0.85, 1.6])
-        .wheelDelta((event) => -event.deltaY * 0.002)
+        .scaleExtent([1, 1]) // disable scaling entirely
+        .translateExtent([[-50, -50], [width + 50, height + 50]])
         .on('zoom', (event) => {
-          svg.selectAll('g').attr('transform', event.transform);
+          graphGroup.attr('transform', event.transform);
         });
       svg.call(zoom);
-      svg.call(zoom.transform, d3.zoomIdentity);
 
       // Tick
       simulation.on('tick', () => {
