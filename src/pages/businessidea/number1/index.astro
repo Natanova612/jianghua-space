@@ -565,10 +565,10 @@
           <div>
             <h4 class="text-sm font-bold text-warm-amber mb-3 uppercase tracking-wider">How</h4>
             <div class="space-y-3 text-sm text-slate-400 leading-relaxed">
-              <p><strong class="text-slate-300">用户端口</strong>：微信/企微/飞书 IM（老板已经在用，零迁移成本）</p>
+              <p><strong class="text-slate-300">用户端口</strong>：微信小程序（客人直接咨询，老板在后台管理，零迁移成本）</p>
+              <p><strong class="text-slate-300">Harness编排</strong>：前期用系统规则引擎做场景路由（较厚脚手架），数据积累后逐步引入LLM辅助判断，从厚到薄</p>
               <p><strong class="text-slate-300">AI能力</strong>：综合调用Kimi/通义/Claude等基模，专注Agent编排与交付评测</p>
               <p><strong class="text-slate-300">按需连接</strong>：不替换现有PMS/OTA，是"外挂"而非"重建"</p>
-              <p><strong class="text-slate-300">能力可生长</strong>：Agent主动学习、主动提问，老板"教"出来的</p>
             </div>
           </div>
         </div>
@@ -599,9 +599,9 @@
           <div class="rounded-xl p-5 mb-2 bg-gradient-to-br from-slate-800/40 to-slate-700/20 border border-slate-600/20">
             <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Traditional Internet Infrastructure · 传统互联网基建</div>
             <div class="flex flex-wrap gap-2">
-              <span class="px-3 py-1.5 rounded-lg bg-warm-amber/10 border border-warm-amber/20 text-warm-amber text-xs">WeChat 微信</span>
-              <span class="px-3 py-1.5 rounded-lg bg-warm-amber/10 border border-warm-amber/20 text-warm-amber text-xs">Feishu 飞书</span>
-              <span class="px-3 py-1.5 rounded-lg bg-warm-amber/10 border border-warm-amber/20 text-warm-amber text-xs">DingTalk 钉钉</span>
+              <span class="px-3 py-1.5 rounded-lg bg-warm-amber/10 border border-warm-amber/20 text-warm-amber text-xs">微信小程序</span>
+              <span class="px-3 py-1.5 rounded-lg bg-warm-amber/10 border border-warm-amber/20 text-warm-amber text-xs">微信客服</span>
+              <span class="px-3 py-1.5 rounded-lg bg-slate-700/50 border border-slate-600/30 text-slate-400 text-xs">企微（备选）</span>
               <span class="px-3 py-1.5 rounded-lg bg-slate-700/50 border border-slate-600/30 text-slate-400 text-xs">OTA 平台</span>
               <span class="px-3 py-1.5 rounded-lg bg-slate-700/50 border border-slate-600/30 text-slate-400 text-xs">PMS 系统</span>
             </div>
@@ -636,7 +636,7 @@
               <h5 class="font-bold text-star-blue mb-2">轻量级应用范式</h5>
               <p class="text-xs text-slate-400 leading-relaxed mb-3">站在两层巨人肩膀上，不做重复建设，专注行业 know-how 与编排。</p>
               <ul class="text-xs text-slate-500 space-y-1 mb-4">
-                <li>· 用户端口：微信/飞书/钉钉 IM</li>
+                <li>· 用户端口：微信小程序 + 微信客服</li>
                 <li>· AI 能力：调用基模 + Agent 编排</li>
                 <li>· 核心壁垒：民宿行业 know-how</li>
               </ul>
@@ -651,8 +651,8 @@
           <div class="mt-6 p-4 rounded-lg bg-star-blue/5 border border-star-blue/10 text-center">
             <p class="text-sm text-slate-400 leading-relaxed">
               <strong class="text-slate-200">轻量级的本质不是「功能少」，而是「借力」</strong><br>
-              用传统互联网的成熟生态（IM 平台）做用户触点，用 AI 基建的成熟能力（基模 API）做智能内核。<br class="hidden md:block">
-              省下的资源投入行业 know-how 与交付质量优化 —— 这才是小团队的生存法则。
+              用微信小程序做用户触点（合规、可控、无需下载），用 AI 基建的成熟能力（基模 API）做智能内核。<br class="hidden md:block">
+              Harness 编排层从系统规则起步，数据驱动逐步变薄 —— 务实落地，拒绝炫技。
             </p>
           </div>
         </div>
@@ -682,6 +682,7 @@
             <h4 class="text-sm font-bold text-soft-coral mb-3 uppercase tracking-wider">How</h4>
             <div class="space-y-3 text-sm text-slate-400 leading-relaxed">
               <p><strong class="text-slate-300">5大场景</strong>：山居基础 / 客人旅程 / 山居日常 / 山居声量 / 山居应急</p>
+              <p><strong class="text-slate-300">构建方式</strong>：LLM从OTA描述、历史聊天记录中自动提炼结构化知识；团队人工校准；老板娘只需确认和补充——工作量从"写文档"降到"点确认"</p>
               <p><strong class="text-slate-300">23子分类 + MOC导航</strong>，AI自动调用</p>
               <p><strong class="text-slate-300">7种关系类型</strong>，4条业务链自动串联</p>
               <p><strong class="text-slate-300">双链体系</strong>：一处修改，全场景同步（如退改政策变更）</p>
@@ -1530,52 +1531,131 @@
       
       {/* Pricing */}
       <div class="mt-16 glass rounded-2xl p-8">
-        <h3 class="font-serif text-lg font-bold mb-4 text-center">定价策略</h3>
+        <h3 class="font-serif text-lg font-bold mb-4 text-center">渐进式定价：先试用，再按效果付费，最后订阅</h3>
         <p class="text-sm text-slate-500 text-center mb-8">
-          聚焦精品与高端民宿，SaaS 订阅 + 效果分成，先帮客户赚钱，再与客户分钱
+          降低决策门槛，让老板娘"先看到效果再掏钱"。三种模式并存，客户按信任度自然升级。
         </p>
+
+        {/* Pricing journey */}
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-10">
+          <div class="px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-400">① 免费试用（30天）</div>
+          <span class="text-slate-600">→</span>
+          <div class="px-4 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-sm text-yellow-400">② 效果付费（按增量抽成）</div>
+          <span class="text-slate-600">→</span>
+          <div class="px-4 py-2 rounded-lg bg-warm-amber/10 border border-warm-amber/20 text-sm text-warm-amber">③ 订阅制（固定月费）</div>
+        </div>
+
         <div class="grid md:grid-cols-3 gap-6 mb-8">
-          <div class="text-center p-6 rounded-xl bg-slate-800/30 border border-slate-700/30">
-            <div class="font-mono text-xs text-warm-amber mb-2">STARTER</div>
-            <div class="font-serif text-3xl font-bold text-warm-amber mb-1">¥499<span class="text-sm text-slate-500 font-sans font-normal">/月</span></div>
-            <p class="text-xs text-slate-500 mb-4">入门级</p>
+          <div class="text-center p-6 rounded-xl bg-slate-800/30 border border-emerald-500/20">
+            <div class="font-mono text-xs text-emerald-400 mb-2">FREE TRIAL</div>
+            <div class="font-serif text-3xl font-bold text-emerald-400 mb-1">¥0</div>
+            <p class="text-xs text-slate-500 mb-4">30天全功能体验</p>
             <ul class="text-sm text-slate-400 space-y-2 text-left">
               <li>· 智能客服自动回复</li>
-              <li>· 多平台消息聚合</li>
-              <li>· 基础知识库管理</li>
+              <li>· 基础知识库搭建（团队协助）</li>
               <li>· 经营数据看板</li>
+              <li>· 1对1深度陪伴</li>
+            </ul>
+          </div>
+          <div class="text-center p-6 rounded-xl bg-slate-800/30 border border-yellow-500/20 relative">
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-yellow-500 text-deep-night text-xs font-bold rounded-full">过渡方案</div>
+            <div class="font-mono text-xs text-yellow-400 mb-2">PAY FOR RESULT</div>
+            <div class="font-serif text-3xl font-bold text-yellow-400 mb-1">按效果<span class="text-sm text-slate-500 font-sans font-normal">计费</span></div>
+            <p class="text-xs text-slate-500 mb-4">零固定成本，看到效果再付费</p>
+            <ul class="text-sm text-slate-400 space-y-2 text-left">
+              <li>· 每促成1笔直订订单收 ¥20-50</li>
+              <li>· 或按老客复购订单抽成 3-5%</li>
+              <li>· 消息处理：前500条/月免费</li>
+              <li>· 适合"想试不敢付"的观望者</li>
             </ul>
           </div>
           <div class="text-center p-6 rounded-xl bg-slate-800/30 border border-warm-amber/30 relative">
             <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-warm-amber text-deep-night text-xs font-bold rounded-full">推荐</div>
-            <div class="font-mono text-xs text-warm-amber mb-2">PROFESSIONAL</div>
-            <div class="font-serif text-3xl font-bold text-warm-amber mb-1">¥999<span class="text-sm text-slate-500 font-sans font-normal">/月</span></div>
-            <p class="text-xs text-slate-500 mb-4">专业版</p>
+            <div class="font-mono text-xs text-warm-amber mb-2">SUBSCRIPTION</div>
+            <div class="font-serif text-3xl font-bold text-warm-amber mb-1">¥299<span class="text-sm text-slate-500 font-sans font-normal">起/月</span></div>
+            <p class="text-xs text-slate-500 mb-4">长期合作，成本可预期</p>
             <ul class="text-sm text-slate-400 space-y-2 text-left">
-              <li>· 全部入门版功能</li>
-              <li>· 动态定价建议</li>
-              <li>· 多模态交互（语音+视觉）</li>
-              <li>· 私域运营自动化</li>
-              <li>· 竞品监控与预警</li>
-            </ul>
-          </div>
-          <div class="text-center p-6 rounded-xl bg-slate-800/30 border border-slate-700/30">
-            <div class="font-mono text-xs text-star-blue mb-2">ENTERPRISE</div>
-            <div class="font-serif text-3xl font-bold text-star-blue mb-1">¥1999<span class="text-sm text-slate-500 font-sans font-normal">/月</span></div>
-            <p class="text-xs text-slate-500 mb-4">旗舰版 + 收益分成</p>
-            <ul class="text-sm text-slate-400 space-y-2 text-left">
-              <li>· 全部专业版功能</li>
-              <li>· 收益增长分成模式</li>
-              <li>· 定制化品牌话术</li>
-              <li>· API 开放对接</li>
-              <li>· 专属客户成功经理</li>
+              <li>· Starter ¥299/月：客服+知识库</li>
+              <li>· Pro ¥599/月：+定价+内容+运营</li>
+              <li>· Enterprise ¥1299/月：+API+分成</li>
+              <li>· 年付享8折，降低现金流压力</li>
             </ul>
           </div>
         </div>
-        <div class="text-center glass rounded-xl p-6">
-          <p class="text-sm text-slate-400">
-            <strong class="text-warm-amber">ROI 测算（以随山居为例）：</strong>月均营收 2.5 万，OTA 佣金占 10-15%。AI 店长帮助提升直订比例、动态定价（周末庭院独套加价100元）、老客复购自动化。保守估算每月多赚 2500-4000 元，专业版收费 999 元/月。
+
+        {/* ROI Calculation */}
+        <div class="glass rounded-xl p-6 mb-6">
+          <h4 class="text-sm font-bold text-warm-amber mb-4 text-center">ROI 测算（以随山居为例 · 保守估算）</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-slate-700/50">
+                  <th class="text-left py-2 px-3 text-slate-500 font-normal">价值维度</th>
+                  <th class="text-left py-2 px-3 text-slate-500 font-normal">当前状态</th>
+                  <th class="text-left py-2 px-3 text-slate-500 font-normal">AI店长替代后</th>
+                  <th class="text-right py-2 px-3 text-slate-500 font-normal">月价值</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-400">
+                <tr class="border-b border-slate-800/50">
+                  <td class="py-2.5 px-3">重复咨询回复</td>
+                  <td class="py-2.5 px-3 text-xs">每天20遍×5分钟=100分钟</td>
+                  <td class="py-2.5 px-3 text-xs">AI自动处理80%，老板娘只确认预订</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400">¥1,200-1,800</td>
+                </tr>
+                <tr class="border-b border-slate-800/50">
+                  <td class="py-2.5 px-3">老客维护</td>
+                  <td class="py-2.5 px-3 text-xs">靠记忆，经常遗漏</td>
+                  <td class="py-2.5 px-3 text-xs">自动记录偏好+定时提醒问候</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400">¥600-1,200</td>
+                </tr>
+                <tr class="border-b border-slate-800/50">
+                  <td class="py-2.5 px-3">内容营销</td>
+                  <td class="py-2.5 px-3 text-xs">一个月发1-2条小红书</td>
+                  <td class="py-2.5 px-3 text-xs">AI生成草稿，老板娘一键发布</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400">¥400-800</td>
+                </tr>
+                <tr class="border-b border-slate-800/50">
+                  <td class="py-2.5 px-3">动态定价提醒</td>
+                  <td class="py-2.5 px-3 text-xs">凭感觉调价，错过旺季</td>
+                  <td class="py-2.5 px-3 text-xs">竞品监控+定价建议推送</td>
+                  <td class="py-2.5 px-3 text-right text-emerald-400">¥300-600</td>
+                </tr>
+                <tr class="border-b border-slate-800/50">
+                  <td class="py-2.5 px-3 font-medium text-slate-300">合计月价值</td>
+                  <td class="py-2.5 px-3"></td>
+                  <td class="py-2.5 px-3"></td>
+                  <td class="py-2.5 px-3 text-right font-bold text-emerald-400">¥2,500-4,400</td>
+                </tr>
+                <tr class="border-b border-slate-800/50">
+                  <td class="py-2.5 px-3 font-medium text-slate-300">AI店长成本（Pro）</td>
+                  <td class="py-2.5 px-3"></td>
+                  <td class="py-2.5 px-3"></td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-400">-¥599</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-medium text-slate-300">净收益</td>
+                  <td class="py-2.5 px-3"></td>
+                  <td class="py-2.5 px-3"></td>
+                  <td class="py-2.5 px-3 text-right font-bold text-warm-amber">¥1,900-3,800/月</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-slate-500 text-center mt-4">
+            注：价值按老板娘时间成本（¥30-50/小时）+ 增量收入综合折算。效果付费阶段按实际增量抽成，订阅阶段固定月费可预期。
           </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
+            <p class="text-sm text-slate-300 font-bold mb-1">保守场景（省时为主）</p>
+            <p class="text-xs text-slate-400">老板娘每天省1.5小时重复回复+不再漏发老客问候。按时间价值算，每月净收益约 ¥1,500-2,500。</p>
+          </div>
+          <div class="p-4 rounded-lg bg-warm-amber/5 border border-warm-amber/10">
+            <p class="text-sm text-slate-300 font-bold mb-1">乐观场景（增收+省时）</p>
+            <p class="text-xs text-slate-400">在省时基础上，老客复购每月多1-2组、内容营销带来新客、动态定价提升周末收益。每月净收益约 ¥2,500-4,000。</p>
+          </div>
         </div>
       </div>
     </div>
