@@ -67,6 +67,8 @@ const cases = defineCollection({
     tags: z.array(z.string()),
     excerpt: z.string(),
     content: z.string(),
+    images: z.array(z.string()).optional(),
+    link: z.string().optional(),
   }),
 });
 
