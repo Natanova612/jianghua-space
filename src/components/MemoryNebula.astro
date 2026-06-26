@@ -157,22 +157,6 @@ memories.forEach(m => {
   </div>
 </div>
 
-{/* Memory detail modal */}
-<div id="memory-modal" class="fixed inset-0 z-[100] hidden">
-  <div class="absolute inset-0 bg-ai-bg/90 backdrop-blur-md" data-close-memory></div>
-  <div class="absolute inset-x-4 top-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[600px] max-h-[84vh] overflow-y-auto rounded-xl border border-gray-deep/50 bg-ai-bg p-8">
-    <div class="flex items-center justify-between mb-2">
-      <span id="memory-modal-date" class="font-mono text-xs text-gray-light"></span>
-      <button data-close-memory class="text-gray-light hover:text-ai-text transition-colors">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <span id="memory-modal-category" class="inline-block font-mono text-[10px] px-2 py-0.5 rounded bg-gray-deep/50 text-gray-light mb-4"></span>
-    <h3 id="memory-modal-title" class="font-star text-2xl tracking-wide mb-6 text-ai-text"></h3>
-    <div id="memory-modal-content" class="font-mono text-sm text-ai-text/80 leading-[1.875]"></div>
-  </div>
-</div>
-
 <script>
   // Background particle canvas — breathing, flowing, pulsing
   const canvas = document.getElementById('nebula-canvas');
@@ -329,7 +313,7 @@ memories.forEach(m => {
     });
   }
 
-  // Memory node interactions
+  // Memory node interactions — open modal rendered in starfield.astro
   document.querySelectorAll('[data-memory-id]').forEach(node => {
     node.addEventListener('click', () => {
       const title = node.getAttribute('data-memory-title');
@@ -337,7 +321,7 @@ memories.forEach(m => {
       const category = node.getAttribute('data-memory-category');
       const content = node.getAttribute('data-memory-content');
       const color = node.getAttribute('data-memory-color');
-      
+
       const categoryLabels: Record<string, string> = {
         milestone: '里程碑',
         insight: '洞察',
@@ -348,7 +332,7 @@ memories.forEach(m => {
         reflection: '反思',
         learning: '学习',
       };
-      
+
       const colorHex: Record<string, string> = {
         gold: '#FFD700',
         blue: '#4A90E2',
@@ -359,30 +343,19 @@ memories.forEach(m => {
         cyan: '#00CED1',
         white: '#FFFFFF',
       };
-      
+
+      const modal = document.getElementById('memory-modal');
+      if (!modal) return;
+
       document.getElementById('memory-modal-date').textContent = date;
       const catEl = document.getElementById('memory-modal-category');
       catEl.textContent = categoryLabels[category] || category;
       catEl.style.color = colorHex[color] || '#94a3b8';
       document.getElementById('memory-modal-title').textContent = title;
       document.getElementById('memory-modal-content').textContent = content;
-      document.getElementById('memory-modal').classList.remove('hidden');
+      modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
     });
-  });
-
-  document.querySelectorAll('[data-close-memory]').forEach(el => {
-    el.addEventListener('click', () => {
-      document.getElementById('memory-modal').classList.add('hidden');
-      document.body.style.overflow = '';
-    });
-  });
-
-  document.getElementById('memory-modal').addEventListener('click', (e) => {
-    if (e.target.id === 'memory-modal') {
-      document.getElementById('memory-modal').classList.add('hidden');
-      document.body.style.overflow = '';
-    }
   });
 </script>
 

@@ -161,31 +161,23 @@ const memoryData = memories.map(m => m.data);
 
   </div>
 
-  {/* Log detail modal */}
-  <div id="log-modal" class="fixed inset-0 z-[100] hidden">
-    <div class="absolute inset-0 bg-starfield-bg/90 backdrop-blur-md" data-close-log></div>
-    <div class="absolute inset-x-4 top-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[560px] max-h-[84vh] overflow-y-auto rounded-xl border border-starfield-ai-blue/10 bg-[#0c0c14] p-8">
+  {/* Memory detail modal — rendered at top level to escape z-10 container */}
+  <div id="memory-modal" class="fixed inset-0 z-[100] hidden">
+    <div class="absolute inset-0 bg-starfield-bg/90 backdrop-blur-md" data-close-memory></div>
+    <div class="absolute inset-x-4 top-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[600px] max-h-[84vh] overflow-y-auto rounded-xl border border-starfield-ai-blue/20 bg-[#0c0c14] p-6 md:p-8 shadow-2xl shadow-starfield-ai-blue/10">
       <div class="flex items-center justify-between mb-2">
-        <span id="log-modal-date" class="font-mono text-xs text-starfield-ai-blue/60"></span>
-        <button data-close-log class="text-starfield-ai-blue/40 hover:text-starfield-human-silver transition-colors">
+        <span id="memory-modal-date" class="font-mono text-xs text-starfield-ai-blue/60"></span>
+        <button data-close-memory class="text-starfield-ai-blue/40 hover:text-starfield-human-silver transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <span id="log-modal-category" class="inline-block font-mono text-[10px] px-2 py-0.5 rounded bg-starfield-ai-blue/10 text-starfield-ai-blue mb-4"></span>
-      <h3 id="log-modal-title" class="font-star text-2xl tracking-wide mb-6 text-starfield-human-silver"></h3>
-      <div id="log-modal-content" class="font-mono text-sm text-starfield-human-silver/70 leading-[1.875]"></div>
+      <span id="memory-modal-category" class="inline-block font-mono text-[10px] px-2 py-0.5 rounded bg-starfield-ai-blue/10 text-starfield-ai-cyan mb-4"></span>
+      <h3 id="memory-modal-title" class="font-star text-2xl tracking-wide mb-6 text-starfield-human-silver"></h3>
+      <div id="memory-modal-content" class="font-mono text-sm text-starfield-human-silver/80 leading-[1.875] whitespace-pre-wrap"></div>
     </div>
   </div>
 
   <script>
-    const categoryLabels = {
-      creation: '创造',
-      insight: '洞察',
-      collaboration: '协作',
-      reflection: '反思',
-      milestone: '里程碑',
-    };
-
     // Manual accordion: only one open at a time
     const manualCards = document.querySelectorAll('.manual-card');
     manualCards.forEach(card => {
@@ -212,32 +204,25 @@ const memoryData = memories.map(m => m.data);
       });
     });
 
-    document.querySelectorAll('[data-log-id]').forEach(row => {
-      row.addEventListener('click', () => {
-        const title = row.getAttribute('data-log-title');
-        const date = row.getAttribute('data-log-date');
-        const category = row.getAttribute('data-log-category');
-        const content = row.getAttribute('data-log-content');
-
-        document.getElementById('log-modal-date').textContent = date;
-        document.getElementById('log-modal-category').textContent = categoryLabels[category] || category;
-        document.getElementById('log-modal-title').textContent = title;
-        document.getElementById('log-modal-content').textContent = content;
-        document.getElementById('log-modal').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    document.querySelectorAll('[data-close-log]').forEach(el => {
+    // Memory modal close handlers (open handler lives in MemoryNebula.astro)
+    document.querySelectorAll('[data-close-memory]').forEach(el => {
       el.addEventListener('click', () => {
-        document.getElementById('log-modal').classList.add('hidden');
+        document.getElementById('memory-modal').classList.add('hidden');
         document.body.style.overflow = '';
       });
     });
 
-    document.getElementById('log-modal').addEventListener('click', (e) => {
-      if (e.target.id === 'log-modal') {
-        document.getElementById('log-modal').classList.add('hidden');
+    document.getElementById('memory-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'memory-modal' || e.target.hasAttribute('data-close-memory')) {
+        document.getElementById('memory-modal').classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('memory-modal');
+      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
         document.body.style.overflow = '';
       }
     });
