@@ -162,9 +162,9 @@ const memoryData = memories.map(m => m.data);
   </div>
 
   {/* Memory detail modal — rendered at top level to escape z-10 container */}
-  <div id="memory-modal" class="fixed inset-0 z-[100] hidden">
+  <div id="memory-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-6">
     <div class="absolute inset-0 bg-starfield-bg/90 backdrop-blur-md" data-close-memory></div>
-    <div class="absolute inset-x-4 top-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[600px] max-h-[84vh] overflow-y-auto rounded-xl border border-starfield-ai-blue/20 bg-[#0c0c14] p-6 md:p-8 shadow-2xl shadow-starfield-ai-blue/10">
+    <div class="relative w-full max-w-[600px] max-h-[90dvh] overflow-y-auto overscroll-contain rounded-xl border border-starfield-ai-blue/20 bg-[#0c0c14] p-6 md:p-8 shadow-2xl shadow-starfield-ai-blue/10">
       <div class="flex items-center justify-between mb-2">
         <span id="memory-modal-date" class="font-mono text-xs text-starfield-ai-blue/60"></span>
         <button data-close-memory class="text-starfield-ai-blue/40 hover:text-starfield-human-silver transition-colors">
@@ -178,6 +178,78 @@ const memoryData = memories.map(m => m.data);
   </div>
 
   <script>
+    // Robust scroll lock: preserve position, avoid page jump
+    let savedScrollY = 0;
+
+    function lockScroll() {
+      savedScrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${savedScrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.overflow = 'hidden';
+      document.body.style.width = '100%';
+    }
+
+    function unlockScroll() {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.overflow = '';
+      document.body.style.width = '';
+      window.scrollTo(0, savedScrollY);
+    }
+
+    function openMemoryModal(node) {
+      const title = node.getAttribute('data-memory-title');
+      const date = node.getAttribute('data-memory-date');
+      const category = node.getAttribute('data-memory-category');
+      const content = node.getAttribute('data-memory-content');
+      const color = node.getAttribute('data-memory-color');
+
+      const categoryLabels = {
+        milestone: '里程碑',
+        insight: '洞察',
+        collaboration: '协作',
+        pitfall: '坑点',
+        creation: '创造',
+        engineering: '工程',
+        reflection: '反思',
+        learning: '学习',
+      };
+
+      const colorHex = {
+        gold: '#FFD700',
+        blue: '#4A90E2',
+        green: '#50C878',
+        red: '#FF6B6B',
+        purple: '#9B59B6',
+        orange: '#FF8C42',
+        cyan: '#00CED1',
+        white: '#FFFFFF',
+      };
+
+      document.getElementById('memory-modal-date').textContent = date;
+      const catEl = document.getElementById('memory-modal-category');
+      catEl.textContent = categoryLabels[category] || category;
+      catEl.style.color = colorHex[color] || '#94a3b8';
+      document.getElementById('memory-modal-title').textContent = title;
+      document.getElementById('memory-modal-content').textContent = content;
+
+      const modal = document.getElementById('memory-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lockScroll();
+    }
+
+    function closeMemoryModal() {
+      const modal = document.getElementById('memory-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      unlockScroll();
+    }
+
     // Manual accordion: only one open at a time
     const manualCards = document.querySelectorAll('.manual-card');
     manualCards.forEach(card => {
@@ -204,26 +276,30 @@ const memoryData = memories.map(m => m.data);
       });
     });
 
-    // Memory modal close handlers (open handler lives in MemoryNebula.astro)
+    // Delegated memory node clicks (nodes live inside MemoryNebula component)
+    document.addEventListener('click', (e) => {
+      const node = e.target.closest('[data-memory-id]');
+      if (node) {
+        e.stopPropagation();
+        openMemoryModal(node);
+      }
+    });
+
+    // Memory modal close handlers
     document.querySelectorAll('[data-close-memory]').forEach(el => {
-      el.addEventListener('click', () => {
-        document.getElementById('memory-modal').classList.add('hidden');
-        document.body.style.overflow = '';
-      });
+      el.addEventListener('click', closeMemoryModal);
     });
 
     document.getElementById('memory-modal').addEventListener('click', (e) => {
       if (e.target.id === 'memory-modal' || e.target.hasAttribute('data-close-memory')) {
-        document.getElementById('memory-modal').classList.add('hidden');
-        document.body.style.overflow = '';
+        closeMemoryModal();
       }
     });
 
     document.addEventListener('keydown', (e) => {
       const modal = document.getElementById('memory-modal');
       if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
-        modal.classList.add('hidden');
-        document.body.style.overflow = '';
+        closeMemoryModal();
       }
     });
   </script>

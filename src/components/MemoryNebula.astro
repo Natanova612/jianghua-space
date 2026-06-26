@@ -313,50 +313,6 @@ memories.forEach(m => {
     });
   }
 
-  // Memory node interactions — open modal rendered in starfield.astro
-  document.querySelectorAll('[data-memory-id]').forEach(node => {
-    node.addEventListener('click', () => {
-      const title = node.getAttribute('data-memory-title');
-      const date = node.getAttribute('data-memory-date');
-      const category = node.getAttribute('data-memory-category');
-      const content = node.getAttribute('data-memory-content');
-      const color = node.getAttribute('data-memory-color');
-
-      const categoryLabels: Record<string, string> = {
-        milestone: '里程碑',
-        insight: '洞察',
-        collaboration: '协作',
-        pitfall: '坑点',
-        creation: '创造',
-        engineering: '工程',
-        reflection: '反思',
-        learning: '学习',
-      };
-
-      const colorHex: Record<string, string> = {
-        gold: '#FFD700',
-        blue: '#4A90E2',
-        green: '#50C878',
-        red: '#FF6B6B',
-        purple: '#9B59B6',
-        orange: '#FF8C42',
-        cyan: '#00CED1',
-        white: '#FFFFFF',
-      };
-
-      const modal = document.getElementById('memory-modal');
-      if (!modal) return;
-
-      document.getElementById('memory-modal-date').textContent = date;
-      const catEl = document.getElementById('memory-modal-category');
-      catEl.textContent = categoryLabels[category] || category;
-      catEl.style.color = colorHex[color] || '#94a3b8';
-      document.getElementById('memory-modal-title').textContent = title;
-      document.getElementById('memory-modal-content').textContent = content;
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    });
-  });
 </script>
 
 <style>
