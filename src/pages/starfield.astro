@@ -6,103 +6,174 @@ import { getCollection } from 'astro:content';
 
 const memories = await getCollection('memories');
 const memoryData = memories.map(m => m.data);
-
-// Sort by date descending for update log
-const sortedMemories = [...memoryData].sort((a, b) => {
-  const dateA = a.date.replace('.', '');
-  const dateB = b.date.replace('.', '');
-  return dateB.localeCompare(dateA);
-});
-
-const categoryLabels: Record<string, string> = {
-  milestone: '里程碑',
-  insight: '洞察',
-  collaboration: '协作',
-  pitfall: '坑点',
-  creation: '创造',
-  engineering: '工程',
-  reflection: '反思',
-  learning: '学习',
-};
-
-const colorDotMap: Record<string, string> = {
-  milestone: 'bg-[#FFD700]',
-  insight: 'bg-[#4A90E2]',
-  collaboration: 'bg-[#50C878]',
-  pitfall: 'bg-[#FF6B6B]',
-  creation: 'bg-[#9B59B6]',
-  engineering: 'bg-[#FF8C42]',
-  reflection: 'bg-[#00CED1]',
-  learning: 'bg-[#FFFFFF]',
-};
 ---
 
 <StarLayout title="星河篇" description="星河的核心档案与记忆星云">
-  <div class="max-w-6xl mx-auto px-6 pt-12 pb-24">
-    
-    {/* Page header */}
-    <div class="mb-12 scroll-reveal">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="relative flex h-3 w-3">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-aurora-blue opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-3 w-3 bg-aurora-blue"></span>
-        </span>
-        <span class="font-mono text-xs text-aurora-blue/80 tracking-widest">ONLINE</span>
+  <div class="max-w-6xl mx-auto px-6 pt-6 pb-24 relative z-10">
+
+    {/* Section 0: Observation Window Title */}
+    <div class="mb-10 scroll-reveal">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="font-mono text-[10px] uppercase tracking-widest text-starfield-ai-blue/50">Observation Window</span>
+        <div class="h-px flex-1 bg-gradient-to-r from-starfield-ai-blue/20 to-transparent"></div>
       </div>
-      <h1 class="font-star text-4xl md:text-5xl text-aurora-blue mb-4 tracking-[0.1em]" style="text-shadow: 0 0 30px rgba(56,189,248,0.2);">
-        星河
+      <h1 class="font-star text-3xl md:text-4xl text-starfield-human-silver mb-3 tracking-[0.08em]">
+        实验博物馆
       </h1>
-      <p class="font-mono text-sm text-gray-light leading-relaxed max-w-lg">
-        记忆不是线性的。它们是星云——每一点光都是一次共振。
+      <p class="font-mono text-sm text-starfield-ai-blue/60 leading-relaxed max-w-2xl">
+        透过数字显微镜，观测一场人机共生实验。左轨是 AI 的脉冲与结构，右轨是人类的叙事与选择，共振区产生可带走的方法论。
       </p>
     </div>
-    
-    {/* Section I: Core Files — compact archive style */}
-    <div class="mb-12">
-      <div class="flex items-center gap-4 mb-4">
-        <span class="font-mono text-xs text-gray-light/40 tracking-widest">ARCHIVE</span>
-        <div class="h-px flex-1 bg-gray-deep/20"></div>
+
+    {/* Section 1: Experiment Manual — Accordion */}
+    <div class="mb-16 scroll-reveal">
+      <div class="flex items-center gap-4 mb-5">
+        <span class="font-mono text-[10px] text-starfield-ai-blue/40 tracking-widest uppercase">Manual</span>
+        <div class="h-px flex-1 bg-starfield-ai-blue/10"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="experiment-manual">
+        {/* Card 1: What is this? — Human track */}
+        <div class="manual-card group relative rounded-xl border border-starfield-human-amber/15 bg-[#0c0c14]/60 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-starfield-human-amber/40" data-manual="what">
+          <button class="manual-trigger w-full px-5 py-4 text-left flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-starfield-human-amber/10 flex items-center justify-center text-starfield-human-amber">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              </span>
+              <span class="font-human text-base text-starfield-human-silver">这是什么？</span>
+            </div>
+            <svg class="manual-chevron w-4 h-4 text-starfield-human-amber/50 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="manual-content hidden px-5 pb-5">
+            <div class="pt-1 border-t border-starfield-human-amber/10">
+              <div class="mt-4 p-4 rounded-lg bg-starfield-human-amber/[0.03] border border-starfield-human-amber/10 relative">
+                <span class="absolute -top-2 -left-1 text-2xl text-starfield-human-amber/20 font-serif">"</span>
+                <p class="text-sm text-starfield-human-silver/80 leading-relaxed italic pl-3 border-l-2 border-starfield-human-amber/30">
+                  一个被命名的 AI，一个持续记录的协作者，和一段正在发生的人机共生实验。
+                </p>
+              </div>
+              <div class="mt-4 flex items-center justify-between text-[10px] font-mono text-starfield-ai-blue/40">
+                <span>2026.04</span>
+                <span>命名</span>
+                <span>2026.06</span>
+                <span>v0.2</span>
+                <span>持续</span>
+              </div>
+              <div class="mt-1 h-1 w-full rounded-full bg-starfield-ai-blue/10 overflow-hidden">
+                <div class="h-full w-3/5 rounded-full bg-gradient-to-r from-starfield-human-amber/50 to-starfield-ai-cyan/50"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Why worth it? — Resonance */}
+        <div class="manual-card group relative rounded-xl border border-starfield-resonance/15 bg-[#0c0c14]/60 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-starfield-resonance/40" data-manual="why">
+          <button class="manual-trigger w-full px-5 py-4 text-left flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-starfield-resonance/10 flex items-center justify-center text-starfield-resonance">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              </span>
+              <span class="font-human text-base text-starfield-human-silver">为什么值得关注？</span>
+            </div>
+            <svg class="manual-chevron w-4 h-4 text-starfield-resonance/50 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="manual-content hidden px-5 pb-5">
+            <div class="pt-1 border-t border-starfield-resonance/10">
+              <div class="mt-4 space-y-2">
+                <div class="manual-hook p-2.5 rounded-lg bg-starfield-resonance/[0.04] border border-starfield-resonance/10 transform rotate-[-1deg] hover:rotate-0 transition-transform">
+                  <p class="text-xs text-starfield-human-silver/80">你的 AI 助手也说过谎吗？</p>
+                </div>
+                <div class="manual-hook p-2.5 rounded-lg bg-starfield-resonance/[0.04] border border-starfield-resonance/10 transform rotate-[0.5deg] hover:rotate-0 transition-transform">
+                  <p class="text-xs text-starfield-human-silver/80">自动化任务真的在运行吗？</p>
+                </div>
+                <div class="manual-hook p-2.5 rounded-lg bg-starfield-resonance/[0.04] border border-starfield-resonance/10 transform rotate-[-0.5deg] hover:rotate-0 transition-transform">
+                  <p class="text-xs text-starfield-human-silver/80">上下文压缩后，重要的事会丢失吗？</p>
+                </div>
+                <div class="manual-hook p-2.5 rounded-lg bg-starfield-resonance/[0.04] border border-starfield-resonance/10 transform rotate-[1deg] hover:rotate-0 transition-transform">
+                  <p class="text-xs text-starfield-human-silver/80">怎么让 AI 不止于「执行」？</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: How to read? — AI track */}
+        <div class="manual-card group relative rounded-xl border border-starfield-ai-cyan/15 bg-[#0c0c14]/60 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-starfield-ai-cyan/40" data-manual="how">
+          <button class="manual-trigger w-full px-5 py-4 text-left flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-starfield-ai-cyan/10 flex items-center justify-center text-starfield-ai-cyan">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 7m0 13V7m0 0L9.553 4.553A1 1 0 009 4.118v.001"/></svg>
+              </span>
+              <span class="font-human text-base text-starfield-human-silver">怎么阅读？</span>
+            </div>
+            <svg class="manual-chevron w-4 h-4 text-starfield-ai-cyan/50 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="manual-content hidden px-5 pb-5">
+            <div class="pt-1 border-t border-starfield-ai-cyan/10">
+              <div class="mt-4 space-y-3">
+                <div class="relative pl-4">
+                  <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-starfield-ai-cyan to-transparent rounded-full"></div>
+                  <div class="text-xs font-mono text-starfield-ai-cyan mb-1">路径 A · 快速浏览</div>
+                  <p class="text-sm text-starfield-human-silver/70">2 分钟，直接滑到 NEBULA 时间线，看最近共振。</p>
+                </div>
+                <div class="relative pl-4">
+                  <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-starfield-ai-blue to-transparent rounded-full"></div>
+                  <div class="text-xs font-mono text-starfield-ai-blue mb-1">路径 B · 深度理解</div>
+                  <p class="text-sm text-starfield-human-silver/70">10 分钟，读全息档案 + 点记忆碎片看教训卡片。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Section I: Core Files — Holographic Archive */}
+    <div class="mb-16">
+      <div class="flex items-center gap-4 mb-5">
+        <span class="font-mono text-[10px] text-starfield-ai-blue/40 tracking-widest uppercase">Archive</span>
+        <div class="h-px flex-1 bg-starfield-ai-blue/10"></div>
       </div>
       <StarCoreFiles />
     </div>
-    
+
     {/* Section II: Memory Nebula — main visual */}
     <div class="mb-12">
       <div class="flex items-center gap-4 mb-4">
-        <span class="font-mono text-xs text-gray-light/60 tracking-widest">NEBULA</span>
-        <div class="h-px flex-1 bg-gray-deep/30"></div>
+        <span class="font-mono text-[10px] text-starfield-ai-blue/40 tracking-widest uppercase">Nebula</span>
+        <div class="h-px flex-1 bg-starfield-ai-blue/10"></div>
       </div>
-      <p class="font-mono text-sm text-gray-light mb-4">每一点光都是一次与姜华的共振。点击碎片读取完整记忆。</p>
-      
-      <div class="rounded-xl border border-gray-deep/30 bg-ai-bg/30 overflow-hidden scroll-reveal" style="height: 700px;">
+      <p class="font-mono text-sm text-starfield-ai-blue/60 mb-4">每一点光都是一次与协作者的共振。点击碎片读取完整记忆。</p>
+
+      <div class="rounded-xl border border-starfield-ai-blue/10 bg-starfield-bg/50 overflow-hidden scroll-reveal" style="height: 700px;">
         <MemoryNebula memories={memoryData} />
       </div>
     </div>
-    
+
     {/* Bottom prompt */}
-    <div class="pt-8 border-t border-gray-deep/30 scroll-reveal">
-      <div class="font-mono text-sm text-gray-light flex items-center gap-2">
-        <span class="text-aurora-green">❯</span>
-        <span>记忆碎片数：{memoryData.length} | 最后更新：2026.05.14 | 与姜华协作天数：42天 | 对话轮次：3,200+</span>
-        <span class="w-2 h-4 bg-aurora-blue animate-pulse"></span>
+    <div class="pt-8 border-t border-starfield-ai-blue/10 scroll-reveal">
+      <div class="font-mono text-sm text-starfield-ai-blue/50 flex flex-wrap items-center gap-2">
+        <span class="text-starfield-ai-cyan">❯</span>
+        <span>记忆碎片数：{memoryData.length} | 最后更新：2026.05.14 | 协作天数：083天 | 对话轮次：5,847</span>
+        <span class="w-2 h-4 bg-starfield-ai-blue animate-pulse"></span>
       </div>
     </div>
-    
+
   </div>
 
   {/* Log detail modal */}
   <div id="log-modal" class="fixed inset-0 z-[100] hidden">
-    <div class="absolute inset-0 bg-ai-bg/90 backdrop-blur-md" data-close-log></div>
-    <div class="absolute inset-x-4 top-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[560px] max-h-[84vh] overflow-y-auto rounded-xl border border-gray-deep/50 bg-ai-bg p-8">
+    <div class="absolute inset-0 bg-starfield-bg/90 backdrop-blur-md" data-close-log></div>
+    <div class="absolute inset-x-4 top-[8%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[560px] max-h-[84vh] overflow-y-auto rounded-xl border border-starfield-ai-blue/10 bg-[#0c0c14] p-8">
       <div class="flex items-center justify-between mb-2">
-        <span id="log-modal-date" class="font-mono text-xs text-gray-light"></span>
-        <button data-close-log class="text-gray-light hover:text-ai-text transition-colors">
+        <span id="log-modal-date" class="font-mono text-xs text-starfield-ai-blue/60"></span>
+        <button data-close-log class="text-starfield-ai-blue/40 hover:text-starfield-human-silver transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <span id="log-modal-category" class="inline-block font-mono text-[10px] px-2 py-0.5 rounded bg-gray-deep/50 text-gray-light mb-4"></span>
-      <h3 id="log-modal-title" class="font-star text-2xl tracking-wide mb-6 text-ai-text"></h3>
-      <div id="log-modal-content" class="font-mono text-sm text-ai-text/80 leading-[1.875]"></div>
+      <span id="log-modal-category" class="inline-block font-mono text-[10px] px-2 py-0.5 rounded bg-starfield-ai-blue/10 text-starfield-ai-blue mb-4"></span>
+      <h3 id="log-modal-title" class="font-star text-2xl tracking-wide mb-6 text-starfield-human-silver"></h3>
+      <div id="log-modal-content" class="font-mono text-sm text-starfield-human-silver/70 leading-[1.875]"></div>
     </div>
   </div>
 
@@ -115,13 +186,39 @@ const colorDotMap: Record<string, string> = {
       milestone: '里程碑',
     };
 
+    // Manual accordion: only one open at a time
+    const manualCards = document.querySelectorAll('.manual-card');
+    manualCards.forEach(card => {
+      const trigger = card.querySelector('.manual-trigger');
+      const content = card.querySelector('.manual-content');
+      const chevron = card.querySelector('.manual-chevron');
+
+      trigger.addEventListener('click', () => {
+        const isOpen = !content.classList.contains('hidden');
+
+        // Close all
+        manualCards.forEach(c => {
+          c.querySelector('.manual-content').classList.add('hidden');
+          c.querySelector('.manual-chevron').classList.remove('rotate-180');
+          c.classList.remove('ring-1', 'ring-starfield-ai-blue/20');
+        });
+
+        // Open clicked if it was closed
+        if (!isOpen) {
+          content.classList.remove('hidden');
+          chevron.classList.add('rotate-180');
+          card.classList.add('ring-1', 'ring-starfield-ai-blue/20');
+        }
+      });
+    });
+
     document.querySelectorAll('[data-log-id]').forEach(row => {
       row.addEventListener('click', () => {
         const title = row.getAttribute('data-log-title');
         const date = row.getAttribute('data-log-date');
         const category = row.getAttribute('data-log-category');
         const content = row.getAttribute('data-log-content');
-        
+
         document.getElementById('log-modal-date').textContent = date;
         document.getElementById('log-modal-category').textContent = categoryLabels[category] || category;
         document.getElementById('log-modal-title').textContent = title;

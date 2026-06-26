@@ -20,16 +20,16 @@ const starNav = [
 
 <header class={`sticky top-0 z-40 backdrop-blur-md border-b ${
   currentField === 'star' 
-    ? 'bg-ai-bg/80 border-gray-deep/30' 
+    ? 'bg-starfield-bg/80 border-starfield-ai-blue/10' 
     : 'bg-human-bg/80 border-gray-200/50'
 }`}>
   <nav class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
     <!-- Logo / Home -->
     <a href="/" class={`text-lg font-bold tracking-tight transition-colors ${
-      currentField === 'star' ? 'text-ai-text hover:text-aurora-blue' : 'text-human-text hover:text-aurora-green'
+      currentField === 'star' ? 'text-starfield-human-silver hover:text-starfield-ai-cyan' : 'text-human-text hover:text-aurora-green'
     }`}>
       {currentField === 'star' ? (
-        <span class="font-mono">Jianghua<span class="text-aurora-blue">×</span>Starfield</span>
+        <span class="font-mono">Jianghua<span class="text-starfield-ai-blue">×</span>Starfield</span>
       ) : (
         <span class="font-human">姜华<span class="text-aurora-green">×</span>星河</span>
       )}
@@ -44,7 +44,7 @@ const starNav = [
             href={item.href}
             class={`relative px-3 py-1.5 text-sm rounded-md transition-all ${
               currentField === 'star'
-                ? `text-gray-light hover:text-ai-text ${isActive ? 'text-ai-text' : ''}`
+                ? `text-starfield-ai-blue/60 hover:text-starfield-human-silver ${isActive ? 'text-starfield-human-silver' : ''}`
                 : `text-gray-mid hover:text-human-text ${isActive ? 'text-human-text' : ''}`
             }`}
           >
@@ -53,14 +53,14 @@ const starNav = [
               <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 bg-aurora-green rounded-full"></span>
             )}
             {isActive && currentField === 'star' && (
-              <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-aurora-blue rounded-full shadow-[0_0_6px_rgba(56,189,248,0.6)]"></span>
+              <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-starfield-ai-cyan rounded-full shadow-[0_0_6px_rgba(0,212,170,0.6)]"></span>
             )}
           </a>
         );
       })}
       
       {/* Starfield divider */}
-      <span class={`mx-2 h-4 w-px ${currentField === 'star' ? 'bg-gray-deep' : 'bg-gray-200'}`}></span>
+      <span class={`mx-2 h-4 w-px ${currentField === 'star' ? 'bg-starfield-ai-blue/20' : 'bg-gray-200'}`}></span>
       
       {starNav.map(item => {
         const isActive = Astro.url.pathname === item.href || Astro.url.pathname.startsWith('/starfield');
@@ -69,13 +69,13 @@ const starNav = [
             href={item.href}
             class={`relative px-3 py-1.5 text-sm rounded-md font-mono transition-all ${
               isActive
-                ? 'text-aurora-blue'
-                : 'text-gray-light hover:text-aurora-blue/80'
+                ? 'text-starfield-ai-blue'
+                : 'text-starfield-ai-blue/60 hover:text-starfield-ai-blue/80'
             }`}
           >
             {item.label}
             {isActive && (
-              <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-aurora-blue rounded-full shadow-[0_0_8px_rgba(56,189,248,0.8)]"></span>
+              <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-starfield-ai-blue rounded-full shadow-[0_0_8px_rgba(74,158,255,0.8)]"></span>
             )}
           </a>
         );
@@ -88,19 +88,21 @@ const starNav = [
       class="md:hidden p-2 rounded-md"
       aria-label="菜单"
     >
-      <svg class={`w-5 h-5 ${currentField === 'star' ? 'text-ai-text' : 'text-human-text'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class={`w-5 h-5 ${currentField === 'star' ? 'text-starfield-human-silver' : 'text-human-text'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
   </nav>
   
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden border-t px-6 py-4 space-y-2">
+  <div id="mobile-menu" class={`hidden md:hidden border-t px-6 py-4 space-y-2 ${
+    currentField === 'star' ? 'bg-starfield-bg/95 border-starfield-ai-blue/10' : ''
+  }`}>
     {[...humanNav, ...starNav].map(item => (
       <a
         href={item.href}
         class={`block py-2 text-sm ${
-          currentField === 'star' ? 'text-gray-light hover:text-ai-text' : 'text-gray-mid hover:text-human-text'
+          currentField === 'star' ? 'text-starfield-ai-blue/60 hover:text-starfield-human-silver' : 'text-gray-mid hover:text-human-text'
         }`}
       >
         {item.label}

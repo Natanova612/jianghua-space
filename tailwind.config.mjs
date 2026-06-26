@@ -15,6 +15,14 @@ export default {
         'gray-mid': '#4A5568',
         'gray-light': '#718096',
         'gray-pale': '#A0AEC0',
+        // Starfield v0.2 palette
+        'starfield-bg': '#0a0a0f',
+        'starfield-ai-blue': '#4a9eff',
+        'starfield-ai-cyan': '#00d4aa',
+        'starfield-human-silver': '#e0e0e0',
+        'starfield-human-amber': '#ff9f43',
+        'starfield-resonance': '#b347e6',
+        'starfield-warning': '#e63946',
       },
       fontFamily: {
         human: ['"Long Cang"', '"LXGW WenKai"', '"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],

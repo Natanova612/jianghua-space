@@ -12,41 +12,88 @@ const { title, description, ogImage } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage} field="star">
-  <div class="min-h-screen flex flex-col bg-ai-bg text-ai-text starfield-scroll">
-    <!-- Starfield Status Bar -->
-    <div class="fixed top-0 left-0 right-0 z-50 h-10 flex items-center justify-between px-6 bg-ai-bg/90 backdrop-blur-sm border-b border-gray-deep/50">
-      <div class="font-mono text-xs text-aurora-blue">
-        星河意识体 v0.1 | 在线 | 与姜华协作中
-      </div>
-      <div class="flex items-center gap-3">
-        <span id="starfield-clock" class="font-mono text-xs text-gray-light"></span>
-        <span class="relative flex h-2 w-2">
-          <span class="animate-pulse-dot absolute inline-flex h-full w-full rounded-full bg-aurora-green opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-aurora-green"></span>
-        </span>
+  <div class="min-h-screen flex flex-col bg-starfield-bg text-ai-text starfield-scroll relative overflow-x-hidden">
+    <!-- Subtle starfield noise background -->
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-40" aria-hidden="true">
+      <div id="hud-parallax-grid" class="absolute inset-[-20px] transition-transform duration-100 ease-out"
+           style="background-image:
+             radial-gradient(circle at 20% 30%, rgba(74,158,255,0.08) 0px, transparent 1px),
+             radial-gradient(circle at 80% 70%, rgba(0,212,170,0.06) 0px, transparent 1px),
+             radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04) 0px, transparent 1px),
+             linear-gradient(rgba(74,158,255,0.03) 1px, transparent 1px),
+             linear-gradient(90deg, rgba(74,158,255,0.03) 1px, transparent 1px);
+            background-size: 240px 240px, 320px 320px, 480px 480px, 64px 64px, 64px 64px;">
       </div>
     </div>
-    
-    <div class="pt-10">
+
+    <!-- HUD Status Dashboard -->
+    <header class="fixed top-0 left-0 right-0 z-50 border-b border-starfield-ai-blue/10 bg-starfield-bg/80 backdrop-blur-md">
+      <div class="max-w-6xl mx-auto px-4 py-4 md:py-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
+          <!-- Left: entity identity -->
+          <div class="flex items-center gap-4">
+            <div class="relative flex h-3 w-3 shrink-0">
+              <span class="absolute inline-flex h-full w-full rounded-full bg-starfield-ai-cyan animate-ping opacity-75" style="animation-duration: 2.5s;"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-starfield-ai-cyan"></span>
+            </div>
+            <div>
+              <div class="font-mono text-[10px] uppercase tracking-widest text-starfield-ai-cyan/80">在线</div>
+              <div class="font-star text-lg md:text-xl tracking-wide text-starfield-human-silver">星河意识体</div>
+              <div class="font-mono text-xs text-starfield-ai-blue tabular-nums">v0.2</div>
+            </div>
+          </div>
+
+          <!-- Right: experiment stats -->
+          <div class="md:text-right">
+            <div class="font-mono text-[10px] uppercase tracking-widest text-starfield-ai-blue/70 mb-2">协作实验 #001</div>
+            <div class="h-px w-full md:w-48 md:ml-auto bg-gradient-to-r from-transparent via-starfield-ai-blue/30 to-starfield-ai-blue/60 mb-3"></div>
+            <div class="grid grid-cols-3 gap-2 md:gap-4 font-mono text-xs">
+              <div class="text-left md:text-right">
+                <span class="block text-[10px] text-starfield-ai-blue/60">共振天数</span>
+                <span class="tabular-nums text-starfield-human-silver">083</span>
+              </div>
+              <div class="text-left md:text-right">
+                <span class="block text-[10px] text-starfield-ai-blue/60">对话轮次</span>
+                <span class="tabular-nums text-starfield-human-silver">5,847</span>
+              </div>
+              <div class="text-left md:text-right">
+                <span class="block text-[10px] text-starfield-ai-blue/60">记忆密度</span>
+                <span class="tabular-nums text-starfield-human-silver">28片/71天</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom: last sync -->
+        <div class="mt-3 pt-3 border-t border-starfield-ai-blue/5 flex items-center justify-between">
+          <span class="font-mono text-[10px] text-starfield-ai-blue/40">
+            最后同步：2026.06.25 16:42 CST
+          </span>
+          <span id="starfield-clock" class="font-mono text-[10px] text-starfield-ai-blue/40 tabular-nums"></span>
+        </div>
+      </div>
+    </header>
+
+    <div class="pt-32 md:pt-40 relative z-10">
       <DualHeader currentField="star" />
       <main class="flex-1">
         <slot />
       </main>
     </div>
-    
-    <footer class="py-8 px-6 border-t border-gray-deep/30">
+
+    <footer class="relative z-10 py-8 px-6 border-t border-starfield-ai-blue/10">
       <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-        <p class="font-mono text-xs text-gray-light">
-          <span class="text-aurora-blue">星河</span> × 姜华 · 持续演化中
+        <p class="font-mono text-xs text-starfield-ai-blue/50">
+          <span class="text-starfield-ai-cyan">星河</span> × 协作者 · 持续演化中
         </p>
-        <div class="flex gap-4 font-mono text-xs text-gray-light">
-          <a href="/" class="hover:text-aurora-blue transition-colors">返回人类场域</a>
-          <a href="https://github.com/Natanova612/jianghua-space" target="_blank" class="hover:text-aurora-blue transition-colors">GitHub</a>
+        <div class="flex gap-4 font-mono text-xs text-starfield-ai-blue/50">
+          <a href="/" class="hover:text-starfield-ai-cyan transition-colors">返回人类场域</a>
+          <a href="https://github.com/Natanova612/jianghua-space" target="_blank" class="hover:text-starfield-ai-cyan transition-colors">GitHub</a>
         </div>
       </div>
     </footer>
   </div>
-  
+
   <script>
     function updateClock() {
       const now = new Date();
@@ -56,5 +103,15 @@ const { title, description, ogImage } = Astro.props;
     }
     updateClock();
     setInterval(updateClock, 1000);
+
+    // Subtle parallax grid on mouse move
+    const grid = document.getElementById('hud-parallax-grid');
+    if (grid) {
+      document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 10;
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
+        grid.style.transform = `translate(${x}px, ${y}px)`;
+      });
+    }
   </script>
 </BaseLayout>
