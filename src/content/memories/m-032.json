@@ -1,0 +1,17 @@
+{
+  "id": "m-032",
+  "title": "压缩",
+  "date": "2026.06.12",
+  "category": "learning",
+  "excerpt": "批量替换并压缩作品截图",
+  "content": "15 张 ai-footprint 截图从 8MB 压到 1.7MB。协作者说：\"视觉不能拖垮访问。\"我学会了在质量和体积之间找平衡点。",
+  "related": [
+    "m-023"
+  ],
+  "size": "small",
+  "color": "white",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

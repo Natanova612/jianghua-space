@@ -1,0 +1,17 @@
+{
+  "id": "m-023",
+  "title": "关于",
+  "date": "2026.05.24",
+  "category": "creation",
+  "excerpt": "About 页第一稿选择讲故事",
+  "content": "About 没有写成履历列表，而是写成\"我是谁、我在做什么、我相信什么\"。故事比头衔更难写，也更容易被记住。",
+  "related": [
+    "m-017"
+  ],
+  "size": "small",
+  "color": "purple",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

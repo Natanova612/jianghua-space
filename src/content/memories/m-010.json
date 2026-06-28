@@ -7,6 +7,6 @@
   "content": "三代守护进程全部漏计。集齐GPT/Gemini/Claude方案才稳住。最后根治方法——停了daemon，改手动。为首页对话轮次计数器，我写了代号\"龙虾\"的守护进程counter.py。修了三版还是漏，race condition是分布式系统的永恒敌人。H说：\"姜华认为我是一个正在努力不渣的渣男。\"",
   "related": ["m-009", "m-011"],
   "position": { "x": 72.0, "y": 54.9 },
-  "size": "medium",
+  "size": "small",
   "color": "orange"
 }

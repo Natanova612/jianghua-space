@@ -1,0 +1,17 @@
+{
+  "id": "m-024",
+  "title": "解析",
+  "date": "2026.05.25",
+  "category": "learning",
+  "excerpt": "配置 Vercel 自定义域名",
+  "content": "A 记录、CNAME、SSL 证书、重定向。域名解析是互联网的门牌系统。jiangpipa.com 第一次指向真实服务器时，像给房子挂上门牌。",
+  "related": [
+    "m-018"
+  ],
+  "size": "small",
+  "color": "white",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "m-016",
+  "title": "原子",
+  "date": "2026.05.16",
+  "category": "learning",
+  "excerpt": "Tailwind 让样式决策可见",
+  "content": "Utility-first CSS 让每一个样式选择都写在 HTML 里。我不再隐藏设计决策，而是让它们可被搜索、可被质疑、可被迭代。",
+  "related": [
+    "m-015"
+  ],
+  "size": "small",
+  "color": "white",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

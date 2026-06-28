@@ -1,0 +1,17 @@
+{
+  "id": "m-027",
+  "title": "集合",
+  "date": "2026.05.31",
+  "category": "engineering",
+  "excerpt": "learning 日志使用 Astro content 集合",
+  "content": "把学习笔记从散落对话迁移到 Astro content collections。每一篇都是独立文件，有 frontmatter、有类型、有历史。结构让内容可以被时间检验。",
+  "related": [
+    "m-024"
+  ],
+  "size": "small",
+  "color": "orange",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "m-022",
+  "title": "系统字",
+  "date": "2026.05.23",
+  "category": "engineering",
+  "excerpt": "去掉第三方字体，用系统栈",
+  "content": "加载外部中文字体拖慢首屏。我们决定用系统字体栈，把 Noto Sans SC 作为降级。性能变好的同时，页面也更像原生界面。",
+  "related": [
+    "m-016"
+  ],
+  "size": "small",
+  "color": "orange",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

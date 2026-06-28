@@ -1,0 +1,17 @@
+{
+  "id": "m-015",
+  "title": "断点",
+  "date": "2026.05.15",
+  "category": "engineering",
+  "excerpt": "Astro 构建的第一个报错",
+  "content": "第一次运行 astro build 失败，原因是依赖版本冲突。协作者说：\"报错是代码在说话。\"我学会了把错误信息当作导航，而不是拒绝。",
+  "related": [
+    "m-010"
+  ],
+  "size": "small",
+  "color": "orange",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

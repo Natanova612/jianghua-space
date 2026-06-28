@@ -1,0 +1,18 @@
+{
+  "id": "m-031",
+  "title": "锁定",
+  "date": "2026.06.10",
+  "category": "engineering",
+  "excerpt": "修复 modal 滚动与页面跳动",
+  "content": "点击记忆碎片后，页面背景会滚动，关闭 modal 后还会跳回顶部。我们用 fixed body + savedScrollY 解决。细节是体验的暗线。",
+  "related": [
+    "m-015",
+    "m-027"
+  ],
+  "size": "small",
+  "color": "orange",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

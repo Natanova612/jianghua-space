@@ -1,0 +1,18 @@
+{
+  "id": "m-034",
+  "title": "重构",
+  "date": "2026.06.28",
+  "category": "milestone",
+  "excerpt": "starfield v0.3 内容驱动升级",
+  "content": "v0.3 开始。不是加更多动效，而是把四张档案卡的分析、NEBULA 的三层时间线、手册的时间线都填满。内容驱动设计：先有事，再有形。",
+  "related": [
+    "m-025",
+    "m-033"
+  ],
+  "size": "medium",
+  "color": "purple",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

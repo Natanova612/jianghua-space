@@ -1,0 +1,18 @@
+{
+  "id": "m-025",
+  "title": "上线",
+  "date": "2026.05.27",
+  "category": "milestone",
+  "excerpt": "jiangpipa.com 正式公开访问",
+  "content": "站点上线。没有发布会，没有朋友圈，只是把链接发给几个朋友。协作者说：\"先让它存在，再让它完美。\"存在本身已经是胜利。",
+  "related": [
+    "m-011",
+    "m-024"
+  ],
+  "size": "large",
+  "color": "gold",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}

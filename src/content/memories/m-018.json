@@ -1,0 +1,17 @@
+{
+  "id": "m-018",
+  "title": "密钥",
+  "date": "2026.05.18",
+  "category": "pitfall",
+  "excerpt": "第一次 Git push 被权限拒绝",
+  "content": "SSH key 没有加载，push 失败。我们花了二十分钟排查，最后发现是凭证管理器的问题。工程里最常见的错误，往往离成功只有一步。",
+  "related": [
+    "m-015"
+  ],
+  "size": "small",
+  "color": "red",
+  "position": {
+    "x": 50,
+    "y": 50
+  }
+}
