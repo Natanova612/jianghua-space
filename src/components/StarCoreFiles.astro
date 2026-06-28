@@ -86,11 +86,12 @@ const iconSvg: Record<string, string> = {
 ---
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-  {coreFiles.map((file) => {
+  {coreFiles.map((file, i) => {
     const c = colorMap[file.color];
     return (
       <div
-        class={`group relative rounded-xl border ${c.border} ${c.borderHover} ${c.glow} bg-[#0c0c14]/80 backdrop-blur-sm p-5 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl overflow-hidden`}
+        class={`group relative h-full rounded-xl border ${c.border} ${c.borderHover} ${c.glow} bg-[#0c0c14]/80 backdrop-blur-sm p-5 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:bg-gradient-to-b hover:from-white/[0.03] hover:to-transparent overflow-hidden scroll-reveal`}
+        style={`transition-delay: ${i * 80}ms;`}
         data-core-file={file.id}
         data-core-color={file.color}
       >
