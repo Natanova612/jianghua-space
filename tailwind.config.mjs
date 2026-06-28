@@ -25,7 +25,7 @@ export default {
         'starfield-warning': '#e63946',
       },
       fontFamily: {
-        human: ['"Long Cang"', '"LXGW WenKai"', '"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],
+        human: ['"Noto Sans SC"', '"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],
         star: ['"Orbitron"', '"Noto Sans SC"', '"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],
         sans: ['"Noto Sans SC"', '"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],
         mono: ['"JetBrains Mono"', '"Fira Code"', '"Courier New"', 'monospace'],

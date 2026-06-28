@@ -5,23 +5,29 @@ import { getCollection } from 'astro:content';
 const tools = await getCollection('tools');
 const cases = await getCollection('cases');
 
-// Sort cases: existing cases (c-001~c-008) keep date-descending order,
-// new cases (c-009~) follow the PRD order appended after existing ones.
+// Sort cases by category, with newly added cases (c-009+) shown first
+// within each category. Category order: application > insight > research > pitfall.
+const typeOrder = ['application', 'insight', 'research', 'pitfall'];
+
 const sortedCases = [...cases].sort((a, b) => {
   const numA = parseInt(a.data.id.replace('c-', ''));
   const numB = parseInt(b.data.id.replace('c-', ''));
-  const isOldA = numA <= 8;
-  const isOldB = numB <= 8;
+  const isNewA = numA >= 9;
+  const isNewB = numB >= 9;
 
-  if (isOldA && isOldB) {
-    const dateA = a.data.date.replace('.', '');
-    const dateB = b.data.date.replace('.', '');
-    return dateB.localeCompare(dateA);
+  const typeIndexA = typeOrder.indexOf(a.data.type);
+  const typeIndexB = typeOrder.indexOf(b.data.type);
+
+  if (typeIndexA !== typeIndexB) {
+    return typeIndexA - typeIndexB;
   }
-  if (isOldA && !isOldB) return -1;
-  if (!isOldA && isOldB) return 1;
 
-  // Both are new cases: follow PRD order by id
+  // Within same type, new cases first
+  if (isNewA !== isNewB) {
+    return isNewB ? 1 : -1;
+  }
+
+  // Then by id ascending
   return numA - numB;
 });
 
@@ -50,7 +56,7 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
       
       {/* Header */}
       <div class="mb-16 scroll-reveal">
-        <h1 class="font-human text-3xl md:text-4xl text-human-text mb-4">AI 应用足迹</h1>
+        <h1 class="text-3xl md:text-4xl text-human-text mb-4">AI 应用足迹</h1>
         <p class="text-gray-mid max-w-lg">
           不是工具清单，而是我的 AI 融合度画像——以及我在人机协作中积累的真实案例。
         </p>
@@ -66,12 +72,12 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
             <div class="h-px flex-1 bg-gray-100"></div>
           </div>
           
-          <h2 class="font-human text-xl text-human-text mb-2">应用案例</h2>
+          <h2 class="text-xl text-human-text mb-2">应用案例</h2>
           <p class="text-sm text-gray-mid mb-6">真实的人机协作故事——研究、应用、心得与踩过的坑。</p>
           
           {/* Filter tabs */}
           <div class="flex flex-wrap gap-2 mb-6" id="case-filters">
-            <button class="filter-btn active px-4 py-1.5 rounded-full text-xs font-mono border border-human-text bg-human-text text-human-bg transition-all" data-filter="all">全部</button>
+            <button class="filter-btn active px-4 py-1.5 rounded-full text-xs font-mono border border-aurora-blue bg-aurora-blue text-white transition-all" data-filter="all">全部</button>
             <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-aurora-blue hover:text-aurora-blue transition-all" data-filter="research">研究</button>
             <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-aurora-green hover:text-aurora-green transition-all" data-filter="application">应用</button>
             <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-mono border border-gray-200 text-gray-mid hover:border-resonance-gold hover:text-resonance-gold transition-all" data-filter="insight">心得</button>
@@ -89,7 +95,6 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
                   class="case-card group p-6 rounded-xl border border-gray-200/60 bg-human-bg/30 hover:bg-human-bg hover:border-gray-300 transition-all cursor-pointer scroll-reveal"
                   data-case-type={c.data.type}
                   data-case-title={c.data.title}
-                  data-case-date={c.data.date}
                   data-case-type-label={typeStyle.label}
                   data-case-type-color={typeStyle.color}
                   data-case-type-bg={typeStyle.bg}
@@ -109,9 +114,8 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
                       
                       {/* Content */}
                       <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-3 mb-2">
-                          <h3 class="font-human text-lg font-bold text-human-text inline-block px-2 py-0.5 rounded bg-amber-100/40 group-hover:text-aurora-green transition-colors">{c.data.title}</h3>
-                          <span class="text-xs font-mono text-gray-light">{c.data.date}</span>
+                        <div class="mb-2">
+                          <h3 class="text-lg font-bold text-human-text group-hover:text-aurora-green transition-colors">{c.data.title}</h3>
                         </div>
                         <p class="text-sm text-gray-mid leading-relaxed mb-3">{c.data.excerpt}</p>
                         <div class="flex flex-wrap gap-2">
@@ -164,7 +168,7 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
             
             {/* Fusion Dimensions - compact */}
             <div>
-              <h2 class="font-human text-base text-human-text mb-4">生活融合度</h2>
+              <h2 class="text-base text-human-text mb-4">生活融合度</h2>
               <div class="space-y-3">
                 {dimensions.map(d => (
                   <div>
@@ -185,7 +189,7 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
             
             {/* Summary card - compact */}
             <div class="p-4 rounded-xl border border-gray-200/60 bg-human-bg">
-              <h3 class="font-human text-sm text-human-text mb-3">画像摘要</h3>
+              <h3 class="text-sm font-bold text-human-text mb-3">画像摘要</h3>
               <div class="space-y-2 text-xs text-gray-mid">
                 <div class="flex items-start gap-2">
                   <span class="text-aurora-blue font-mono text-[10px] mt-0.5">01</span>
@@ -208,7 +212,7 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
             
             {/* Tool Matrix - layered architecture */}
             <div>
-              <h3 class="font-human text-sm text-human-text mb-3">工具矩阵</h3>
+              <h3 class="text-sm font-bold text-human-text mb-3">工具矩阵</h3>
               
               {/* Core Work Layer */}
               <div class="p-4 rounded-xl border border-aurora-blue/20 bg-aurora-blue/5 mb-3">
@@ -294,15 +298,12 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
     <div class="absolute inset-0 bg-human-bg/90 backdrop-blur-md" data-close-case></div>
     <div class="absolute inset-x-4 top-[5%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[720px] max-h-[90vh] overflow-y-auto rounded-xl border border-gray-200/60 bg-human-bg p-6 md:p-8 shadow-2xl">
       <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-3">
-          <span id="case-modal-type" class="inline-block px-3 py-1 rounded-full text-xs font-mono border"></span>
-          <span id="case-modal-date" class="text-xs font-mono text-gray-light"></span>
-        </div>
+        <span id="case-modal-type" class="inline-block px-3 py-1 rounded-full text-xs font-mono border"></span>
         <button data-close-case class="text-gray-light hover:text-human-text transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
-      <h3 id="case-modal-title" class="font-human text-2xl text-human-text mb-4"></h3>
+      <h3 id="case-modal-title" class="text-2xl text-human-text mb-4"></h3>
       
       {/* External link */}
       <div id="case-modal-link" class="hidden mb-6">
@@ -352,11 +353,11 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
         
         // Update active state
         filterBtns.forEach(b => {
-          b.classList.remove('bg-human-text', 'text-human-bg', 'border-human-text');
+          b.classList.remove('bg-aurora-blue', 'text-white', 'border-aurora-blue');
           b.classList.add('border-gray-200', 'text-gray-mid');
         });
         btn.classList.remove('border-gray-200', 'text-gray-mid');
-        btn.classList.add('bg-human-text', 'text-human-bg', 'border-human-text');
+        btn.classList.add('bg-aurora-blue', 'text-white', 'border-aurora-blue');
         
         // Filter cards
         caseCards.forEach(card => {
@@ -429,7 +430,6 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
     document.querySelectorAll('.case-card').forEach(card => {
       card.addEventListener('click', () => {
         const title = card.getAttribute('data-case-title');
-        const date = card.getAttribute('data-case-date');
         const typeLabel = card.getAttribute('data-case-type-label');
         const typeColor = card.getAttribute('data-case-type-color');
         const typeBg = card.getAttribute('data-case-type-bg');
@@ -442,7 +442,6 @@ const typeLabels: Record<string, { label: string; color: string; bg: string }> =
         typeEl.textContent = typeLabel;
         typeEl.className = `inline-block px-3 py-1 rounded-full text-xs font-mono border ${typeBg} ${typeColor}`;
         
-        document.getElementById('case-modal-date').textContent = date;
         document.getElementById('case-modal-title').textContent = title;
         document.getElementById('case-modal-content').innerHTML = content;
         
