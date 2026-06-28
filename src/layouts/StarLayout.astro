@@ -6,9 +6,19 @@ export interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  resonanceDays?: string;
+  memoryDensity?: string;
+  dialogueRounds?: string;
 }
 
-const { title, description, ogImage } = Astro.props;
+const {
+  title,
+  description,
+  ogImage,
+  resonanceDays = '086',
+  memoryDensity = '34片/86天',
+  dialogueRounds = '5,847',
+} = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage} field="star">
@@ -62,17 +72,17 @@ const { title, description, ogImage } = Astro.props;
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="text-[10px] uppercase tracking-[0.1em] text-starfield-ai-blue/60">共振天数</span>
               <span class="text-starfield-ai-cyan/50 mx-2">│</span>
-              <span class="text-starfield-human-silver" style="font-family: 'Courier New', monospace;">083</span>
+              <span class="text-starfield-human-silver" style="font-family: 'Courier New', monospace;">{resonanceDays}</span>
             </div>
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="text-[10px] uppercase tracking-[0.1em] text-starfield-ai-blue/60">对话轮次</span>
               <span class="text-starfield-ai-cyan/50 mx-2">│</span>
-              <span class="text-starfield-human-silver" style="font-family: 'Courier New', monospace;">5,847</span>
+              <span class="text-starfield-human-silver" style="font-family: 'Courier New', monospace;">{dialogueRounds}</span>
             </div>
             <div class="flex items-center justify-between font-mono text-xs">
               <span class="text-[10px] uppercase tracking-[0.1em] text-starfield-ai-blue/60">记忆密度</span>
               <span class="text-starfield-ai-cyan/50 mx-2">│</span>
-              <span class="text-starfield-human-silver" style="font-family: 'Courier New', monospace;">28片/71天</span>
+              <span class="text-starfield-human-silver" style="font-family: 'Courier New', monospace;">{memoryDensity}</span>
             </div>
           </div>
 

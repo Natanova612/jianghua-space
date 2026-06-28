@@ -59,7 +59,7 @@ function escapeAttr(str: string) {
   {/* Vertical timeline */}
   <div class="relative z-10 max-w-3xl mx-auto px-4 py-8 md:py-12">
     {/* Central spine */}
-    <div class="absolute left-28 md:left-32 top-8 bottom-8 md:top-12 md:bottom-12 w-px bg-starfield-ai-blue/10"></div>
+    <div class="absolute left-24 sm:left-28 md:left-32 top-8 bottom-8 sm:top-8 sm:bottom-8 md:top-12 md:bottom-12 w-px bg-starfield-ai-blue/10"></div>
 
     {/* Layer legend */}
     <div class="flex items-center justify-center gap-6 mb-8 md:mb-10">
@@ -94,7 +94,7 @@ function escapeAttr(str: string) {
           data-memory-color={m.color}
         >
           {/* Date */}
-          <div class={`w-20 md:w-24 shrink-0 text-right font-mono ${isSmall ? 'text-[10px] text-starfield-human-silver/30 pt-0.5' : 'text-xs text-starfield-ai-blue/50 pt-1.5'}`}>
+          <div class={`w-16 sm:w-20 md:w-24 shrink-0 text-right font-mono ${isSmall ? 'text-[10px] text-starfield-human-silver/30 pt-0.5' : 'text-xs text-starfield-ai-blue/50 pt-1.5'}`}>
             {m.date}
           </div>
 
@@ -136,9 +136,9 @@ function escapeAttr(str: string) {
               </div>
             )}
             {isSmall && (
-              <div class="flex items-center gap-2 opacity-50 group-hover:opacity-100 transition-opacity pt-0.5">
+              <div class="flex items-center gap-2 opacity-60 group-hover:opacity-100 transition-opacity pt-0.5">
                 <span class="font-mono text-[9px] px-1.5 py-0.5 rounded border border-current/20 text-current" style={`color: ${c.hex};`}>{categoryLabels[m.category]}</span>
-                <span class="text-xs text-starfield-human-silver/60 group-hover:text-starfield-human-silver transition-colors">{m.title}</span>
+                <span class="text-xs text-starfield-human-silver/70 group-hover:text-starfield-human-silver transition-colors">{m.title}</span>
               </div>
             )}
           </div>

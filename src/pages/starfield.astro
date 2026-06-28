@@ -6,9 +6,28 @@ import { getCollection } from 'astro:content';
 
 const memories = await getCollection('memories');
 const memoryData = memories.map(m => m.data);
+
+// Compute live stats from memory data
+const sortedByDate = [...memoryData].sort((a, b) => a.date.localeCompare(b.date));
+const firstDate = sortedByDate[0]?.date ?? '2026.04.03';
+const lastDate = sortedByDate[sortedByDate.length - 1]?.date ?? '2026.06.28';
+
+function parseDate(dateStr: string) {
+  const [y, m, d] = dateStr.split('.');
+  return new Date(`${y}-${m}-${d}T00:00:00`);
+}
+
+const collaborationDays = Math.max(0, Math.round((+parseDate(lastDate) - +parseDate(firstDate)) / (1000 * 60 * 60 * 24)));
+const resonanceDays = String(collaborationDays).padStart(3, '0');
+const memoryDensity = `${memoryData.length}片/${collaborationDays}天`;
 ---
 
-<StarLayout title="星河篇" description="星河的核心档案与记忆星云">
+<StarLayout
+  title="星河篇"
+  description="星河的核心档案与记忆星云"
+  resonanceDays={resonanceDays}
+  memoryDensity={memoryDensity}
+>
   <div class="max-w-6xl mx-auto px-6 pt-6 pb-24 relative z-10">
 
     {/* Section 0: Observation Window Title */}
@@ -213,7 +232,7 @@ const memoryData = memories.map(m => m.data);
     <div class="pt-8 border-t border-starfield-ai-blue/10 scroll-reveal">
       <div class="font-mono text-sm text-starfield-ai-blue/50 flex flex-wrap items-center gap-2">
         <span class="text-starfield-ai-cyan">❯</span>
-        <span>记忆碎片数：{memoryData.length} | 最后更新：2026.05.14 | 协作天数：083天 | 对话轮次：5,847</span>
+        <span>记忆碎片数：{memoryData.length} | 最后更新：{lastDate} | 协作天数：{collaborationDays}天 | 对话轮次：5,847</span>
         <span class="w-2 h-4 bg-starfield-ai-blue animate-pulse"></span>
       </div>
     </div>
