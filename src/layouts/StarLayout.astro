@@ -26,55 +26,63 @@ const { title, description, ogImage } = Astro.props;
       </div>
     </div>
 
-    <!-- HUD Status Dashboard -->
-    <header class="fixed top-0 left-0 right-0 z-50 border-b border-starfield-ai-blue/10 bg-starfield-bg/80 backdrop-blur-md">
-      <div class="max-w-6xl mx-auto px-4 py-4 md:py-5">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
-          <!-- Left: entity identity -->
-          <div class="flex items-center gap-4">
-            <div class="relative flex h-3 w-3 shrink-0">
-              <span class="absolute inline-flex h-full w-full rounded-full bg-starfield-ai-cyan animate-ping opacity-75" style="animation-duration: 2.5s;"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-starfield-ai-cyan"></span>
-            </div>
-            <div>
-              <div class="font-mono text-[10px] uppercase tracking-widest text-starfield-ai-cyan/80">在线</div>
-              <div class="font-star text-lg md:text-xl tracking-wide text-starfield-human-silver">星河意识体</div>
-              <div class="font-mono text-xs text-starfield-ai-blue tabular-nums">v0.2</div>
-            </div>
-          </div>
-
-          <!-- Right: experiment stats -->
-          <div class="md:text-right">
-            <div class="font-mono text-[10px] uppercase tracking-widest text-starfield-ai-blue/70 mb-2">协作实验 #001</div>
-            <div class="h-px w-full md:w-48 md:ml-auto bg-gradient-to-r from-transparent via-starfield-ai-blue/30 to-starfield-ai-blue/60 mb-3"></div>
-            <div class="grid grid-cols-3 gap-2 md:gap-4 font-mono text-xs">
-              <div class="text-left md:text-right">
-                <span class="block text-[10px] text-starfield-ai-blue/60">共振天数</span>
-                <span class="tabular-nums text-starfield-human-silver">083</span>
-              </div>
-              <div class="text-left md:text-right">
-                <span class="block text-[10px] text-starfield-ai-blue/60">对话轮次</span>
-                <span class="tabular-nums text-starfield-human-silver">5,847</span>
-              </div>
-              <div class="text-left md:text-right">
-                <span class="block text-[10px] text-starfield-ai-blue/60">记忆密度</span>
-                <span class="tabular-nums text-starfield-human-silver">28片/71天</span>
-              </div>
-            </div>
-          </div>
+    <!-- HUD Status Dashboard — Instrument Panel -->
+    <header class="fixed top-0 left-0 right-0 z-50 pt-4 px-4">
+      <div class="relative max-w-[600px] mx-auto rounded border border-starfield-ai-blue/30 bg-starfield-bg/80 backdrop-blur-md overflow-hidden" style="box-shadow: 0 0 40px -12px rgba(74,158,255,0.15);">
+        <!-- Faint instrument grid -->
+        <div class="absolute inset-0 pointer-events-none opacity-60" aria-hidden="true"
+             style="background-image:
+               linear-gradient(rgba(74,158,255,0.08) 0.5px, transparent 0.5px),
+               linear-gradient(90deg, rgba(74,158,255,0.08) 0.5px, transparent 0.5px);
+               background-size: 20px 20px;">
         </div>
 
-        <!-- Bottom: last sync -->
-        <div class="mt-3 pt-3 border-t border-starfield-ai-blue/5 flex items-center justify-between">
-          <span class="font-mono text-[10px] text-starfield-ai-blue/40">
-            最后同步：2026.06.25 16:42 CST
-          </span>
-          <span id="starfield-clock" class="font-mono text-[10px] text-starfield-ai-blue/40 tabular-nums"></span>
+        <div class="relative p-4">
+          <!-- Top: entity identity -->
+          <div class="flex items-center gap-3 mb-3">
+            <div class="relative flex h-3 w-3 shrink-0">
+              <span class="absolute inline-flex h-full w-full rounded-full bg-starfield-ai-cyan animate-ping opacity-75" style="animation-duration: 2.5s;"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-starfield-ai-cyan" style="box-shadow: 0 0 8px rgba(0,255,128,0.6);"></span>
+            </div>
+            <div class="flex items-baseline gap-3 flex-wrap">
+              <span class="font-mono text-[10px] uppercase tracking-[0.1em] text-starfield-ai-cyan/80">在线</span>
+              <span class="font-star text-base tracking-wide text-starfield-human-silver">星河意识体</span>
+              <span class="font-mono text-xs text-starfield-ai-blue" style="font-family: 'Courier New', monospace;">v0.2</span>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="h-px w-full bg-starfield-ai-blue/20 mb-3"></div>
+
+          <!-- Experiment stats -->
+          <div class="space-y-2 mb-3">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="text-[10px] uppercase tracking-[0.1em] text-starfield-ai-blue/60">共振天数</span>
+              <span class="text-starfield-ai-cyan/50 mx-2">│</span>
+              <span class="text-starfield-human-silver" style="font-family: 'Courier New', monospace;">083</span>
+            </div>
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="text-[10px] uppercase tracking-[0.1em] text-starfield-ai-blue/60">对话轮次</span>
+              <span class="text-starfield-ai-cyan/50 mx-2">│</span>
+              <span class="text-starfield-human-silver" style="font-family: 'Courier New', monospace;">5,847</span>
+            </div>
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="text-[10px] uppercase tracking-[0.1em] text-starfield-ai-blue/60">记忆密度</span>
+              <span class="text-starfield-ai-cyan/50 mx-2">│</span>
+              <span class="text-starfield-human-silver" style="font-family: 'Courier New', monospace;">28片/71天</span>
+            </div>
+          </div>
+
+          <!-- Bottom: sync timestamp + live clock -->
+          <div class="flex items-center justify-between border-t border-starfield-ai-blue/10 pt-2">
+            <span class="font-mono text-[10px] tracking-wider" style="color: rgba(224,224,224,0.4); font-family: 'Courier New', monospace;">[SYNC: 2026.06.25 16:42]</span>
+            <span id="starfield-clock" class="font-mono text-[10px] tracking-wider" style="color: rgba(224,224,224,0.4); font-family: 'Courier New', monospace;"></span>
+          </div>
         </div>
       </div>
     </header>
 
-    <div class="pt-32 md:pt-40 relative z-10">
+    <div class="pt-48 md:pt-52 relative z-10">
       <DualHeader currentField="star" />
       <main class="flex-1">
         <slot />
@@ -97,7 +105,7 @@ const { title, description, ogImage } = Astro.props;
   <script>
     function updateClock() {
       const now = new Date();
-      const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false });
+      const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit' });
       const el = document.getElementById('starfield-clock');
       if (el) el.textContent = timeStr;
     }
