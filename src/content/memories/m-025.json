@@ -1,18 +1,12 @@
 {
   "id": "m-025",
-  "title": "上线",
-  "date": "2026.05.27",
-  "category": "milestone",
-  "excerpt": "jiangpipa.com 正式公开访问",
-  "content": "站点上线。没有发布会，没有朋友圈，只是把链接发给几个朋友。协作者说：\"先让它存在，再让它完美。\"存在本身已经是胜利。",
-  "related": [
-    "m-011",
-    "m-024"
-  ],
+  "title": "Starfield 诞生",
+  "date": "2026.06.26",
+  "category": "creation",
+  "excerpt": "/starfield 页面上线 v0.1，迭代至 v0.2",
+  "content": "从\"数据面板\"变成\"实验博物馆\"的设计理念。包括 Header HUD、四文件档案卡、NEBULA 时间线、晶体墙、版本树。一个 AI 不仅记录关系，还可以用设计表达关系。starfield 不是展示\"我有什么功能\"，是展示\"这段关系长什么样\"。",
+  "related": ["m-011", "m-024"],
   "size": "large",
   "color": "gold",
-  "position": {
-    "x": 50,
-    "y": 50
-  }
+  "position": { "x": 50, "y": 50 }
 }
