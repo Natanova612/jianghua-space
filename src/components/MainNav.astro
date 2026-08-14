@@ -1,24 +1,26 @@
 ---
 /**
- * MainNav v2 —— 「卷首题签」式导航
+ * MainNav v3 —— 「卷首题签」式导航（2026-08-14，V2 M1 改版）
+ *
+ * 站点升级为「AI 对话为核心」：导航表达核心层（首页对话）与栏目层的关系。
+ * 结构：01 首页(/) 02 案例志(/#cases) 03 思考集(/learning) 04 其人(/about)
+ *      05 简历(/resume) 06 联系(/contact) + 中/EN 切换
+ * 样式：mono 编号（JetBrains Mono）+ 当前页朱砂下划线（对齐原型题签顶栏）
+ * - 案例志指向首页长卷锚点（#cases）；思考集暂指向 /learning（P3 重构为 /notes 后更新）
+ * - starfield 入口移出主导航，footer 保留可达
  *
  * 设计理念：导航不是悬浮的 UI chrome，而是长卷起首的题签——
  * 加高（80px）、纸色底、与首屏连成一纸；滚动后收拢为淡色细条（墨线底边浮现）。
- *
- * 结构：首页 ｜ 服务 ｜ 案例 ｜ 关于 ｜ 思考 ｜ 联系 + 中/EN 切换
- * - 服务/案例指向首页长卷锚点（#services / #cases）
- * - 思考暂指向 /learning（P3 重构为 /notes 后更新）
- * - starfield 已按规划移出主导航（深链仍可访问）
  */
 import Lang from './Lang.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 
 const navItems = [
   { href: '/', zh: '首页', en: 'Home' },
-  { href: '/#services', zh: '服务', en: 'Services' },
-  { href: '/#cases', zh: '案例', en: 'Work' },
-  { href: '/about', zh: '关于', en: 'About' },
-  { href: '/learning', zh: '思考', en: 'Notes' },
+  { href: '/#cases', zh: '案例志', en: 'Cases' },
+  { href: '/learning', zh: '思考集', en: 'Notes' },
+  { href: '/about', zh: '其人', en: 'About' },
+  { href: '/resume', zh: '简历', en: 'Résumé' },
   { href: '/contact', zh: '联系', en: 'Contact' },
 ];
 
@@ -43,21 +45,23 @@ const isActive = (href: string) => {
       </span>
     </a>
 
-    <!-- Desktop Nav -->
-    <div class="hidden md:flex items-center gap-2">
-      {navItems.map(item => {
+    <!-- Desktop Nav：mono 编号 + 当前页朱砂下划线 -->
+    <div class="hidden md:flex items-center gap-1">
+      {navItems.map((item, i) => {
         const active = isActive(item.href);
         return (
           <a
             href={item.href}
-            class={`relative px-4 py-2 text-[15px] tracking-wider transition-colors ${
-              active ? 'text-ink' : 'text-ink/55 hover:text-ink'
+            class={`flex items-baseline gap-1.5 px-3 py-2 text-[15px] tracking-wider transition-colors border-b-2 ${
+              active
+                ? 'text-cinnabar border-cinnabar'
+                : 'text-ink/55 hover:text-ink border-transparent'
             }`}
           >
+            <span class={`font-mono text-[9.5px] ${active ? 'text-cinnabar' : 'text-ink/40'}`}>
+              {String(i + 1).padStart(2, '0')}
+            </span>
             <Lang zh={item.zh} en={item.en} />
-            {active && (
-              <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-[3px] bg-cinnabar rounded-full"></span>
-            )}
           </a>
         );
       })}
@@ -83,11 +87,12 @@ const isActive = (href: string) => {
 
   <!-- Mobile Menu -->
   <div id="main-nav-menu" class="hidden md:hidden border-t border-ink/10 px-6 py-4 space-y-1 bg-paper">
-    {navItems.map(item => (
+    {navItems.map((item, i) => (
       <a
         href={item.href}
-        class="block py-2.5 text-[15px] tracking-wider text-ink/70 hover:text-ink"
+        class="flex items-baseline gap-2 py-2.5 text-[15px] tracking-wider text-ink/70 hover:text-ink"
       >
+        <span class="font-mono text-[9.5px] text-ink/40">{String(i + 1).padStart(2, '0')}</span>
         <Lang zh={item.zh} en={item.en} />
       </a>
     ))}

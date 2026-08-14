@@ -10,6 +10,13 @@
  * 排版：摘要与出处各占独立竖列（display:block 在 vertical-rl 下自动分列），
  *      列高给足，避免半句截断换列。
  * 内容：全部来自用户微信读书真实划线；更新直接改 excerpts 数组。
+ *
+ * M1「活卷」新增交互：
+ * - 字可拾读：悬停整列暂停漂移、字迹加亮、出处加深（pointer-events 开在列上）
+ * - 候墨切集：监听 AskJianghua 派发的 'ask:waiting' 事件，候墨时整组切换为
+ *   「候墨集」（工作方法/笔记短句）并变黛蓝色，答毕恢复日常集
+ * - 山有呼吸：鼠标视差——画卷（近）动得多、字层（远）反向轻随，
+ *   用 CSS translate 属性实现（与 keyframes 的 transform 动画互不干扰）
  */
 
 const excerpts = [
@@ -29,6 +36,24 @@ const excerpts = [
   { text: '古之学者为己，其终至于成物。', source: '孔子与论语' },
   { text: '小富由勤，大富由命。', source: '论语别裁' },
 ];
+
+/* 候墨集：姜华的工作笔记片段、思考短句（候墨时整组切换） */
+const waitingSet = [
+  { text: '先问诊，后开方', source: '工作方法 · 诊断' },
+  { text: '证据不足时，宁说不知', source: '分身的规矩' },
+  { text: '运营的本质是日复一日', source: '工作笔记 · 运营' },
+  { text: 'AI 是杖，不是腿', source: '题跋' },
+  { text: '十五年起落，皆成底稿', source: '工作笔记 · 回望' },
+  { text: '问诊已毕，正在落笔', source: '候墨' },
+  { text: '千头万绪，只取一瓢', source: '工作方法 · 取舍' },
+  { text: '候墨片刻，即见分晓', source: '候墨' },
+];
+
+/* 供 JS 切集使用的两套字集（日常集出处带书名号，候墨集不带） */
+const driftSets = {
+  daily: excerpts.map((e) => ({ text: `「${e.text}」`, source: `《${e.source}》` })),
+  waiting: waitingSet.map((e) => ({ text: `「${e.text}」`, source: e.source })),
+};
 
 /* 每条列的排布：横向位置（px）+ 纵向起点（vh）+ 列高上限（vh），
    top + h ≤ 88，长句给足高度尽量不截断 */
@@ -71,3 +96,54 @@ const layout = [
     ))}
   </div>
 </div>
+
+<script type="application/json" id="reading-drift-data" set:html={JSON.stringify(driftSets)} />
+
+<script>
+  (function () {
+    const layer = document.querySelector('.reading-layer') as HTMLElement | null;
+    const strip = document.querySelector('.reading-strip') as HTMLElement | null;
+    if (!layer || !strip) return;
+
+    let sets: { daily: { text: string; source: string }[]; waiting: { text: string; source: string }[] } = { daily: [], waiting: [] };
+    try { sets = JSON.parse(document.getElementById('reading-drift-data')?.textContent || '{}'); } catch { /* ignore */ }
+
+    /* 字可拾读：悬停整列暂停漂移（加亮与出处加深由 CSS 负责） */
+    document.querySelectorAll('.reading-col').forEach((col) => {
+      col.addEventListener('mouseenter', () => { strip.style.animationPlayState = 'paused'; });
+      col.addEventListener('mouseleave', () => { strip.style.animationPlayState = ''; });
+    });
+
+    /* 候墨切集：整组切换字集 + 黛蓝变色（.is-waiting，见 global.css） */
+    function applySet(list: { text: string; source: string }[]) {
+      if (!list.length) return;
+      document.querySelectorAll('.reading-copy').forEach((copy) => {
+        const qs = copy.querySelectorAll('.reading-q');
+        const ss = copy.querySelectorAll('.reading-src');
+        qs.forEach((q, i) => {
+          const item = list[i % list.length];
+          q.textContent = item.text;
+          if (ss[i]) ss[i].textContent = item.source;
+        });
+      });
+    }
+    window.addEventListener('ask:waiting', (e) => {
+      const on = !!(e as CustomEvent).detail?.on;
+      layer.classList.toggle('is-waiting', on);
+      applySet(on ? sets.waiting : sets.daily);
+    });
+
+    /* 山有呼吸：画卷（近）动得多，字层（远）反向轻随；
+       用 CSS translate 属性，不与 keyframes 的 transform 动画冲突 */
+    const landscape = document.querySelector('.landscape-layer') as HTMLElement | null;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduced) {
+      document.addEventListener('mousemove', (e) => {
+        const nx = e.clientX / window.innerWidth - 0.5;
+        const ny = e.clientY / window.innerHeight - 0.5;
+        if (landscape) landscape.style.translate = `${nx * -18}px ${ny * -5}px`;
+        layer.style.translate = `${nx * 10}px 0px`;
+      }, { passive: true });
+    }
+  })();
+</script>

@@ -135,6 +135,35 @@ html[data-season="winter"] { --season-tint: rgba(150, 160, 170, 0.05); }
   letter-spacing: 0.18em;
   line-height: 1.9;
   color: rgba(200, 57, 31, 0.42);
+  /* M1「活卷」：字可拾读——列可悬停（暂停漂移 + 加亮 + 出处加深） */
+  pointer-events: auto;
+  cursor: crosshair;
+  padding: 14px 10px;
+}
+.reading-col .reading-q,
+.reading-col .reading-src {
+  transition: color 0.4s ease;
+}
+.reading-col:hover .reading-q {
+  color: rgba(200, 57, 31, 0.92);
+}
+.reading-col:hover .reading-src {
+  color: rgba(47, 74, 94, 0.8);
+}
+/* 候墨切集：候墨时整组变黛蓝（内容切换见 ReadingDrift 脚本） */
+.reading-layer.is-waiting .reading-q {
+  color: rgba(47, 74, 94, 0.5);
+}
+.reading-layer.is-waiting .reading-src {
+  color: rgba(47, 74, 94, 0.34);
+}
+.reading-layer.is-waiting .reading-col:hover .reading-q {
+  color: rgba(47, 74, 94, 0.95);
+}
+/* 山有呼吸：translate 属性过渡（keyframes 只动 transform，互不干扰） */
+.landscape-layer,
+.reading-layer {
+  transition: translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 /* 摘要、出处各自独立成竖列（block 在 vertical-rl 下自动另起一列） */
 .reading-q { display: block; }

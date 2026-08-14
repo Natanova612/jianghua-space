@@ -1,6 +1,10 @@
 ---
 /**
- * 首页 v5 —— 「一纸长卷」精加工版（2026-08-05）
+ * 首页 v6 —— 「一纸长卷」×「透过 AI 看姜华」（2026-08-14，V2 M1）
+ *
+ * 卷首改为对话区（AskJianghua）：问句即卷首，AI 对话为站点核心；
+ * 原「姜华大字+三行定位」撤下（名章保留在导航与落款）。
+ * 其余卷章（所愿/所为/所学/所期、题跋、落款、土壤行）保留。
  *
  * 统一网格：全站内容同一条 768px 中轴，左缘对齐贯穿全卷。
  * 朱批系统：桌面端竖排落于右侧卷缘（xl），移动端收为文内横排小字。
@@ -9,6 +13,7 @@
 import HumanLayout from '../layouts/HumanLayout.astro';
 import Lang from '../components/Lang.astro';
 import ReadingDrift from '../components/ReadingDrift.astro';
+import AskJianghua from '../components/AskJianghua.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('posts'))
@@ -76,27 +81,10 @@ const cases = [
   {/* 中层「字」：读书划线轮播，190s 线性单向（与画轴异速异律） */}
   <ReadingDrift />
 
-  {/* ===== 卷首 ===== */}
+  {/* ===== 卷首：「透过 AI 看姜华」对话区（V2 核心，替代原「姜华大字+三行定位」） ===== */}
   <section class="relative">
     <div class="max-w-3xl mx-auto px-6 pt-16 pb-10 md:pt-20">
-      <div class="flex items-end gap-4 mb-8">
-        <h1 class="font-human text-7xl md:text-8xl lg:text-9xl text-ink leading-none tracking-wide">
-          <Lang zh="姜华" en="Jiang Hua" />
-        </h1>
-        <img src="/seal.png" alt="姜华名章" class="seal-stamp w-12 h-12 md:w-16 md:h-16 mb-1 md:mb-2" width="64" height="64" />
-      </div>
-
-      <div class="space-y-3">
-        <p class="opacity-0 animate-fade-in-up font-human text-2xl md:text-3xl text-cinnabar font-medium" style="animation-delay: 150ms;">
-          <Lang zh="独立经营顾问" en="Independent Business Consultant" />
-        </p>
-        <p class="opacity-0 animate-fade-in-up text-lg md:text-xl text-ink/80" style="animation-delay: 450ms;">
-          <Lang zh="15 年互联网产品及用户运营、管理经验" en="15 years in internet product & user operations leadership" />
-        </p>
-        <p class="opacity-0 animate-fade-in-up text-lg md:text-xl text-ink/80" style="animation-delay: 750ms;">
-          <Lang zh="向企业和个人提供咨询与运营陪跑服务" en="Consulting and operations partnering for companies and individuals" />
-        </p>
-      </div>
+      <AskJianghua />
     </div>
   </section>
 

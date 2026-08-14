@@ -1,0 +1,729 @@
+---
+/**
+ * AskJianghua —— 「透过 AI 看姜华」首页对话区（M1 核心）
+ *
+ * 视觉与交互契约：docs/prototypes/ask-jianhua-prototype.html（v3，用户已确认）
+ * 结构：卷首问句 → 身份行 → 发丝线 → 站点介绍 → 模块题签 → 对话纸面
+ *      （状态行 / 对话流 / 候墨块 / 沉底输入框 + 三意图签）→ 对话存档
+ * 交互：主流对话布局（用户右侧气泡、分身左侧印章头像）、流式逐字显影 + 朱砂光标、
+ *      候墨态（骨架 + 碎片卡片 8-12s 轮换 + 「候墨中」卷缘章 + 联动字层切集）、
+ *      触墨生漪（点击空白墨滴晕开）
+ * 数据：POST /api/chat（流式纯文本）；会话存 sessionStorage（离开栏目页再回来仍在）；
+ *      支持 ?intent=interview|coop|chat#ask 预选意图
+ * 双语：静态文案走 Lang；JS 动态文案读 <html data-lang> 并监听切换
+ */
+import Lang from './Lang.astro';
+import waitingCards from '../data/waiting_cards.json';
+
+const archives = [
+  {
+    no: '档 001', noEn: 'FILE 001',
+    zhTitle: '「AI 产品运营（文旅方向）的 JD，她匹配吗？」',
+    enTitle: '"An AI product-ops JD in cultural tourism — is she a match?"',
+    zhMeta: '08-11 · 面试官', enMeta: '08-11 · INTERVIEWER',
+    zhBody: '分身给出 90 分：文旅资源、AI 实战、运营方法论三线都有实证；同时直言两点——SQL 自助取数未在底稿中体现、景区一线驻场经验偏少。',
+    enBody: 'Scored 90 — cultural-tourism resources, hands-on AI work, and ops methodology all held up against evidence. Two gaps stated plainly: no SQL self-serve querying on file, and thin front-line experience at scenic sites.',
+    zhVerdict: '判断：高度匹配，缺口直说', enVerdict: 'Strong match — gaps stated plainly',
+  },
+  {
+    no: '档 002', noEn: 'FILE 002',
+    zhTitle: '「Java 后端工程师，能投她吗？」',
+    enTitle: '"A Java backend engineer role — should she apply?"',
+    zhMeta: '08-11 · 面试官', enMeta: '08-11 · INTERVIEWER',
+    zhBody: '10 分，直接不推荐。不硬凑、不浪费彼此时间——这条反向测试记录被留下来，是因为它最能说明这个分身的脾气。',
+    enBody: "Scored 10 — a flat no. No forced fit, no time wasted on either side. This reverse test stays on file because it shows the assistant's temper best.",
+    zhVerdict: '判断：不匹配，如实告知', enVerdict: 'Not a match — said as-is',
+  },
+  {
+    no: '档 003', noEn: 'FILE 003',
+    zhTitle: '「我们是个小景区，想做 AI 导览，她能帮什么？」',
+    enTitle: '"A small attraction wants an AI guide — can she help?"',
+    zhMeta: '08-12 · 合作', enMeta: '08-12 · PARTNERSHIP',
+    zhBody: '分身先反问了三个问题（客流结构、现有讲解成本、预算区间），再给出两种合作形式，并指出重度定制开发不是她的强项，推荐了更轻的路径。',
+    enBody: 'Three questions came first — visitor structure, current guiding cost, budget. Then two forms of cooperation, with an honest caveat: heavy custom development is not her strength, so a lighter path was suggested.',
+    zhVerdict: '判断：先问诊，后开方', enVerdict: 'Diagnose first, prescribe after',
+  },
+];
+---
+
+<section id="ask" class="ask-root scroll-mt-24">
+
+  {/* ===== 卷首问句 ===== */}
+  <header class="ask-hero">
+    <h1 class="ask-hero-q">
+      <Lang>
+        <span slot="zh">你想知道姜华的什么<span class="ask-qm">？</span></span>
+        <span slot="en" class="ask-hero-q-en">What would you like to know about Jiang Hua<span class="ask-qm">?</span></span>
+      </Lang>
+    </h1>
+    <div class="ask-hero-sub">
+      <span class="ask-role"><Lang zh="独立经营顾问" en="Independent Business Consultant" /></span>
+      <span class="ask-exp">
+        <Lang
+          zh="15 年互联网产品及用户运营、管理经验 · 向企业和个人提供咨询与运营陪跑"
+          en="15 years in internet product & user operations — now consulting for companies and individuals"
+        />
+      </span>
+    </div>
+  </header>
+
+  <div class="ask-hairline" aria-hidden="true"></div>
+
+  {/* ===== 引导文案（AI 起草占位，待姜华亲笔替换） ===== */}
+  <div class="ask-intro-wrap">
+    <p class="ask-intro">
+      <Lang>
+        <span slot="zh">这个站点没有模板，也没有后端团队——它是姜华用 <em>vibe coding</em> 的方式，与 AI 一行一行对话建成的。站里住着一个了解她经历的 AI 助理：读过她的简历，翻过她的案例，也知道哪些事她不擅长。你可以把它当作<em>最了解姜华的引路人</em>。</span>
+        <span slot="en">This site has no template and no backend team — Jiang Hua built it line by line, <em>vibe coding</em> with AI. Living here is an AI assistant who knows her story: it has read her résumé, studied her cases, and knows where her limits are. Think of it as <em>the guide who knows Jiang Hua best</em>.</span>
+      </Lang>
+    </p>
+    <p class="ask-intro">
+      <Lang>
+        <span slot="zh">三种打开方式：<em>面试官</em>可以贴一段 JD，看它如何掂量匹配度；<em>有合作或项目</em>的朋友，说说你的业务，它会直言能不能帮上忙；或者，只是<em>随便聊聊</em>。</span>
+        <span slot="en">Three ways in. <em>Interviewers</em>: paste a JD and watch it weigh the match. <em>Teams with a project</em>: describe your business, and it will tell you plainly whether she can help. Or simply <em>drop by for a chat</em>.</span>
+      </Lang>
+    </p>
+    <p class="ask-intro-tag">
+      <Lang zh="SITE INTRO · AI 起草占位 · 待姜华亲笔替换" en="SITE INTRO · DRAFTED BY AI · TO BE REPLACED BY JIANG HUA'S OWN WORDS" />
+    </p>
+  </div>
+
+  {/* ===== 模块题签 ===== */}
+  <div class="ask-module-head">
+    <div class="ask-module-title">
+      <span class="ask-zh"><Lang zh="透过 AI 看姜华" en="Meet Jiang Hua, via AI" /></span>
+      <span class="ask-en">ASK JIANGHUA · VIA AI</span>
+    </div>
+    <span class="ask-module-sub">
+      <Lang zh="山水已阅，不如开口。" en="You've seen the mountains — now speak." />
+    </span>
+  </div>
+
+  {/* ===== 对话纸面 ===== */}
+  <div class="ask-sheet">
+    <div class="ask-sheet-chat">
+      {/* 系统状态行（全部真实数据） */}
+      <div class="ask-status">
+        <span class="ask-live-dot" aria-hidden="true"></span>
+        <span class="ask-status-online"><Lang zh="AI 助理在线" en="AI ASSISTANT ONLINE" /></span>
+        <span class="ask-sep">·</span>
+        <span><Lang zh="语料在案：15 年履历 / 212 本书 / 2,621 条划线" en="ON FILE: 15 YRS · 212 BOOKS · 2,621 HIGHLIGHTS" /></span>
+        <span class="ask-sep" id="askAskedSep" hidden>·</span>
+        <span id="askAsked" hidden></span>
+      </div>
+
+      {/* 对话流（多轮追加） */}
+      <div class="ask-thread" id="askThread" aria-live="polite"></div>
+
+      {/* 输入沉底 + 三意图签 */}
+      <div class="ask-composer">
+        <div class="ask-input-row">
+          <div class="ask-input-wrap">
+            <input id="askInput" type="text" autocomplete="off" maxlength="4000" />
+          </div>
+          <button class="ask-send-btn" id="askSend" type="button">
+            <Lang zh="寄出" en="Send" />
+          </button>
+        </div>
+        <div class="ask-intent-row">
+          <button class="ask-intent-token" data-intent="interview" type="button">
+            <span class="ask-niu" aria-hidden="true"></span><Lang zh="我是面试官" en="I'm an interviewer" />
+          </button>
+          <button class="ask-intent-token" data-intent="coop" type="button">
+            <span class="ask-niu" aria-hidden="true"></span><Lang zh="我有合作或项目" en="I have a project" />
+          </button>
+          <button class="ask-intent-token" data-intent="chat" type="button">
+            <span class="ask-niu" aria-hidden="true"></span><Lang zh="随便聊聊" en="Just chatting" />
+          </button>
+        </div>
+        <p class="ask-privacy-note">
+          <Lang zh="对话内容可能用于改进服务。" en="Conversations may be used to improve this service." />
+        </p>
+      </div>
+    </div>
+
+    {/* ===== 对话存档：标题常显，逐条点开 ===== */}
+    <div class="ask-sheet-archive">
+      <div class="ask-archive-head">
+        <span class="ask-t-zh"><Lang zh="对话存档" en="Archive" /></span>
+        <span class="ask-t-meta">
+          <Lang zh="ARCHIVE · 3 则精选 · 真实测试记录脱敏整理" en="ARCHIVE · 3 PICKS · FROM REAL TEST RUNS" />
+        </span>
+      </div>
+      {archives.map((a) => (
+        <div class="ask-dossier">
+          <button class="ask-dossier-head" type="button">
+            <span class="ask-no"><Lang zh={a.no} en={a.noEn} /></span>
+            <span class="ask-d-title"><Lang zh={a.zhTitle} en={a.enTitle} /></span>
+            <span class="ask-d-meta"><Lang zh={a.zhMeta} en={a.enMeta} /></span>
+            <span class="ask-chev" aria-hidden="true">▾</span>
+          </button>
+          <div class="ask-dossier-body">
+            <div class="ask-dossier-body-inner">
+              <p><Lang zh={a.zhBody} en={a.enBody} /></p>
+              <span class="ask-verdict"><Lang zh={a.zhVerdict} en={a.enVerdict} /></span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* 字体图例 */}
+  <div class="ask-type-legend">
+    <span class="ask-f-ren"><Lang zh="人 · 手写体：姜华本人的声音" en="Handwriting — Jiang Hua's own voice" /></span>
+    <span><Lang zh="文 · 宋体：内容叙事" en="Serif — the narrative" /></span>
+    <span class="ask-f-ji"><Lang zh="机 · 等宽体：系统与 AI" en="Mono — system & AI" /></span>
+  </div>
+
+</section>
+
+<script type="application/json" id="ask-cards-data" set:html={JSON.stringify(waitingCards)} />
+
+<style is:global>
+  /* ===== 「透过 AI 看姜华」对话区（原型 v3 契约，ask- 前缀避免与全站样式冲突） ===== */
+  .ask-root { position: relative; }
+
+  /* 卷首问句 */
+  .ask-hero { margin-bottom: 34px; }
+  .ask-hero-q {
+    font-family: 'Long Cang', 'Kaiti SC', 'STKaiti', 'KaiTi', cursive;
+    font-weight: 400;
+    font-size: clamp(26px, 7.8vw, 72px);
+    line-height: 1.25;
+    letter-spacing: 0.03em;
+    color: #1f2328;
+    white-space: nowrap; /* 一行展示，自适应屏幕 */
+  }
+  .ask-hero-q-en {
+    font-family: Newsreader, Georgia, serif;
+    font-style: italic;
+    font-size: clamp(17px, 3.6vw, 34px);
+    white-space: nowrap;
+  }
+  .ask-hero-q .ask-qm { color: #c8391f; }
+  .ask-hero-sub { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin-top: 16px; }
+  .ask-hero-sub .ask-role { font-size: clamp(16px, 2.2vw, 19px); color: #c8391f; font-weight: 500; }
+  .ask-hero-sub .ask-exp { font-size: 13.5px; color: rgba(31,35,40,.6); }
+
+  /* 发丝线：通栏细线 + 左侧一截朱砂，如朱丝栏起笔 */
+  .ask-hairline { position: relative; height: 1px; background: rgba(31,35,40,.15); margin: 18px 0 14px; }
+  .ask-hairline::before { content: ''; position: absolute; left: 0; top: -0.5px; width: 72px; height: 2px; background: #c8391f; }
+
+  .ask-intro-wrap { margin-bottom: 36px; }
+  .ask-intro { font-size: 15.5px; line-height: 2.05; color: rgba(31,35,40,.6); max-width: 640px; margin-bottom: 8px; }
+  .ask-intro em { font-style: normal; color: #1f2328; border-bottom: 1px solid rgba(200,57,31,.4); }
+  .ask-intro-tag { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: rgba(31,35,40,.4); letter-spacing: .15em; margin: 12px 0 8px; }
+
+  /* 模块题签：标题 + 副标题同一行 */
+  .ask-module-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 16px; flex-wrap: wrap; }
+  .ask-module-title { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .ask-module-title .ask-zh { font-size: clamp(23px, 3.4vw, 28px); font-weight: 500; letter-spacing: .05em; }
+  .ask-module-title .ask-en { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: .26em; color: rgba(31,35,40,.4); }
+  .ask-module-sub { font-family: 'Long Cang', 'Kaiti SC', 'STKaiti', 'KaiTi', cursive; font-size: clamp(20px, 3vw, 25px); color: rgba(31,35,40,.6); }
+  .ask-module-sub::before { content: '——'; color: rgba(31,35,40,.4); margin-right: 10px; font-size: .7em; }
+
+  /* 对话纸面 */
+  .ask-sheet { background: rgba(255,255,255,.6); backdrop-filter: blur(2px); border: 1px solid rgba(31,35,40,.15); border-radius: 8px; box-shadow: 0 6px 30px rgba(31,35,40,.07); }
+  .ask-sheet-chat { padding: 20px 24px 22px; }
+
+  /* 系统状态行 */
+  .ask-status { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(31,35,40,.4); letter-spacing: .03em; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 1px dashed rgba(31,35,40,.15); }
+  .ask-status .ask-status-online { color: rgba(31,35,40,.6); }
+  .ask-live-dot { width: 7px; height: 7px; border-radius: 50%; background: #c8391f; animation: askBreathe 2s ease-in-out infinite; flex: none; }
+  @keyframes askBreathe { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(200,57,31,.35); } 50% { opacity: .55; box-shadow: 0 0 0 5px rgba(200,57,31,0); } }
+  .ask-status .ask-sep { opacity: .45; }
+
+  /* 主流式对话流 */
+  .ask-thread { display: flex; flex-direction: column; gap: 22px; padding: 20px 2px 4px; }
+  .ask-thread:empty { display: none; }
+  .ask-turn-q { align-self: flex-end; max-width: 82%; background: #f2ecdf; border: 1px solid rgba(31,35,40,.15); border-radius: 14px 14px 4px 14px; padding: 11px 16px; font-size: 15.5px; line-height: 1.8; opacity: 0; transform: translateY(8px); transition: opacity .5s, transform .5s; white-space: pre-wrap; word-break: break-word; }
+  .ask-turn-q.reveal { opacity: 1; transform: none; }
+  .ask-turn-a { align-self: stretch; display: flex; gap: 12px; opacity: 0; transition: opacity .6s; }
+  .ask-turn-a.reveal { opacity: 1; }
+  .ask-a-avatar { flex: none; width: 30px; height: 30px; background: #2f4a5e; color: #FAF6F1; border-radius: 4px; font-family: 'Long Cang', 'Kaiti SC', 'STKaiti', 'KaiTi', cursive; font-size: 15px; display: flex; align-items: center; justify-content: center; transform: rotate(-2deg); box-shadow: 0 1px 5px rgba(47,74,94,.3); margin-top: 2px; }
+  .ask-a-body { flex: 1; min-width: 0; font-size: 15.5px; line-height: 2; }
+  .ask-a-name { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .2em; color: rgba(31,35,40,.4); display: block; margin-bottom: 5px; }
+  .ask-a-text a { color: #2f4a5e; border-bottom: 1px solid rgba(47,74,94,.4); text-decoration: none; }
+  .ask-a-text strong { font-weight: 600; color: #1f2328; }
+  .ask-a-text .ask-ch { opacity: 0; filter: blur(3px); transition: opacity .35s, filter .35s; }
+  .ask-a-text .ask-ch.on { opacity: 1; filter: blur(0); }
+  .ask-stream-caret { display: inline-block; width: 2px; height: 1.05em; background: #c8391f; vertical-align: -0.15em; margin-left: 1px; animation: askCaret 1s steps(2) infinite; }
+  @keyframes askCaret { 50% { opacity: 0; } }
+
+  /* 候墨块 */
+  .ask-houmo { align-self: stretch; display: flex; gap: 12px; opacity: 0; transition: opacity .5s; }
+  .ask-houmo.on { opacity: 1; }
+  .ask-houmo-panel { flex: 1; min-width: 0; background: #f2ecdf; border-radius: 6px; padding: 14px 18px 13px; }
+  .ask-houmo-label { display: flex; align-items: center; gap: 9px; font-size: 13px; color: rgba(31,35,40,.6); letter-spacing: .1em; }
+  .ask-houmo-label .ask-dots i { display: inline-block; width: 3.5px; height: 3.5px; border-radius: 50%; background: rgba(31,35,40,.6); margin-left: 4px; animation: askDotP 1.4s infinite; }
+  .ask-houmo-label .ask-dots i:nth-child(2) { animation-delay: .2s; }
+  .ask-houmo-label .ask-dots i:nth-child(3) { animation-delay: .4s; }
+  @keyframes askDotP { 0%,100% { opacity: .2; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+  .ask-houmo-inkline { height: 2px; width: 150px; margin-top: 9px; background: rgba(31,35,40,.1); border-radius: 1px; overflow: hidden; position: relative; }
+  .ask-houmo-inkline::after { content: ''; position: absolute; top: 0; left: -40%; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, #1f2328 60%, transparent); animation: askInkFlow 1.8s ease-in-out infinite; }
+  @keyframes askInkFlow { to { left: 100%; } }
+  .ask-houmo-card { margin-top: 13px; transition: opacity .8s, filter .8s; opacity: .75; }
+  .ask-houmo-card.fading { opacity: 0; filter: blur(4px); }
+  .ask-houmo-card .ask-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #2f4a5e; letter-spacing: .18em; display: block; margin-bottom: 6px; }
+  .ask-houmo-card .ask-card-body { font-size: 14px; line-height: 1.9; color: rgba(31,35,40,.6); margin: 0; }
+  .ask-houmo-card .ask-card-src { font-size: 11.5px; color: rgba(31,35,40,.4); margin-top: 5px; display: block; }
+
+  /* 输入区沉底 */
+  .ask-composer { padding: 16px 0 0; }
+  .ask-input-row { display: flex; align-items: stretch; gap: 10px; }
+  .ask-input-wrap { flex: 1; display: flex; align-items: center; background: #FAF6F1; border: 1px solid rgba(31,35,40,.22); border-radius: 10px; padding: 0 16px; transition: border-color .3s, box-shadow .3s; min-height: 52px; }
+  .ask-input-wrap:focus-within { border-color: rgba(200,57,31,.55); box-shadow: 0 0 0 3px rgba(200,57,31,.08); }
+  .ask-input-wrap input { flex: 1; border: none; outline: none; background: transparent; font-family: inherit; font-size: 15.5px; color: #1f2328; height: 52px; }
+  .ask-input-wrap input::placeholder { color: rgba(31,35,40,.4); }
+  .ask-send-btn { border: none; cursor: pointer; background: #c8391f; color: #FAF6F1; font-family: inherit; font-size: 14.5px; padding: 0 22px; border-radius: 10px; box-shadow: 0 2px 10px rgba(200,57,31,.25); transition: transform .15s, background .2s; }
+  .ask-send-btn:hover { background: #b53318; }
+  .ask-send-btn:active { transform: scale(.97); }
+  .ask-send-btn:disabled { opacity: .55; cursor: not-allowed; }
+  .ask-intent-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .ask-intent-token { cursor: pointer; user-select: none; display: flex; align-items: center; gap: 8px; padding: 7px 14px; color: rgba(31,35,40,.6); font-size: 13px; letter-spacing: .08em; border: 1px solid rgba(31,35,40,.3); border-radius: 999px; background: transparent; font-family: inherit; transition: all .25s; }
+  .ask-intent-token .ask-niu { width: 7px; height: 7px; background: currentColor; transform: rotate(45deg); opacity: .5; flex: none; }
+  .ask-intent-token:hover { color: #c8391f; border-color: #c8391f; }
+  .ask-intent-token.active { background: #c8391f; border-color: #c8391f; color: #FAF6F1; box-shadow: 0 2px 8px rgba(200,57,31,.3); animation: askStamp .35s cubic-bezier(.2,1.6,.4,1); }
+  .ask-intent-token.active .ask-niu { background: #FAF6F1; opacity: .95; }
+  @keyframes askStamp { 0% { transform: scale(1.1); } 100% { transform: scale(1); } }
+  .ask-privacy-note { margin: 10px 0 0; font-size: 11px; color: rgba(31,35,40,.35); }
+
+  /* 对话存档 */
+  .ask-sheet-archive { background: rgba(242,236,223,.4); border-top: 1px solid rgba(31,35,40,.15); border-radius: 0 0 8px 8px; padding: 14px 24px 10px; }
+  .ask-archive-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+  .ask-archive-head .ask-t-zh { font-family: 'Long Cang', 'Kaiti SC', 'STKaiti', 'KaiTi', cursive; font-size: 20px; }
+  .ask-archive-head .ask-t-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(31,35,40,.4); letter-spacing: .18em; }
+  .ask-dossier { border-top: 1px solid rgba(31,35,40,.15); }
+  .ask-dossier:last-child { border-bottom: 1px solid rgba(31,35,40,.15); }
+  .ask-dossier-head { width: 100%; display: flex; align-items: baseline; gap: 14px; padding: 13px 2px; background: none; border: none; cursor: pointer; font-family: inherit; text-align: left; }
+  .ask-dossier-head .ask-no { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #c8391f; flex: none; }
+  .ask-dossier-head .ask-d-title { font-size: 15px; color: #1f2328; flex: 1; min-width: 0; transition: color .25s; }
+  .ask-dossier-head .ask-d-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(31,35,40,.4); flex: none; }
+  .ask-dossier-head .ask-chev { color: rgba(31,35,40,.4); font-size: 12px; transition: transform .3s; flex: none; }
+  .ask-dossier-head:hover .ask-d-title { color: #c8391f; }
+  .ask-dossier.open .ask-chev { transform: rotate(180deg); }
+  .ask-dossier-body { max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.2,.8,.2,1); }
+  .ask-dossier.open .ask-dossier-body { max-height: 480px; }
+  .ask-dossier-body-inner { padding: 2px 2px 18px; }
+  .ask-dossier-body p { font-size: 14px; line-height: 1.9; color: rgba(31,35,40,.6); margin: 0; }
+  .ask-dossier-body .ask-verdict { display: inline-block; margin-top: 9px; font-size: 12px; color: #2f4a5e; border: 1px solid rgba(47,74,94,.35); padding: 3px 10px; border-radius: 2px; }
+
+  /* 字体图例 */
+  .ask-type-legend { margin-top: 56px; padding-top: 16px; border-top: 1px solid rgba(31,35,40,.15); display: flex; gap: 26px; flex-wrap: wrap; font-size: 12px; color: rgba(31,35,40,.4); }
+  .ask-type-legend .ask-f-ren { font-family: 'Long Cang', 'Kaiti SC', 'STKaiti', 'KaiTi', cursive; font-size: 17px; }
+  .ask-type-legend .ask-f-ji { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+  /* 触墨生漪 */
+  .ask-ink-bloom { position: fixed; z-index: 1; width: 190px; height: 190px; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(31,35,40,.3) 0%, rgba(31,35,40,.14) 32%, rgba(47,74,94,.05) 55%, transparent 72%); transform: translate(-50%,-50%) scale(0); filter: blur(1px); animation: askBloom 2.8s cubic-bezier(.16,.7,.3,1) forwards; }
+  @keyframes askBloom {
+    0% { transform: translate(-50%,-50%) scale(0); opacity: 0; }
+    12% { opacity: .9; }
+    100% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
+  }
+
+  @media (max-width: 640px) {
+    .ask-sheet-chat { padding: 16px 16px 18px; }
+    .ask-sheet-archive { padding: 12px 16px 8px; }
+    .ask-dossier-head .ask-d-meta { display: none; }
+    .ask-module-sub { flex-basis: 100%; }
+    .ask-module-sub::before { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ask-live-dot, .ask-stream-caret, .ask-houmo-inkline::after,
+    .ask-houmo-label .ask-dots i { animation: none; }
+    .ask-a-text .ask-ch { transition: none; }
+    .ask-ink-bloom { display: none; }
+  }
+
+  /* ===== 英文排版规范 =====
+     1. 显示字体仅 Newsreader 斜体（原「手写位」：副标题、字体图例第一层），禁用 Long Cang 渲染拉丁字母
+     2. 正文随站体（Noto Sans SC 拉丁字形），行长统一收敛
+     3. JetBrains Mono 只用于短 meta（状态行 / 档号 / 标签），不长句 */
+  html[data-lang='en'] .ask-module-sub {
+    font-family: Newsreader, Georgia, serif;
+    font-style: italic;
+    font-size: clamp(17px, 2.4vw, 21px);
+  }
+  html[data-lang='en'] .ask-module-sub::before { font-style: normal; }
+  html[data-lang='en'] .ask-type-legend .ask-f-ren {
+    font-family: Newsreader, Georgia, serif;
+    font-style: italic;
+    font-size: 13px;
+  }
+  html[data-lang='en'] .ask-intro { max-width: 62ch; }
+  html[data-lang='en'] .ask-dossier-body p { max-width: 68ch; }
+  html[data-lang='en'] .ask-d-title { line-height: 1.6; }
+  html[data-lang='en'] .ask-turn-q,
+  html[data-lang='en'] .ask-a-body { line-height: 1.9; }
+</style>
+
+<script>
+  (function () {
+    const cards: { body: string; source: string }[] = (() => {
+      try { return JSON.parse(document.getElementById('ask-cards-data')?.textContent || '[]'); }
+      catch { return []; }
+    })();
+
+    const isEn = () => document.documentElement.dataset.lang === 'en';
+    const S = {
+      zh: {
+        phDefault: '问点什么——例如：她做过文旅项目吗？',
+        ph: {
+          interview: '贴一段 JD 试试，例如：AI 产品运营（文旅方向）…',
+          coop: '说说你的业务和卡点，例如：我们是个小景区，想做 AI 导览…',
+          chat: '随便问，例如：她为什么离开大厂做独立顾问？',
+        } as Record<string, string>,
+        aName: '分身 · AI ASSISTANT',
+        houmo: '候墨 · 分身正在作答',
+        cardTag: 'HOU MO · 等待时翻看一页',
+        offline: '分身暂时离线，邮件可直接找到本人：Faraway1314@163.com',
+        tooLong: '这条问题太长了，精简到 4000 字以内再寄。',
+        asked: (n: number) => `本会话已问 ${n} 问`,
+      },
+      en: {
+        phDefault: 'Ask anything — e.g. "Has she worked on cultural tourism projects?"',
+        ph: {
+          interview: 'Paste a JD, e.g. AI Product Ops (cultural tourism)…',
+          coop: 'Describe your business and blocker — e.g. a small attraction wanting an AI guide…',
+          chat: 'Anything — e.g. "Why did she leave big tech to go independent?"',
+        } as Record<string, string>,
+        aName: 'AI ASSISTANT',
+        houmo: 'The assistant is composing',
+        cardTag: 'WHILE YOU WAIT · A PAGE FROM HER DESK',
+        offline: 'The assistant is temporarily offline — reach Jiang Hua directly: Faraway1314@163.com',
+        tooLong: 'That question is too long — keep it under 4,000 characters.',
+        asked: (n: number) => `${n} QUESTION${n > 1 ? 'S' : ''} THIS SESSION`,
+      },
+    };
+    const t = () => (isEn() ? S.en : S.zh);
+
+    const thread = document.getElementById('askThread')!;
+    const input = document.getElementById('askInput') as HTMLInputElement;
+    const sendBtn = document.getElementById('askSend') as HTMLButtonElement;
+    const askedEl = document.getElementById('askAsked')!;
+    const askedSep = document.getElementById('askAskedSep')!;
+
+    /* ===== 会话持久化（sessionStorage：离开栏目页再回来对话仍在） ===== */
+    type Msg = { role: 'user' | 'assistant'; content: string };
+    const KEY = 'ask-jianghua-v1';
+    let messages: Msg[] = [];
+    let intent: string | null = null;
+    let askedCount = 0;
+    let busy = false;
+
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(KEY) || 'null');
+      if (saved && Array.isArray(saved.messages)) {
+        messages = saved.messages.slice(-16);
+        intent = typeof saved.intent === 'string' ? saved.intent : null;
+        askedCount = typeof saved.asked === 'number' ? saved.asked : 0;
+      }
+    } catch { /* ignore */ }
+
+    function saveSession() {
+      try {
+        sessionStorage.setItem(KEY, JSON.stringify({ messages: messages.slice(-16), intent, asked: askedCount }));
+      } catch { /* ignore */ }
+    }
+
+    /* Markdown 链接/加粗/小标题 + 换行 → HTML（先转义再替换，防注入） */
+    function linkify(text: string): string {
+      const esc = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return esc
+        .replace(/^#{1,4}\s*(.+)$/gm, '<strong>$1</strong>')
+        .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]*)\)/g, '<a href="$2">$1</a>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function scrollThread(el: HTMLElement) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function addUserTurn(q: string, instant = false) {
+      const el = document.createElement('div');
+      el.className = 'ask-turn-q';
+      el.textContent = q;
+      thread.appendChild(el);
+      if (instant) el.classList.add('reveal');
+      else requestAnimationFrame(() => el.classList.add('reveal'));
+      return el;
+    }
+
+    function assistantShell() {
+      const el = document.createElement('div');
+      el.className = 'ask-turn-a';
+      const avatar = document.createElement('div');
+      avatar.className = 'ask-a-avatar';
+      avatar.textContent = '分';
+      const body = document.createElement('div');
+      body.className = 'ask-a-body';
+      const name = document.createElement('span');
+      name.className = 'ask-a-name';
+      name.textContent = t().aName;
+      const text = document.createElement('span');
+      text.className = 'ask-a-text';
+      body.appendChild(name);
+      body.appendChild(text);
+      el.appendChild(avatar);
+      el.appendChild(body);
+      thread.appendChild(el);
+      requestAnimationFrame(() => el.classList.add('reveal'));
+      scrollThread(el);
+      return text;
+    }
+
+    function addAssistantTurn(content: string, instant = false) {
+      const text = assistantShell();
+      if (instant) text.innerHTML = linkify(content);
+      return text;
+    }
+
+    /* ===== 候墨态 ===== */
+    let houmoEl: HTMLElement | null = null;
+    let cardTimer: ReturnType<typeof setTimeout> | null = null;
+    let cardIdx = 0;
+
+    function setWaiting(on: boolean) {
+      window.dispatchEvent(new CustomEvent('ask:waiting', { detail: { on } }));
+    }
+
+    function fillCard(cardEl: HTMLElement) {
+      const c = cards[cardIdx % cards.length];
+      cardEl.querySelector('.ask-tag')!.textContent = t().cardTag;
+      cardEl.querySelector('.ask-card-body')!.textContent = c?.body ?? '';
+      cardEl.querySelector('.ask-card-src')!.textContent = c ? `—— ${c.source}` : '';
+    }
+
+    function scheduleCard(cardEl: HTMLElement) {
+      cardTimer = setTimeout(() => {
+        cardEl.classList.add('fading');
+        setTimeout(() => {
+          cardIdx += 1;
+          fillCard(cardEl);
+          cardEl.classList.remove('fading');
+        }, 650);
+        scheduleCard(cardEl);
+      }, 8000 + Math.random() * 4000); /* 每 8-12s 轮换一条 */
+    }
+
+    function startHoumo() {
+      if (houmoEl || !cards.length) return;
+      const h = document.createElement('div');
+      h.className = 'ask-houmo';
+      h.innerHTML =
+        '<div class="ask-a-avatar">分</div><div class="ask-houmo-panel">' +
+        '<div class="ask-houmo-label"><span class="ask-houmo-text"></span><span class="ask-dots"><i></i><i></i><i></i></span></div>' +
+        '<div class="ask-houmo-inkline"></div>' +
+        '<div class="ask-houmo-card"><span class="ask-tag"></span><p class="ask-card-body"></p><span class="ask-card-src"></span></div>' +
+        '</div>';
+      h.querySelector('.ask-houmo-text')!.textContent = t().houmo;
+      thread.appendChild(h);
+      requestAnimationFrame(() => h.classList.add('on'));
+      scrollThread(h);
+      houmoEl = h;
+      setWaiting(true);
+      const cardEl = h.querySelector('.ask-houmo-card') as HTMLElement;
+      fillCard(cardEl);
+      scheduleCard(cardEl);
+    }
+
+    function stopHoumo() {
+      if (cardTimer) { clearTimeout(cardTimer); cardTimer = null; }
+      if (houmoEl) { houmoEl.remove(); houmoEl = null; }
+      setWaiting(false);
+    }
+
+    /* ===== 意图签 ===== */
+    function applyPlaceholder() {
+      input.placeholder = intent ? t().ph[intent] || t().phDefault : t().phDefault;
+    }
+
+    function activateIntent(name: string | null, focus = true) {
+      intent = name;
+      document.querySelectorAll('.ask-intent-token').forEach((x) => {
+        x.classList.toggle('active', (x as HTMLElement).dataset.intent === name);
+      });
+      applyPlaceholder();
+      if (focus) input.focus();
+      saveSession();
+    }
+
+    document.querySelectorAll('.ask-intent-token').forEach((token) => {
+      token.addEventListener('click', () => {
+        const name = (token as HTMLElement).dataset.intent!;
+        activateIntent(intent === name ? null : name);
+      });
+    });
+
+    /* 支持 /?intent=interview#ask 进入时自动选中意图 */
+    const urlIntent = new URLSearchParams(location.search).get('intent');
+    if (urlIntent && ['interview', 'coop', 'chat'].includes(urlIntent)) {
+      activateIntent(urlIntent, false);
+    }
+
+    /* ===== 状态行「本会话已问 N 问」（真实计数） ===== */
+    function updateAsked() {
+      if (askedCount > 0) {
+        askedEl.textContent = t().asked(askedCount);
+        askedEl.hidden = false;
+        askedSep.hidden = false;
+      } else {
+        askedEl.hidden = true;
+        askedSep.hidden = true;
+      }
+    }
+
+    /* ===== 存档：逐条展开 ===== */
+    document.querySelectorAll('.ask-dossier-head').forEach((h) => {
+      h.addEventListener('click', () => h.parentElement!.classList.toggle('open'));
+    });
+
+    /* ===== 触墨生漪：点击空白处，落墨晕开 ===== */
+    document.addEventListener('pointerdown', (e) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('.ask-sheet, #main-nav, .reading-col, a, button, input, textarea')) return;
+      const b = document.createElement('div');
+      b.className = 'ask-ink-bloom';
+      b.style.left = e.clientX + 'px';
+      b.style.top = e.clientY + 'px';
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), 2900);
+    });
+
+    /* ===== 发送 + 流式接收 ===== */
+    async function send() {
+      if (busy) return;
+      const q = input.value.trim();
+      if (!q) return;
+      if (q.length > 4000) { input.placeholder = t().tooLong; input.value = ''; return; }
+
+      busy = true;
+      sendBtn.disabled = true;
+      input.value = '';
+      messages.push({ role: 'user', content: q });
+      addUserTurn(q);
+      askedCount += 1;
+      updateAsked();
+      saveSession();
+
+      const ctrl = new AbortController();
+      let firstToken = false;
+      /* 超 75s 无首字 → 降级 */
+      const degradeTimer = setTimeout(() => { if (!firstToken) ctrl.abort(); }, 75_000);
+      /* 0.9s 后进入候墨态 */
+      const houmoTimer = setTimeout(() => { if (!firstToken) startHoumo(); }, 900);
+
+      const fail = (msg: string) => {
+        clearTimeout(houmoTimer);
+        clearTimeout(degradeTimer);
+        stopHoumo();
+        messages.pop(); /* 未答的问题不计入上下文，便于重试 */
+        saveSession();
+        addAssistantTurn(msg, true);
+      };
+
+      try {
+        const resp = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: messages.slice(-16), intent: intent ?? undefined }),
+          signal: ctrl.signal,
+        });
+        if (!resp.ok || !resp.body) {
+          let errMsg = t().offline;
+          try {
+            const data = await resp.json();
+            if (data?.error) errMsg = data.error;
+          } catch { /* ignore */ }
+          throw new Error(errMsg);
+        }
+
+        const reader = resp.body.getReader();
+        const decoder = new TextDecoder();
+        let full = '';
+        let queue = '';
+        let streamDone = false;
+        let textEl: HTMLElement | null = null;
+        let caret: HTMLElement | null = null;
+
+        await new Promise<void>((resolve, reject) => {
+          const revealTimer = setInterval(() => {
+            if (!textEl || !caret) return;
+            for (let k = 0; k < 2 && queue.length; k++) {
+              const s = document.createElement('span');
+              s.className = 'ask-ch';
+              s.textContent = queue[0];
+              queue = queue.slice(1);
+              textEl.insertBefore(s, caret);
+              requestAnimationFrame(() => s.classList.add('on'));
+            }
+            if (streamDone && !queue.length) {
+              clearInterval(revealTimer);
+              caret.remove();
+              textEl.innerHTML = linkify(full);
+              messages.push({ role: 'assistant', content: full });
+              saveSession();
+              resolve();
+            }
+          }, 30);
+
+          (async () => {
+            try {
+              for (;;) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                const chunk = decoder.decode(value, { stream: true });
+                if (!chunk) continue;
+                if (!firstToken) {
+                  firstToken = true;
+                  clearTimeout(degradeTimer);
+                  clearTimeout(houmoTimer);
+                  stopHoumo();
+                  textEl = assistantShell();
+                  caret = document.createElement('span');
+                  caret.className = 'ask-stream-caret';
+                  textEl.appendChild(caret);
+                }
+                full += chunk;
+                queue += chunk;
+              }
+              streamDone = true;
+              if (!full) {
+                clearInterval(revealTimer);
+                reject(new Error(t().offline));
+              }
+              /* 有内容：等 revealTimer 把 queue 吐完后 resolve */
+            } catch (e) {
+              clearInterval(revealTimer);
+              reject(e);
+            }
+          })();
+        });
+      } catch (e: any) {
+        fail(ctrl.signal.aborted && !firstToken ? t().offline : (e?.message || t().offline));
+      } finally {
+        busy = false;
+        sendBtn.disabled = false;
+      }
+    }
+
+    sendBtn.addEventListener('click', send);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+
+    /* ===== 恢复会话 + 初始占位符 ===== */
+    messages.forEach((m) => {
+      if (m.role === 'user') addUserTurn(m.content, true);
+      else addAssistantTurn(m.content, true);
+    });
+    if (intent && ['interview', 'coop', 'chat'].includes(intent)) activateIntent(intent, false);
+    applyPlaceholder();
+    updateAsked();
+
+    /* 语言切换时刷新动态文案 */
+    new MutationObserver(() => { applyPlaceholder(); updateAsked(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
+  })();
+</script>

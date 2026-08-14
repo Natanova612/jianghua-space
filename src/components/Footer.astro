@@ -45,6 +45,14 @@ const { field = 'human' } = Astro.props;
       >
         RSS
       </a>
+      {field !== 'star' && (
+        <a
+          href="/starfield"
+          class="text-xs text-gray-light hover:text-aurora-blue transition-colors"
+        >
+          <Lang zh="星河" en="Starfield" />
+        </a>
+      )}
       <span class={`text-xs ${field === 'star' ? 'text-gray-pale' : 'text-gray-pale'}`}>
         © 2026
       </span>
