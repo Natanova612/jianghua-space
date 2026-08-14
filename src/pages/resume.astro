@@ -1,200 +1,335 @@
 ---
+/**
+ * 简历 —— 双轨版（2026-08 更新）
+ * 求职意向改为双轨：独立经营顾问（主业）+ AI 产品运营岗位（开放）
+ * 新增：独立顾问经历（某苏州文旅集团，脱敏）+ AI 能力画像（产出导向）
+ * 全文双语；视觉换纸墨印 tokens。
+ */
 import HumanLayout from '../layouts/HumanLayout.astro';
+import Lang from '../components/Lang.astro';
 ---
 
-<HumanLayout title="简历 | 姜华" description="产品及用户运营专家 · 15年互联网实战经验">
+<HumanLayout title="简历 | 姜华" description="独立经营顾问 · 15年互联网产品及用户运营实战">
   <div class="max-w-4xl mx-auto px-6 py-16 md:py-24">
-    
+
     {/* Header */}
     <header class="mb-16">
-      <h1 class="font-human text-4xl md:text-5xl text-human-text mb-4">姜华</h1>
-      <p class="text-xl text-gray-mid">产品及用户运营专家 · 15年+实战经历</p>
-      <div class="mt-6 flex flex-wrap gap-4 text-sm text-gray-light">
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-          18913138955（微信同）
-        </span>
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          Faraway1314@163.com
-        </span>
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          Base地不设限（现驻杭州）
-        </span>
-        <span class="inline-flex items-center gap-1.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
-          硕士（悉尼科技大学）
-        </span>
+      <h1 class="font-human text-4xl md:text-5xl text-ink mb-4">姜华</h1>
+      <p class="text-xl text-ink/70">
+        <Lang zh="独立经营顾问 · 15年+互联网产品及用户运营实战" en="Independent Business Consultant · 15+ years in internet product & user operations" />
+      </p>
+      <div class="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm text-ink/50">
+        <span>18913138955（<Lang zh="微信同" en="WeChat same" />}）</span>
+        <span>Faraway1314@163.com</span>
+        <span><Lang zh="Base地不设限（现驻杭州）" en="Location-flexible (currently Hangzhou)" /></span>
+        <span><Lang zh="硕士（悉尼科技大学）" en="Master's, UTS Sydney" /></span>
       </div>
     </header>
 
-    {/* 求职意向 */}
-    <section class="mb-16 p-6 md:p-8 rounded-2xl border border-gray-200/60 bg-human-bg">
-      <h2 class="font-human text-xl text-human-text mb-4 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-aurora-green/10 text-aurora-green flex items-center justify-center text-sm">01</span>
-        求职意向
+    {/* 当前方向（双轨） */}
+    <section class="mb-16 p-6 md:p-8 rounded-[3px] border border-cinnabar/25 bg-cinnabar/[0.03]">
+      <h2 class="font-human font-medium text-xl text-ink mb-5 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-[3px] bg-cinnabar/10 text-cinnabar flex items-center justify-center text-sm">01</span>
+        <Lang zh="当前方向" en="Current Focus" />
       </h2>
-      <div class="space-y-3 text-human-text">
-        <p><span class="text-gray-light">目标行业：</span>酒旅 / 本地生活 / 养老健康 / 产业互联网 / AI应用落地</p>
-        <p><span class="text-gray-light">目标职位：</span>AI应用运营 / 用户增长专家 / 商业化运营 / ToB业务增长 / 产业互联网运营</p>
-        <p><span class="text-gray-light">发展预期：</span>聚焦通过AI工具助力垂类行业建设自动化工作流程；通过搭建行业智能体带动业务的精细化运营与商业化增长</p>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <p class="text-sm font-medium text-cinnabar mb-2">
+            <Lang zh="主业 · 独立经营顾问" en="Primary · Independent Consultant" />
+          </p>
+          <p class="text-sm text-ink/70 leading-7">
+            <Lang
+              zh="面向文旅 / 本地生活 / 产业互联网的中小企业与创业团队：经营诊断、产品策划、运营陪跑、数据化运营机制搭建。"
+              en="For SMEs and startups in cultural tourism, local services, and industrial internet: business diagnosis, product strategy, operations partnering, data-driven operating systems."
+            />
+          </p>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-dai-blue mb-2">
+            <Lang zh="开放 · AI 赛道岗位" en="Open to · AI-track Roles" />
+          </p>
+          <p class="text-sm text-ink/70 leading-7">
+            <Lang
+              zh="AI 产品 / AI 应用运营方向。有从 0 到 1 的 AI 产品操盘与商业化闭环经验（见 AI 能力画像）。"
+              en="AI product / AI-applied operations roles. Hands-on 0→1 AI product leadership with commercial closure (see AI capability profile below)."
+            />
+          </p>
+        </div>
       </div>
+    </section>
+
+    {/* 岗位匹配器（JD Matcher · vibecoding 亮点） */}
+    <section id="jd-matcher" class="mb-16 p-6 md:p-8 rounded-[3px] border border-dai-blue/25 bg-dai-blue/[0.03]">
+      <h2 class="font-human font-medium text-xl text-ink mb-2 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-[3px] bg-dai-blue/10 text-dai-blue flex items-center justify-center text-sm">✦</span>
+        <Lang zh="岗位匹配器" en="JD Matcher" />
+        <span class="text-[10px] font-mono tracking-wider text-dai-blue/60 border border-dai-blue/25 rounded-full px-2 py-0.5">BETA</span>
+      </h2>
+      <p class="text-sm text-ink/60 leading-7 mb-5 max-w-2xl">
+        <Lang
+          zh="如果你是面试官：把岗位 JD 粘到下面，我会基于公开履历坦诚评估匹配度——包括我擅长什么，和不擅长什么。"
+          en="If you're a hiring manager: paste the job description below. I'll give an honest match assessment based on my public résumé — strengths and gaps alike."
+        />
+      </p>
+
+      <textarea
+        id="jd-input"
+        rows={7}
+        class="w-full p-4 text-sm leading-6 text-ink bg-paper border border-ink/15 rounded-[3px] focus:border-dai-blue/50 focus:outline-none resize-y font-mono"
+      ></textarea>
+
+      <div class="flex items-center gap-4 mt-4">
+        <button
+          id="jd-submit"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-dai-blue text-paper rounded-[3px] font-medium text-sm hover:bg-dai-blue/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <Lang zh="开始匹配" en="Analyze" />
+        </button>
+        <span id="jd-status" class="text-xs text-ink/45"></span>
+      </div>
+
+      <div id="jd-report" class="mt-6"></div>
+
+      <p class="mt-6 text-xs text-ink/40">
+        <Lang zh="由 AI 基于站内公开资料生成，仅供初筛参考；结论以面谈为准。" en="Generated by AI from public information on this site; for screening reference only." />
+      </p>
     </section>
 
     {/* 核心能力总结 */}
     <section class="mb-16">
-      <h2 class="font-human text-2xl text-human-text mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-aurora-blue/10 text-aurora-blue flex items-center justify-center text-sm">02</span>
-        核心能力总结
+      <h2 class="font-human font-medium text-2xl text-ink mb-6 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-[3px] bg-cinnabar/10 text-cinnabar flex items-center justify-center text-sm">02</span>
+        <Lang zh="核心能力总结" en="Core Strengths" />
       </h2>
-      <p class="text-human-text mb-8 leading-relaxed">
-        作为一名拥有15年+实战经验的互联网运营专家，我经历了从同程艺龙的创业上市期到美团、蚂蚁集团等一线大厂的成熟期，积累了丰富的ToC产品运营与商业化操盘经验。核心竞争力构建在四大支柱之上：
+      <p class="text-ink/80 mb-8 leading-7">
+        <Lang
+          zh="15年+实战，从同程艺龙的创业上市期到美团、蚂蚁集团的成熟期，覆盖 ToC 产品运营与商业化操盘。核心竞争力构建在四大支柱之上："
+          en="15+ years across Tongcheng-Elong's startup-to-IPO era and the mature stages of Meituan and Ant Group, spanning consumer product operations and commercialization. Four pillars:"
+        />
       </p>
-      
+
       <div class="grid md:grid-cols-2 gap-4">
-        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg">
+        <div class="p-6 rounded-[3px] border border-ink/10">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">🎯</span>
-            <h3 class="font-medium text-human-text">产品运营能力</h3>
+            <h3 class="font-medium text-ink"><Lang zh="产品运营能力" en="Product Operations" /></h3>
           </div>
-          <p class="text-sm text-gray-mid leading-relaxed">
-            懂产品的运营操盘手。主导"动态打包"技术流程改造实现规模化扩张；在支付宝出行频道主导架构改版，显著提升流量分发效率。
+          <p class="text-sm text-ink/60 leading-7">
+            <Lang
+              zh="懂产品的运营操盘手。主导「动态打包」技术流程改造实现规模化扩张；在支付宝出行频道主导架构改版，显著提升流量分发效率。"
+              en="An operator who understands product. Led the 'dynamic packaging' workflow rebuild enabling scale; led the Alipay travel channel revamp, lifting distribution efficiency."
+            />
           </p>
         </div>
-        
-        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg">
+
+        <div class="p-6 rounded-[3px] border border-ink/10">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">📈</span>
-            <h3 class="font-medium text-human-text">用户增长能力</h3>
+            <h3 class="font-medium text-ink"><Lang zh="用户增长能力" en="User Growth" /></h3>
           </div>
-          <p class="text-sm text-gray-mid leading-relaxed">
-            深谙全生命周期管理，具备千万级用户增长模型实战经验。主导美团酒店会员体系从0到1重构；统筹线下获客专项，累计获取数千万新用户。
+          <p class="text-sm text-ink/60 leading-7">
+            <Lang
+              zh="深谙全生命周期管理，具备千万级用户增长模型实战经验。主导美团酒店会员体系从0到1重构；统筹线下获客专项，累计获取数千万新用户。"
+              en="Full-lifecycle expertise with 10M+ user growth models. Rebuilt Meituan Hotel's membership system from scratch; led offline acquisition programs bringing tens of millions of new users."
+            />
           </p>
         </div>
-        
-        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg">
+
+        <div class="p-6 rounded-[3px] border border-ink/10">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">💰</span>
-            <h3 class="font-medium text-human-text">商业化变现能力</h3>
+            <h3 class="font-medium text-ink"><Lang zh="商业化变现能力" en="Monetization" /></h3>
           </div>
-          <p class="text-sm text-gray-mid leading-relaxed">
-            管理亿级流量的商业化变现。建立外部KA分销渠道接入规则；在存量博弈阶段通过精细化运营挖掘用户消费场景跃迁机会点。
+          <p class="text-sm text-ink/60 leading-7">
+            <Lang
+              zh="管理亿级流量的商业化变现。建立外部KA分销渠道接入规则；在存量博弈阶段通过精细化运营挖掘用户消费场景跃迁机会点。"
+              en="Monetized traffic at the hundreds-of-millions scale. Built KA distribution channel rules; in the stock-game era, uncovered consumption-scenario upgrades through refined operations."
+            />
           </p>
         </div>
-        
-        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg">
+
+        <div class="p-6 rounded-[3px] border border-ink/10">
           <div class="flex items-center gap-3 mb-3">
             <span class="text-2xl">🤖</span>
-            <h3 class="font-medium text-human-text">AI产品落地经验</h3>
+            <h3 class="font-medium text-ink"><Lang zh="AI 产品落地经验" en="AI Product Delivery" /></h3>
           </div>
-          <p class="text-sm text-gray-mid leading-relaxed">
-            主导支付宝"出行AI助手"专项，负责Prompt优化与场景定义，打通从用户咨询到服务购买的商业闭环。积极探索"AI+运营"复合能力。
+          <p class="text-sm text-ink/60 leading-7">
+            <Lang
+              zh="主导支付宝「出行AI助手」专项，负责 Prompt 优化与场景定义，打通从用户咨询到服务购买的商业闭环。"
+              en="Led Alipay's 'Travel AI Assistant': scenario definition and prompt optimization, closing the loop from user inquiry to purchase."
+            />
           </p>
+        </div>
+      </div>
+    </section>
+
+    {/* AI 能力画像（新增：产出导向） */}
+    <section class="mb-16">
+      <h2 class="font-human font-medium text-2xl text-ink mb-6 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-[3px] bg-cinnabar/10 text-cinnabar flex items-center justify-center text-sm">03</span>
+        <Lang zh="AI 能力画像" en="AI Capability Profile" />
+      </h2>
+      <p class="text-ink/80 mb-6 leading-7">
+        <Lang
+          zh="不罗列工具名，只看用 AI 真实完成的事："
+          en="Not a list of tool names — things actually shipped with AI:"
+        />
+      </p>
+      <div class="space-y-0 text-sm">
+        <div class="py-4 border-t border-ink/10 flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6">
+          <span class="flex-none w-40 font-medium text-ink"><Lang zh="行业调研" en="Industry research" /></span>
+          <span class="text-ink/60 leading-7"><Lang zh="用 AI 工作流在三天内完成一份完整行业调研（框架搭建 → 资料消化 → 成稿）" en="A complete industry study in three days with an AI workflow (framing → digestion → write-up)" /></span>
+        </div>
+        <div class="py-4 border-t border-ink/10 flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6">
+          <span class="flex-none w-40 font-medium text-ink"><Lang zh="经营诊断" en="Business diagnosis" /></span>
+          <span class="text-ink/60 leading-7"><Lang zh="为某苏州文旅集团完成经营诊断与运营方案（脱敏）" en="Diagnosis and operations plan for a Suzhou cultural tourism group (anonymized)" /></span>
+        </div>
+        <div class="py-4 border-t border-ink/10 flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6">
+          <span class="flex-none w-40 font-medium text-ink"><Lang zh="商业策划" en="Business planning" /></span>
+          <span class="text-ink/60 leading-7"><Lang zh="与 AI 协作完成「AI 店长」完整商业计划：洞察、产品设计、财务模型" en="Co-wrote a full business plan ('AI Store Manager'): insight, product design, financial model" /></span>
+        </div>
+        <div class="py-4 border-t border-ink/10 flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6">
+          <span class="flex-none w-40 font-medium text-ink"><Lang zh="内容系统" en="Content systems" /></span>
+          <span class="text-ink/60 leading-7"><Lang zh="构建湿地博物馆 AI 讲解员内容系统，覆盖多展厅导览" en="Built a wetland-museum AI docent content system covering multiple exhibition halls" /></span>
+        </div>
+        <div class="py-4 border-t border-b border-ink/10 flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6">
+          <span class="flex-none w-40 font-medium text-ink"><Lang zh="团队赋能" en="Team enablement" /></span>
+          <span class="text-ink/60 leading-7"><Lang zh="在蚂蚁主导运营团队 AI 技能培训项目并落地（2026.04）" en="Led and shipped an AI-skills training program for the operations team at Ant (2026.04)" /></span>
         </div>
       </div>
     </section>
 
     {/* 工作经历 */}
     <section class="mb-16">
-      <h2 class="font-human text-2xl text-human-text mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-resonance-gold/10 text-resonance-gold flex items-center justify-center text-sm">03</span>
-        工作经历
+      <h2 class="font-human font-medium text-2xl text-ink mb-6 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-[3px] bg-cinnabar/10 text-cinnabar flex items-center justify-center text-sm">04</span>
+        <Lang zh="工作经历" en="Experience" />
       </h2>
-      
+
       <div class="space-y-10">
+        {/* 独立顾问 */}
+        <div class="relative pl-6 border-l-2 border-cinnabar/40">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-cinnabar/20 border-2 border-cinnabar"></div>
+          <div class="mb-2">
+            <h3 class="text-lg font-medium text-ink"><Lang zh="独立经营顾问" en="Independent Business Consultant" /></h3>
+            <p class="text-sm text-ink/50"><Lang zh="2026 — 至今 · 杭州" en="2026 — present · Hangzhou" /></p>
+          </div>
+          <ul class="space-y-2 text-sm text-ink/60">
+            <li class="flex gap-2">
+              <span class="text-cinnabar shrink-0">▸</span>
+              <span><strong><Lang zh="某苏州文旅集团" en="A Suzhou cultural tourism group" /></strong><Lang zh="：经营诊断 + 产品策划 + 运营方案（进行中，脱敏）" en=": business diagnosis, product strategy and operations plan (ongoing, anonymized)" /></span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-cinnabar shrink-0">▸</span>
+              <span><Lang zh="个人教练与 AI 工作法咨询；国际中文教师证书（CTC）备考中" en="Personal coaching and AI-workflow consulting; CTC certification in progress" /></span>
+            </li>
+          </ul>
+        </div>
+
         {/* 蚂蚁 */}
-        <div class="relative pl-6 border-l-2 border-aurora-green/30">
-          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-aurora-green/20 border-2 border-aurora-green"></div>
+        <div class="relative pl-6 border-l-2 border-dai-blue/40">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-dai-blue/20 border-2 border-dai-blue"></div>
           <div class="mb-2">
-            <h3 class="text-lg font-medium text-human-text">蚂蚁集团 · 支付宝数字出行酒旅事业部</h3>
-            <p class="text-sm text-gray-light">平台运营专家 | 2024.07 — 至今 | 汇报：平台运营负责人 | 团队：10人</p>
+            <h3 class="text-lg font-medium text-ink"><Lang zh="蚂蚁集团 · 支付宝数字出行酒旅事业部" en="Ant Group · Alipay Digital Mobility & Travel" /></h3>
+            <p class="text-sm text-ink/50"><Lang zh="平台运营专家 | 2024.07 — 2026 · 团队：10人" en="Platform Operations Expert | 2024.07 — 2026 · Team of 10" /></p>
           </div>
-          <p class="text-human-text text-sm leading-relaxed mb-3">
-            全面负责支付宝出行频道的用户增长策略、流量分发机制及商业化运营。在成熟的支付工具属性下，探索内容化、服务化运营，提升用户访问频次与交易转化；同时作为核心负责人推进AI在运营团队内的组织能力升级。
+          <p class="text-ink/80 text-sm leading-7 mb-3">
+            <Lang
+              zh="全面负责支付宝出行频道的用户增长策略、流量分发机制及商业化运营；同时作为核心负责人推进 AI 在运营团队内的组织能力升级。"
+              en="Owned user growth, traffic distribution, and monetization for Alipay's travel channel; also led the AI capability upgrade of the operations team."
+            />
           </p>
-          <ul class="space-y-2 text-sm text-gray-mid">
+          <ul class="space-y-2 text-sm text-ink/60">
             <li class="flex gap-2">
-              <span class="text-aurora-green shrink-0">▸</span>
-              <span><strong>AI组织能力升级：</strong>主导团队AI助手（内部openclaw）技能培训项目，2026年4月落地培训，推动团队AI化能力升级</span>
+              <span class="text-dai-blue shrink-0">▸</span>
+              <span><strong><Lang zh="AI组织能力升级" en="AI capability building" /></strong><Lang zh="：主导团队AI助手技能培训项目，2026年4月落地，推动团队AI化能力升级" en=": led the team's AI-assistant training program, shipped 2026.04" /></span>
             </li>
             <li class="flex gap-2">
-              <span class="text-aurora-green shrink-0">▸</span>
-              <span><strong>出行AI助手：</strong>主导产品设计，构建万级Query库，通过RLHF持续优化，问题解决率从30%提升至60%+；在AI回复中植入SKU推荐，探索商业闭环</span>
+              <span class="text-dai-blue shrink-0">▸</span>
+              <span><strong><Lang zh="出行AI助手" en="Travel AI Assistant" /></strong><Lang zh="：主导产品设计，构建万级Query库，RLHF持续优化，问题解决率从30%提升至60%+；在AI回复中植入SKU推荐，探索商业闭环" en=": led product design; built a 10K-query library with RLHF loops, lifting resolution from 30% to 60%+; embedded SKU recommendations toward commercial closure" /></span>
             </li>
             <li class="flex gap-2">
-              <span class="text-aurora-green shrink-0">▸</span>
-              <span><strong>频道改版：</strong>基于数据分析优化首屏金刚位与信息流分配逻辑，针对不同画像展示差异化服务，从人工分配升级为算法驱动</span>
+              <span class="text-dai-blue shrink-0">▸</span>
+              <span><strong><Lang zh="频道改版" en="Channel revamp" /></strong><Lang zh="：优化首屏与信息流分配逻辑，差异化画像展示，从人工分配升级为算法驱动" en=": rebuilt first-screen and feed allocation from manual curation to algorithm-driven, persona-differentiated distribution" /></span>
             </li>
           </ul>
         </div>
-        
+
         {/* 美团 */}
-        <div class="relative pl-6 border-l-2 border-aurora-blue/30">
-          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-aurora-blue/20 border-2 border-aurora-blue"></div>
+        <div class="relative pl-6 border-l-2 border-ink/20">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-ink/10 border-2 border-ink/30"></div>
           <div class="mb-2">
-            <h3 class="text-lg font-medium text-human-text">美团 · 酒店事业部</h3>
-            <p class="text-sm text-gray-light">产品运营部C端用户运营负责人 / 分销业务负责人 | 2019.09 — 2024.06 | 汇报：产品运营部负责人 | 团队：7人</p>
+            <h3 class="text-lg font-medium text-ink"><Lang zh="美团 · 酒店事业部" en="Meituan · Hotel Business Unit" /></h3>
+            <p class="text-sm text-ink/50"><Lang zh="C端用户运营负责人 / 分销业务负责人 | 2019.09 — 2024.06 · 团队：7人" en="Head of C-end User Ops / Head of Distribution | 2019.09 — 2024.06 · Team of 7" /></p>
           </div>
-          <p class="text-human-text text-sm leading-relaxed mb-3">
-            在美团酒店业务成熟期，负责挖掘新增长曲线。核心覆盖用户增长、会员体系运营及分销渠道优化，通过精细化运营提升间夜量、GMV与用户LTV。
+          <p class="text-ink/80 text-sm leading-7 mb-3">
+            <Lang
+              zh="在美团酒店业务成熟期挖掘新增长曲线，覆盖用户增长、会员体系运营及分销渠道优化，提升间夜量、GMV与用户LTV。"
+              en="Found new growth curves for a mature hotel business: user growth, membership operations, distribution optimization — lifting room-nights, GMV, and LTV."
+            />
           </p>
-          <ul class="space-y-2 text-sm text-gray-mid">
+          <ul class="space-y-2 text-sm text-ink/60">
             <li class="flex gap-2">
-              <span class="text-aurora-blue shrink-0">▸</span>
-              <span><strong>会员体系重构：</strong>主导搭建普银金白钻等级权益，引入房型升级、延迟退房等高感知权益；建立RFM用户分层模型，中高等级会员贡献间夜量持续提升</span>
+              <span class="text-ink/40 shrink-0">▸</span>
+              <span><strong><Lang zh="会员体系重构" en="Membership rebuild" /></strong><Lang zh="：搭建普银金白钻等级权益，引入房型升级、延迟退房等高感知权益；建立RFM用户分层模型，中高等级会员贡献间夜量持续提升" en=": built the tiered benefits system with high-perception perks (room upgrades, late checkout); RFM segmentation; rising room-night share from mid/high-tier members" /></span>
             </li>
             <li class="flex gap-2">
-              <span class="text-aurora-blue shrink-0">▸</span>
-              <span><strong>线下获客专项：</strong>在酒店前台、景区入口等场景铺设物料，优化"线下扫码预订-店内服务"链路，累计获取数千万线下新用户</span>
+              <span class="text-ink/40 shrink-0">▸</span>
+              <span><strong><Lang zh="线下获客专项" en="Offline acquisition" /></strong><Lang zh="：在酒店前台、景区入口铺设物料，优化「线下扫码预订-店内服务」链路，累计获取数千万线下新用户" en=": front-desk and park-entrance programs with a scan-to-book loop; tens of millions of offline new users" /></span>
             </li>
             <li class="flex gap-2">
-              <span class="text-aurora-blue shrink-0">▸</span>
-              <span><strong>分销商业化：</strong>对接差旅平台、图商等外部B端渠道，协调产研完成API对接，优化商旅分销供给结构</span>
+              <span class="text-ink/40 shrink-0">▸</span>
+              <span><strong><Lang zh="分销商业化" en="Distribution monetization" /></strong><Lang zh="：对接差旅平台、图商等外部B端渠道，协调产研完成API对接，优化商旅分销供给结构" en=": integrated B2B channels (corporate travel platforms, map providers) via API, optimizing business-travel supply" /></span>
             </li>
           </ul>
         </div>
-        
+
         {/* 同程艺龙 */}
-        <div class="relative pl-6 border-l-2 border-resonance-gold/30">
-          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-resonance-gold/20 border-2 border-resonance-gold"></div>
+        <div class="relative pl-6 border-l-2 border-ink/20">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-ink/10 border-2 border-ink/30"></div>
           <div class="mb-2">
-            <h3 class="text-lg font-medium text-human-text">同程艺龙 · 平台产品中心</h3>
-            <p class="text-sm text-gray-light">产品总监 | 2017.08 — 2019.09 | 汇报：集团CMO | 团队：30人</p>
+            <h3 class="text-lg font-medium text-ink"><Lang zh="同程艺龙 · 平台产品中心" en="Tongcheng-Elong · Platform Product Center" /></h3>
+            <p class="text-sm text-ink/50"><Lang zh="产品总监 | 2017.08 — 2019.09 · 团队：30人" en="Product Director | 2017.08 — 2019.09 · Team of 30" /></p>
           </div>
-          <p class="text-human-text text-sm leading-relaxed mb-3">
-            统筹同程艺龙两大品牌自营app平台的产品规划与运营，创新孵化国际化业务（travelgo站点，hopego前身）。
+          <p class="text-ink/80 text-sm leading-7 mb-3">
+            <Lang
+              zh="统筹两大品牌自营 app 平台的产品规划与运营，创新孵化国际化业务。"
+              en="Ran product planning and operations for both brand apps; incubated the international business from zero."
+            />
           </p>
-          <ul class="space-y-2 text-sm text-gray-mid">
+          <ul class="space-y-2 text-sm text-ink/60">
             <li class="flex gap-2">
-              <span class="text-resonance-gold shrink-0">▸</span>
-              <span><strong>国际化从0到1：</strong>组建国际化团队，完成繁体中文、英语站点及微信小程序搭建，配套多语言客服与支付结算体系</span>
+              <span class="text-ink/40 shrink-0">▸</span>
+              <span><strong><Lang zh="国际化从0到1" en="International 0→1" /></strong><Lang zh="：组建国际化团队，完成繁体中文、英语站点及微信小程序搭建，配套多语言客服与支付结算体系" en=": built the team and shipped TC/EN sites and WeChat mini-programs with multilingual support and payment settlement" /></span>
             </li>
             <li class="flex gap-2">
-              <span class="text-resonance-gold shrink-0">▸</span>
-              <span><strong>流量矩阵：</strong>孵化百度小程序、安卓快应用等新兴入口，实现平台DAU稳步提升，降低单一渠道依赖</span>
+              <span class="text-ink/40 shrink-0">▸</span>
+              <span><strong><Lang zh="流量矩阵" en="Traffic matrix" /></strong><Lang zh="：孵化百度小程序、安卓快应用等新兴入口，平台DAU稳步提升，降低单一渠道依赖" en=": incubated emerging entries (Baidu mini-programs, Android quick apps), lifting DAU and reducing single-channel dependence" /></span>
             </li>
           </ul>
         </div>
-        
+
         {/* 同程旅游 */}
-        <div class="relative pl-6 border-l-2 border-gray-200">
-          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-gray-100 border-2 border-gray-300"></div>
+        <div class="relative pl-6 border-l-2 border-ink/15">
+          <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-ink/5 border-2 border-ink/25"></div>
           <div class="mb-2">
-            <h3 class="text-lg font-medium text-human-text">同程旅游 · 周边自由行项目</h3>
-            <p class="text-sm text-gray-light">运营总监 → 项目总经理 | 2013.04 — 2017.07 | 核心标签：内部创业、从0到1、爆款操盘</p>
+            <h3 class="text-lg font-medium text-ink"><Lang zh="同程旅游 · 周边自由行项目" en="Tongcheng · Weekend Getaways Project" /></h3>
+            <p class="text-sm text-ink/50"><Lang zh="运营总监 → 项目总经理 | 2013.04 — 2017.07 · 内部创业、从0到1" en="Ops Director → Project GM | 2013.04 — 2017.07 · Intrapreneurship, 0→1" /></p>
           </div>
-          <p class="text-human-text text-sm leading-relaxed mb-3">
-            作为核心创始成员参与周边游事业部组建，见证团队从3人扩张至千人规模。负责商业模式设计、供应链整合及市场营销策略。
+          <p class="text-ink/80 text-sm leading-7 mb-3">
+            <Lang
+              zh="核心创始成员，见证团队从3人扩张至千人规模。负责商业模式设计、供应链整合及市场营销策略。"
+              en="Founding member; watched the team grow from 3 to 1,000. Owned business model design, supply-chain integration, and marketing strategy."
+            />
           </p>
-          <ul class="space-y-2 text-sm text-gray-mid">
+          <ul class="space-y-2 text-sm text-ink/60">
             <li class="flex gap-2">
-              <span class="text-gray-light shrink-0">▸</span>
-              <span><strong>"十元度周末"：</strong>单场销售酒店间夜量突破20,000+，获客超70,000+，以极低营销成本引爆长三角市场</span>
+              <span class="text-ink/40 shrink-0">▸</span>
+              <span><strong><Lang zh="「十元度周末」" en="'10-Yuan Weekend'" /></strong><Lang zh="：单场销售酒店间夜量突破20,000+，获客超70,000+，以极低营销成本引爆长三角市场" en=": 20,000+ room-nights and 70,000+ new users in a single campaign, igniting the Yangtze Delta market at minimal cost" /></span>
             </li>
             <li class="flex gap-2">
-              <span class="text-gray-light shrink-0">▸</span>
-              <span><strong>"动态打包"系统：</strong>实现用户前端自由组合、后端库存实时调用的自动化流程，支持业务从百万级向亿级营收跨越</span>
+              <span class="text-ink/40 shrink-0">▸</span>
+              <span><strong><Lang zh="「动态打包」系统" en="'Dynamic Packaging'" /></strong><Lang zh="：用户前端自由组合、后端库存实时调用的自动化流程，支持业务从百万级向亿级营收跨越" en=": user-side free combination with real-time inventory, taking the business from millions to a billion in revenue" /></span>
             </li>
           </ul>
         </div>
@@ -203,45 +338,45 @@ import HumanLayout from '../layouts/HumanLayout.astro';
 
     {/* 核心项目 */}
     <section class="mb-16">
-      <h2 class="font-human text-2xl text-human-text mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-aurora-green/10 text-aurora-green flex items-center justify-center text-sm">04</span>
-        核心项目经历
+      <h2 class="font-human font-medium text-2xl text-ink mb-6 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-[3px] bg-cinnabar/10 text-cinnabar flex items-center justify-center text-sm">05</span>
+        <Lang zh="核心项目经历" en="Key Projects" />
       </h2>
-      
+
       <div class="space-y-6">
-        <div class="p-6 md:p-8 rounded-2xl border border-gray-200/60 bg-human-bg">
+        <div class="p-6 md:p-8 rounded-[3px] border border-ink/10">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
-            <h3 class="font-medium text-human-text text-lg">美团酒店会员体系重构与全生命周期运营</h3>
-            <span class="text-xs text-gray-light bg-gray-100 px-3 py-1 rounded-full">2019 — 2023</span>
+            <h3 class="font-medium text-ink text-lg"><Lang zh="美团酒店会员体系重构与全生命周期运营" en="Meituan Hotel Membership Rebuild & Lifecycle Ops" /></h3>
+            <span class="text-xs text-ink/45 border border-ink/15 px-3 py-1 rounded-full">2019 — 2023</span>
           </div>
-          <div class="space-y-3 text-sm">
-            <p><span class="text-gray-light font-medium">背景：</span>美团酒店面临行业存量博弈，原有会员体系权益单一，高价值用户流失风险增加，LTV挖掘不足。</p>
-            <p><span class="text-gray-light font-medium">行动：</span>基于RFM模型对亿级用户精准分层，定义5级成长路径；确定以"会员折扣""房型升级"为核心的高感知权益，联合美团外卖推出跨场景权益。</p>
-            <p><span class="text-aurora-green font-medium">结果：</span>中高等级会员贡献间夜量占比持续提升；参与会员价格权益输出的酒店数量持续提升。</p>
+          <div class="space-y-3 text-sm leading-7">
+            <p><span class="text-ink/45 font-medium"><Lang zh="背景：" en="Context: " /></span><Lang zh="行业存量博弈，原有会员体系权益单一，高价值用户流失风险增加，LTV挖掘不足。" en="A stock-game market; single-benefit membership; churn risk among high-value users; LTV underexploited." /></p>
+            <p><span class="text-ink/45 font-medium"><Lang zh="行动：" en="Action: " /></span><Lang zh="基于RFM模型对亿级用户精准分层，定义5级成长路径；以「会员折扣」「房型升级」为核心高感知权益，联合美团外卖推出跨场景权益。" en="RFM segmentation over 100M+ users, a 5-tier growth path, high-perception perks (member discounts, room upgrades), cross-scenario benefits with Meituan Waimai." /></p>
+            <p><span class="text-cinnabar font-medium"><Lang zh="结果：" en="Result: " /></span><Lang zh="中高等级会员贡献间夜量占比持续提升；参与会员价格权益输出的酒店数量持续提升。" en="Rising room-night share from mid/high-tier members; more hotels joining member-price programs." /></p>
           </div>
         </div>
-        
-        <div class="p-6 md:p-8 rounded-2xl border border-gray-200/60 bg-human-bg">
+
+        <div class="p-6 md:p-8 rounded-[3px] border border-ink/10">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
-            <h3 class="font-medium text-human-text text-lg">支付宝"出行AI助手"创新专项</h3>
-            <span class="text-xs text-gray-light bg-gray-100 px-3 py-1 rounded-full">2024 — 至今</span>
+            <h3 class="font-medium text-ink text-lg"><Lang zh="支付宝「出行AI助手」创新专项" en="Alipay 'Travel AI Assistant'" /></h3>
+            <span class="text-xs text-ink/45 border border-ink/15 px-3 py-1 rounded-full">2024 — 2026</span>
           </div>
-          <div class="space-y-3 text-sm">
-            <p><span class="text-gray-light font-medium">背景：</span>大模型技术爆发，但ToC商业化落地场景稀缺。支付宝出行频道面临服务入口深、咨询效率低、变现手段单一的问题。</p>
-            <p><span class="text-gray-light font-medium">行动：</span>主导定义智能行程规划、旅游线路规划、公交地铁站点查询三大场景；批量生产预设query教育市场；从人工生产query升级为AI自动化生产。</p>
-            <p><span class="text-aurora-blue font-medium">结果：</span>query生产效率提升100倍以上；从追求DAU转向追求高质量query的服务挂载率和用户使用频次。</p>
+          <div class="space-y-3 text-sm leading-7">
+            <p><span class="text-ink/45 font-medium"><Lang zh="背景：" en="Context: " /></span><Lang zh="大模型技术爆发，但ToC商业化落地场景稀缺；出行频道服务入口深、咨询效率低、变现手段单一。" en="LLMs were booming but consumer monetization scenarios were scarce; the travel channel had deep-buried entries, inefficient support, and single-track monetization." /></p>
+            <p><span class="text-ink/45 font-medium"><Lang zh="行动：" en="Action: " /></span><Lang zh="定义智能行程规划、旅游线路规划、公交地铁站点查询三大场景；批量生产预设query教育市场；从人工生产升级为AI自动化生产。" en="Defined three scenarios (smart itinerary, route planning, transit lookup); mass-produced preset queries to educate the market; moved query production from manual to AI-automated." /></p>
+            <p><span class="text-cinnabar font-medium"><Lang zh="结果：" en="Result: " /></span><Lang zh="query生产效率提升100倍以上；从追求DAU转向追求高质量query的服务挂载率和使用频次。" en="100x+ query production efficiency; shifted the goal from DAU to service-attach rate and frequency of high-quality queries." /></p>
           </div>
         </div>
-        
-        <div class="p-6 md:p-8 rounded-2xl border border-gray-200/60 bg-human-bg">
+
+        <div class="p-6 md:p-8 rounded-[3px] border border-ink/10">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
-            <h3 class="font-medium text-human-text text-lg">同程周边游"十元度周末"引爆战役</h3>
-            <span class="text-xs text-gray-light bg-gray-100 px-3 py-1 rounded-full">2013</span>
+            <h3 class="font-medium text-ink text-lg"><Lang zh="同程周边游「十元度周末」引爆战役" en="Tongcheng '10-Yuan Weekend' Campaign" /></h3>
+            <span class="text-xs text-ink/45 border border-ink/15 px-3 py-1 rounded-full">2013</span>
           </div>
-          <div class="space-y-3 text-sm">
-            <p><span class="text-gray-light font-medium">背景：</span>同程进军周边游蓝海，品牌认知度低，用户习惯尚未养成，急需低成本高爆发获客手段。</p>
-            <p><span class="text-gray-light font-medium">行动：</span>筛选高品质五星酒店与热门景区，通过补贴打造"10元"极致价格锚点；设计"限量抢购"机制，全域媒体地毯式传播。</p>
-            <p><span class="text-resonance-gold font-medium">结果：</span>单场获客7万+，销售间夜超2万；开创OTA行业"爆款引流、长尾盈利"经典打法。</p>
+          <div class="space-y-3 text-sm leading-7">
+            <p><span class="text-ink/45 font-medium"><Lang zh="背景：" en="Context: " /></span><Lang zh="进军周边游蓝海，品牌认知度低，用户习惯尚未养成，急需低成本高爆发获客。" en="Entering a blue-ocean market with low brand awareness and unformed user habits; needed low-cost, high-burst acquisition." /></p>
+            <p><span class="text-ink/45 font-medium"><Lang zh="行动：" en="Action: " /></span><Lang zh="筛选高品质五星酒店与热门景区，补贴打造「10元」极致价格锚点；设计「限量抢购」机制，全域媒体地毯式传播。" en="Curated five-star hotels and top attractions, subsidized to a ¥10 price anchor; flash-sale mechanics; blanket media coverage." /></p>
+            <p><span class="text-cinnabar font-medium"><Lang zh="结果：" en="Result: " /></span><Lang zh="单场获客7万+，销售间夜超2万；开创OTA行业「爆款引流、长尾盈利」经典打法。" en="70K+ new users and 20K+ room-nights in one campaign; pioneered the OTA playbook of blockbuster acquisition with long-tail profit." /></p>
           </div>
         </div>
       </div>
@@ -249,61 +384,171 @@ import HumanLayout from '../layouts/HumanLayout.astro';
 
     {/* 教育背景 */}
     <section class="mb-16">
-      <h2 class="font-human text-2xl text-human-text mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-aurora-blue/10 text-aurora-blue flex items-center justify-center text-sm">05</span>
-        教育背景
+      <h2 class="font-human font-medium text-2xl text-ink mb-6 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-[3px] bg-cinnabar/10 text-cinnabar flex items-center justify-center text-sm">06</span>
+        <Lang zh="教育背景" en="Education" />
       </h2>
       <div class="space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl border border-gray-200/60 bg-human-bg">
+        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-[3px] border border-ink/10">
           <div>
-            <p class="font-medium text-human-text">悉尼科技大学 (UTS)</p>
-            <p class="text-sm text-gray-mid">旅游管理 · 硕士</p>
+            <p class="font-medium text-ink"><Lang zh="悉尼科技大学 (UTS)" en="University of Technology Sydney" /></p>
+            <p class="text-sm text-ink/60"><Lang zh="旅游管理 · 硕士" en="M.A. Tourism Management" /></p>
           </div>
-          <span class="text-sm text-gray-light mt-1 md:mt-0">2009.02 — 2010.12</span>
+          <span class="text-sm text-ink/50 mt-1 md:mt-0">2009.02 — 2010.12</span>
         </div>
-        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl border border-gray-200/60 bg-human-bg">
+        <div class="flex flex-col md:flex-row md:items-center justify-between p-4 rounded-[3px] border border-ink/10">
           <div>
-            <p class="font-medium text-human-text">苏州大学</p>
-            <p class="text-sm text-gray-mid">旅游管理 · 本科</p>
+            <p class="font-medium text-ink"><Lang zh="苏州大学" en="Soochow University" /></p>
+            <p class="text-sm text-ink/60"><Lang zh="旅游管理 · 本科" en="B.A. Tourism Management" /></p>
           </div>
-          <span class="text-sm text-gray-light mt-1 md:mt-0">2003.09 — 2007.06</span>
+          <span class="text-sm text-ink/50 mt-1 md:mt-0">2003.09 — 2007.06</span>
         </div>
       </div>
     </section>
 
     {/* 专业技能 */}
     <section class="mb-16">
-      <h2 class="font-human text-2xl text-human-text mb-6 flex items-center gap-2">
-        <span class="w-8 h-8 rounded-lg bg-resonance-gold/10 text-resonance-gold flex items-center justify-center text-sm">06</span>
-        专业技能与语言
+      <h2 class="font-human font-medium text-2xl text-ink mb-6 flex items-center gap-3">
+        <span class="w-8 h-8 rounded-[3px] bg-cinnabar/10 text-cinnabar flex items-center justify-center text-sm">07</span>
+        <Lang zh="专业技能与语言" en="Skills & Languages" />
       </h2>
-      
+
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg">
-          <h3 class="font-medium text-human-text mb-4">专业技能</h3>
+        <div class="p-6 rounded-[3px] border border-ink/10">
+          <h3 class="font-medium text-ink mb-4"><Lang zh="专业技能" en="Professional Skills" /></h3>
           <div class="flex flex-wrap gap-2">
             {['用户全生命周期管理', 'AARRR模型', '会员体系搭建', '分销渠道管理', '产品规划', 'UI/UX优化', '数据分析', '漏斗分析', '归因分析', 'OKR拆解', 'KPI绩效', '团队文化建设'].map(tag => (
-              <span class="px-3 py-1.5 rounded-full bg-gray-100 text-gray-mid text-xs">{tag}</span>
+              <span class="px-3 py-1.5 rounded-[3px] bg-ink/[0.05] text-ink/60 text-xs">{tag}</span>
             ))}
           </div>
         </div>
-        
-        <div class="p-6 rounded-xl border border-gray-200/60 bg-human-bg">
-          <h3 class="font-medium text-human-text mb-4">语言 & 软技能</h3>
-          <div class="space-y-3 text-sm text-gray-mid">
-            <p><span class="text-human-text font-medium">英语：</span>流利，具备海外留学背景，可主导国际化业务，作为工作语言</p>
-            <p><span class="text-human-text font-medium">战略思维：</span>从0到1搭建商业模型，在复杂竞争中制定破局策略</p>
-            <p><span class="text-human-text font-medium">资源整合：</span>跨部门沟通与长链路项目推进能力</p>
-            <p><span class="text-human-text font-medium">AI认知：</span>持续跟踪Anthropic战略、Agent生态演化；学习Karpathy LLM Wiki、RIDE企业AI落地方法</p>
+
+        <div class="p-6 rounded-[3px] border border-ink/10">
+          <h3 class="font-medium text-ink mb-4"><Lang zh="语言 & 软技能" en="Languages & Soft Skills" /></h3>
+          <div class="space-y-3 text-sm text-ink/60 leading-7">
+            <p><span class="text-ink font-medium"><Lang zh="英语：" en="English: " /></span><Lang zh="流利，海外留学背景，可作为工作语言" en="Fluent (overseas study); full working proficiency" /></p>
+            <p><span class="text-ink font-medium"><Lang zh="战略思维：" en="Strategy: " /></span><Lang zh="从0到1搭建商业模型，在复杂竞争中制定破局策略" en="0→1 business modeling; breakout strategies in complex competition" /></p>
+            <p><span class="text-ink font-medium"><Lang zh="资源整合：" en="Resource orchestration: " /></span><Lang zh="跨部门沟通与长链路项目推进能力" en="Cross-functional communication and long-chain project delivery" /></p>
+            <p><span class="text-ink font-medium"><Lang zh="AI认知：" en="AI literacy: " /></span><Lang zh="持续跟踪 Agent 生态演化与企业 AI 落地方法论" en="Continuously tracking the agent ecosystem and enterprise AI adoption methods" /></p>
           </div>
         </div>
       </div>
     </section>
 
     {/* Footer */}
-    <div class="text-center pt-8 border-t border-gray-200/60">
-      <p class="text-sm text-gray-light">更新于 2026年5月</p>
+    <div class="text-center pt-8 border-t border-ink/10">
+      <p class="text-sm text-ink/40"><Lang zh="更新于 2026年8月" en="Updated August 2026" /></p>
     </div>
 
   </div>
+
+  <script>
+    // 岗位匹配器：POST /api/match → 渲染结构化报告
+    const isEn = document.documentElement.dataset.lang === 'en';
+    const t = (zh: string, en: string) => (isEn ? en : zh);
+
+    const input = document.getElementById('jd-input') as HTMLTextAreaElement | null;
+    const submit = document.getElementById('jd-submit') as HTMLButtonElement | null;
+    const status = document.getElementById('jd-status');
+    const report = document.getElementById('jd-report');
+
+    input?.setAttribute('placeholder', t('粘贴岗位 JD（至少 50 字）…', 'Paste the job description (min 50 chars)…'));
+
+    const scoreColor = (s: number) => (s >= 80 ? '#c8391f' : s >= 60 ? '#2f4a5e' : s >= 40 ? '#8a6d2f' : '#6b7280');
+    const scoreLabel = (s: number) =>
+      s >= 80 ? t('高度匹配', 'Strong match') : s >= 60 ? t('值得深聊', 'Worth a chat') : s >= 40 ? t('部分匹配', 'Partial match') : t('不推荐', 'Not recommended');
+
+    function el(tag: string, cls: string, text?: string) {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text !== undefined) e.textContent = text;
+      return e;
+    }
+
+    submit?.addEventListener('click', async () => {
+      const jd = (input?.value ?? '').trim();
+      if (jd.length < 50) {
+        if (status) status.textContent = t('JD 太短，请粘贴完整岗位描述。', 'JD too short — paste the full description.');
+        return;
+      }
+      submit.disabled = true;
+      if (status) status.textContent = t('匹配中，约需 30-60 秒（模型在认真读 JD）…', 'Analyzing, ~30-60s (the model is actually reading)…');
+      if (report) report.innerHTML = '';
+
+      try {
+        const resp = await fetch('/api/match', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jd }),
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data?.error || t('服务异常', 'Service error'));
+
+        if (!report) return;
+        const wrap = el('div', 'border-t border-dai-blue/20 pt-6 space-y-6');
+
+        // 评分
+        const head = el('div', 'flex items-baseline gap-4 flex-wrap');
+        const score = el('span', 'font-human font-bold text-4xl', String(data.score));
+        score.style.color = scoreColor(data.score);
+        head.appendChild(score);
+        head.appendChild(el('span', 'text-sm font-medium', scoreLabel(data.score)));
+        (head.lastChild as HTMLElement).style.color = scoreColor(data.score);
+        if (data.verdict) head.appendChild(el('span', 'text-sm text-ink/70', data.verdict));
+        wrap.appendChild(head);
+
+        // 匹配点
+        if (Array.isArray(data.matches) && data.matches.length) {
+          const box = el('div', '');
+          box.appendChild(el('h3', 'text-sm font-medium text-ink mb-3', t('✓ 匹配点', '✓ Matches')));
+          data.matches.slice(0, 3).forEach((m: any) => {
+            const row = el('div', 'mb-3 pl-4 border-l-2 border-cinnabar/40');
+            row.appendChild(el('p', 'text-sm font-medium text-ink', m.point ?? ''));
+            if (m.evidence) row.appendChild(el('p', 'text-xs text-ink/55 mt-1 leading-5', m.evidence));
+            box.appendChild(row);
+          });
+          wrap.appendChild(box);
+        }
+
+        // 差距
+        if (Array.isArray(data.gaps) && data.gaps.length) {
+          const box = el('div', '');
+          box.appendChild(el('h3', 'text-sm font-medium text-ink mb-3', t('✗ 差距与风险（坦诚）', '✗ Gaps & risks (honest)')));
+          data.gaps.slice(0, 3).forEach((g: string) => {
+            const row = el('div', 'mb-2 pl-4 border-l-2 border-ink/20');
+            row.appendChild(el('p', 'text-sm text-ink/70 leading-6', g));
+            box.appendChild(row);
+          });
+          wrap.appendChild(box);
+        }
+
+        // 建议
+        if (data.advice) {
+          const adv = el('p', 'text-sm text-dai-blue leading-6 pt-2', `💡 ${data.advice}`);
+          wrap.appendChild(adv);
+        }
+
+        // 转化 CTA：报告生成后给出直达邮件入口
+        if (typeof data.score === 'number' && data.score >= 40) {
+          const cta = el('div', 'pt-2');
+          const link = el(
+            'a',
+            'inline-flex items-center gap-2 px-6 py-3 bg-cinnabar text-paper rounded-[3px] font-medium text-sm hover:bg-cinnabar/90 transition-colors',
+            t('发邮件给姜华 →', 'Email Jiang Hua →')
+          );
+          link.href = 'mailto:Faraway1314@163.com?subject=' + encodeURIComponent(t('岗位匹配沟通', 'Job match follow-up'));
+          cta.appendChild(link);
+          wrap.appendChild(cta);
+        }
+
+        report.appendChild(wrap);
+        if (status) status.textContent = '';
+      } catch (err: any) {
+        if (status) status.textContent = err?.message || t('匹配失败，请稍后再试。', 'Failed, please retry.');
+      } finally {
+        submit.disabled = false;
+      }
+    });
+  </script>
+
 </HumanLayout>

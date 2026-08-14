@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「透过AI看姜华」视觉原型 v3</title>
+<!--
+  视觉原型 v3 —— 针对 v2 截图意见的修订：
+  1. 卷首去粗暴：删竖排题字与粗墨线，回到克制构图（名+印+发丝线+身份行），以节奏而非体量镇场
+  2. 导航「01 问姜华」→「01 首页」（问的是 AI 不是姜华，避免歧义）
+  3. 「山水已阅，不如开口。」降为副标题，与「透过 AI 看姜华」同一行
+  4. 「AI 助理在线」与「语料在案」合并为一行状态
+  5. 对话交互对齐主流 AI 产品：用户右侧气泡、分身左侧印章头像、输入框沉底、流式光标、多轮追加
+  6. 对话存档默认折叠，点击展开（类似历史会话）
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Long+Cang&family=Noto+Serif+SC:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF6F1; --paper-deep:#f2ecdf; --ink:#1f2328; --ink-60:rgba(31,35,40,.6);
+    --ink-40:rgba(31,35,40,.4); --ink-15:rgba(31,35,40,.15); --cinnabar:#c8391f; --dai:#2f4a5e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);color:var(--ink);font-family:'Noto Serif SC',serif;overflow-x:hidden;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.42 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .f-ren{font-family:'Long Cang',cursive}
+  .f-ji{font-family:'JetBrains Mono',monospace}
+
+  .mountains{position:fixed;inset:auto 0 0 0;height:36vh;pointer-events:none;z-index:0;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .mountains svg{width:104%;height:100%;margin-left:-2%}
+  #ridgeNear{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+
+  .drift-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .drift-col{position:absolute;top:-12%;writing-mode:vertical-rl;letter-spacing:.45em;font-size:17px;color:var(--ink);opacity:0;white-space:nowrap;transition:opacity .5s,color .5s,transform .5s;animation:driftUp linear infinite;pointer-events:auto;cursor:crosshair;padding:20px 16px}
+  @keyframes driftUp{from{transform:translateY(18vh)}to{transform:translateY(-62vh)}}
+  .drift-col.show{opacity:.14}
+  .drift-col.show:hover{opacity:.95;color:var(--dai);animation-play-state:paused;text-shadow:0 0 18px rgba(47,74,94,.28)}
+  .drift-layer.waiting .drift-col{color:var(--dai)}
+  /* 悬停出处小注 */
+  .drift-tip{
+    position:fixed;z-index:5;pointer-events:none;opacity:0;transform:translateY(4px);
+    transition:opacity .3s,transform .3s;
+    font-family:'Noto Serif SC',serif;font-size:13px;letter-spacing:.08em;color:var(--dai);
+    background:rgba(250,246,241,.95);border:1px solid rgba(47,74,94,.35);border-radius:3px;padding:7px 12px;
+    box-shadow:0 3px 12px rgba(31,35,40,.1);
+  }
+  .drift-tip.on{opacity:1;transform:translateY(0)}
+  /* 触墨生漪 */
+  .ink-bloom{
+    position:fixed;z-index:1;width:190px;height:190px;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(31,35,40,.3) 0%,rgba(31,35,40,.14) 32%,rgba(47,74,94,.05) 55%,transparent 72%);
+    transform:translate(-50%,-50%) scale(0);filter:blur(1px);
+    animation:bloom 2.8s cubic-bezier(.16,.7,.3,1) forwards;
+  }
+  @keyframes bloom{
+    0%{transform:translate(-50%,-50%) scale(0);opacity:0}
+    12%{opacity:.9}
+    100%{transform:translate(-50%,-50%) scale(1);opacity:0}
+  }
+
+  .waiting-seal{position:fixed;right:clamp(12px,5vw,72px);top:42%;z-index:1;width:34px;height:58px;background:var(--dai);color:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:13px;border-radius:3px;font-family:'Long Cang',cursive;box-shadow:0 2px 8px rgba(47,74,94,.35);opacity:0;transform:scale(1.6) rotate(-8deg);transition:opacity .5s,transform .5s cubic-bezier(.2,1.6,.4,1);pointer-events:none}
+  .waiting-seal.stamped{opacity:.92;transform:scale(1) rotate(-2deg)}
+
+  /* ===== 导航 ===== */
+  .topnav{position:fixed;top:0;left:0;right:0;z-index:20;background:rgba(250,246,241,.88);backdrop-filter:blur(6px);border-bottom:1px solid var(--ink-15)}
+  .topnav-inner{max-width:1080px;margin:0 auto;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;flex:none}
+  .brand-seal{width:26px;height:26px;background:var(--cinnabar);border-radius:3px;color:var(--paper);font-family:'Long Cang',cursive;font-size:13px;display:flex;align-items:center;justify-content:center;transform:rotate(-2deg);box-shadow:0 1px 5px rgba(200,57,31,.3)}
+  .brand-name{font-family:'Long Cang',cursive;font-size:21px;letter-spacing:.1em}
+  .navlinks{display:flex;align-items:center;gap:clamp(10px,2.4vw,26px);overflow-x:auto;scrollbar-width:none}
+  .navlinks::-webkit-scrollbar{display:none}
+  .navlink{flex:none;display:flex;align-items:baseline;gap:5px;text-decoration:none;color:var(--ink-60);font-size:14.5px;padding:4px 2px;border-bottom:2px solid transparent;transition:color .25s,border-color .25s}
+  .navlink .idx{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink-40)}
+  .navlink:hover{color:var(--ink)}
+  .navlink.current{color:var(--cinnabar);border-bottom-color:var(--cinnabar)}
+  .navlink.current .idx{color:var(--cinnabar)}
+
+  /* ===== 中轴 ===== */
+  .axis{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:96px 24px 140px}
+
+  /* ===== 卷首 B：问句即卷首 ===== */
+  .hero-q{margin-bottom:34px}
+  .hero-q h1{
+    font-family:'Long Cang',cursive;font-weight:400;
+    font-size:clamp(46px,7.2vw,76px);line-height:1.25;letter-spacing:.03em;
+  }
+  .hero-q h1 .qm{color:var(--cinnabar)}
+  .hero-sub{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin-top:16px}
+  .hero-sub .role{font-size:clamp(16px,2.2vw,19px);color:var(--cinnabar);font-weight:500}
+  .hero-sub .exp{font-size:13.5px;color:var(--ink-60)}
+  /* 发丝线：通栏细线 + 左侧一截朱砂，如朱丝栏起笔 */
+  .hairline{position:relative;height:1px;background:var(--ink-15);margin:18px 0 14px}
+  .hairline::before{content:'';position:absolute;left:0;top:-0.5px;width:72px;height:2px;background:var(--cinnabar)}
+
+  .site-intro{font-size:15.5px;line-height:2.05;color:var(--ink-60);max-width:640px;margin-bottom:8px}
+  .site-intro em{font-style:normal;color:var(--ink);border-bottom:1px solid rgba(200,57,31,.4)}
+  .intro-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-40);letter-spacing:.15em;margin:12px 0 44px}
+
+  /* ===== 模块题签：标题 + 副标题同一行 ===== */
+  .module-head{display:flex;align-items:baseline;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+  .module-title{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .module-title .zh{font-size:clamp(23px,3.4vw,28px);font-weight:500;letter-spacing:.05em}
+  .module-title .en{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.26em;color:var(--ink-40)}
+  .module-sub{font-family:'Long Cang',cursive;font-size:clamp(20px,3vw,25px);color:var(--ink-60)}
+  .module-sub::before{content:'——';color:var(--ink-40);margin-right:10px;font-family:'Noto Serif SC',serif;font-size:.7em}
+
+  /* ===== 对话纸面 ===== */
+  .sheet{background:rgba(255,255,255,.6);backdrop-filter:blur(2px);border:1px solid var(--ink-15);border-radius:8px;box-shadow:0 6px 30px rgba(31,35,40,.07)}
+  .sheet-chat{padding:20px 24px 22px}
+
+  /* ④ 状态一行：在线 + 语料 */
+  .status-line{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-40);letter-spacing:.03em;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px dashed var(--ink-15)}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--cinnabar);animation:breathe 2s ease-in-out infinite;flex:none}
+  @keyframes breathe{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(200,57,31,.35)}50%{opacity:.55;box-shadow:0 0 0 5px rgba(200,57,31,0)}}
+  .status-line .sep{opacity:.45}
+
+  /* ===== ⑤ 主流式对话流 ===== */
+  .thread{display:flex;flex-direction:column;gap:22px;padding:20px 2px 4px}
+  .thread:empty{display:none}
+  /* 用户：右侧气泡 */
+  .turn-q{align-self:flex-end;max-width:82%;background:var(--paper-deep);border:1px solid var(--ink-15);border-radius:14px 14px 4px 14px;padding:11px 16px;font-size:15.5px;line-height:1.8;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s}
+  .turn-q.reveal{opacity:1;transform:none}
+  /* 分身：左侧印章头像 + 无气泡正文 */
+  .turn-a{align-self:stretch;display:flex;gap:12px;opacity:0;transition:opacity .6s}
+  .turn-a.reveal{opacity:1}
+  .a-avatar{flex:none;width:30px;height:30px;background:var(--dai);color:var(--paper);border-radius:4px;font-family:'Long Cang',cursive;font-size:15px;display:flex;align-items:center;justify-content:center;transform:rotate(-2deg);box-shadow:0 1px 5px rgba(47,74,94,.3);margin-top:2px}
+  .a-body{flex:1;min-width:0;font-size:15.5px;line-height:2}
+  .a-name{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--ink-40);display:block;margin-bottom:5px}
+  .a-body a{color:var(--dai);border-bottom:1px solid rgba(47,74,94,.4);text-decoration:none}
+  .a-body .ch{opacity:0;filter:blur(3px);transition:opacity .35s,filter .35s}
+  .a-body .ch.on{opacity:1;filter:blur(0)}
+  /* 流式光标 */
+  .stream-caret{display:inline-block;width:2px;height:1.05em;background:var(--cinnabar);vertical-align:-0.15em;margin-left:1px;animation:caretB 1s steps(2) infinite}
+  @keyframes caretB{50%{opacity:0}}
+
+  /* 候墨块（置于分身回复位，像一个正在思考的 turn） */
+  .houmo{align-self:stretch;display:flex;gap:12px;opacity:0;transition:opacity .5s}
+  .houmo.on{opacity:1}
+  .houmo-panel{flex:1;min-width:0;background:var(--paper-deep);border-radius:6px;padding:14px 18px 13px}
+  .houmo-label{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-60);letter-spacing:.1em}
+  .houmo-label .dots i{display:inline-block;width:3.5px;height:3.5px;border-radius:50%;background:var(--ink-60);margin-left:4px;animation:dotP 1.4s infinite}
+  .houmo-label .dots i:nth-child(2){animation-delay:.2s}.houmo-label .dots i:nth-child(3){animation-delay:.4s}
+  @keyframes dotP{0%,100%{opacity:.2;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+  .ink-line{height:2px;width:150px;margin-top:9px;background:rgba(31,35,40,.1);border-radius:1px;overflow:hidden;position:relative}
+  .ink-line::after{content:'';position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,transparent,var(--ink) 60%,transparent);animation:inkFlow 1.8s ease-in-out infinite}
+  @keyframes inkFlow{to{left:100%}}
+  .houmo-card{margin-top:13px;transition:opacity .8s,filter .8s;opacity:.75}
+  .houmo-card.fading{opacity:0;filter:blur(4px)}
+  .houmo-card .tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dai);letter-spacing:.18em;display:block;margin-bottom:6px}
+  .houmo-card .body{font-size:14px;line-height:1.9;color:var(--ink-60)}
+  .houmo-card .src{font-size:11.5px;color:var(--ink-40);margin-top:5px;display:block}
+
+  /* 输入区沉底 */
+  .composer{padding:16px 0 0}
+  .input-row{display:flex;align-items:stretch;gap:10px}
+  .input-wrap{flex:1;display:flex;align-items:center;background:var(--paper);border:1px solid rgba(31,35,40,.22);border-radius:10px;padding:0 16px;transition:border-color .3s,box-shadow .3s;min-height:52px}
+  .input-wrap:focus-within{border-color:rgba(200,57,31,.55);box-shadow:0 0 0 3px rgba(200,57,31,.08)}
+  .input-wrap input{flex:1;border:none;outline:none;background:transparent;font-family:'Noto Serif SC',serif;font-size:15.5px;color:var(--ink);height:52px}
+  .input-wrap input::placeholder{color:var(--ink-40)}
+  .send-btn{border:none;cursor:pointer;background:var(--cinnabar);color:var(--paper);font-family:'Noto Serif SC',serif;font-size:14.5px;padding:0 22px;border-radius:10px;box-shadow:0 2px 10px rgba(200,57,31,.25);transition:transform .15s,background .2s}
+  .send-btn:hover{background:#b53318}
+  .send-btn:active{transform:scale(.97)}
+  .intent-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  .intent-token{cursor:pointer;user-select:none;display:flex;align-items:center;gap:8px;padding:7px 14px;color:var(--ink-60);font-size:13px;letter-spacing:.08em;border:1px solid rgba(31,35,40,.3);border-radius:999px;background:transparent;transition:all .25s}
+  .intent-token .niu{width:7px;height:7px;background:currentColor;transform:rotate(45deg);opacity:.5;flex:none}
+  .intent-token:hover{color:var(--cinnabar);border-color:var(--cinnabar)}
+  .intent-token.active{background:var(--cinnabar);border-color:var(--cinnabar);color:var(--paper);box-shadow:0 2px 8px rgba(200,57,31,.3);animation:stamp .35s cubic-bezier(.2,1.6,.4,1)}
+  .intent-token.active .niu{background:var(--paper);opacity:.95}
+  @keyframes stamp{0%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+  /* ===== ⑥ 对话存档：标题常显，逐条展开（历史会话式） ===== */
+  .sheet-archive{background:rgba(242,236,223,.4);border-top:1px solid var(--ink-15);border-radius:0 0 8px 8px;padding:14px 24px 10px}
+  .archive-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+  .archive-head .t-zh{font-family:'Long Cang',cursive;font-size:20px}
+  .archive-head .t-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-40);letter-spacing:.18em}
+  .dossier{border-top:1px solid var(--ink-15)}
+  .dossier:last-child{border-bottom:1px solid var(--ink-15)}
+  .dossier-head{width:100%;display:flex;align-items:baseline;gap:14px;padding:13px 2px;background:none;border:none;cursor:pointer;font-family:'Noto Serif SC',serif;text-align:left}
+  .dossier-head .no{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--cinnabar);flex:none}
+  .dossier-head .d-title{font-size:15px;color:var(--ink);flex:1;min-width:0;transition:color .25s}
+  .dossier-head .d-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-40);flex:none}
+  .dossier-head .chev{color:var(--ink-40);font-size:12px;transition:transform .3s;flex:none}
+  .dossier-head:hover .d-title{color:var(--cinnabar)}
+  .dossier.open .chev{transform:rotate(180deg)}
+  .dossier-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.2,.8,.2,1)}
+  .dossier.open .dossier-body{max-height:320px}
+  .dossier-body-inner{padding:2px 2px 18px calc(0px);display:grid;grid-template-columns:1fr;gap:0}
+  .dossier-body p{font-size:14px;line-height:1.9;color:var(--ink-60)}
+  .dossier-body .verdict{display:inline-block;margin-top:9px;font-size:12px;color:var(--dai);border:1px solid rgba(47,74,94,.35);padding:3px 10px;border-radius:2px}
+
+  .type-legend{margin-top:72px;padding-top:16px;border-top:1px solid var(--ink-15);display:flex;gap:26px;flex-wrap:wrap;font-size:12px;color:var(--ink-40)}
+  .type-legend .f-ren{font-size:17px}
+  .type-legend .f-ji{font-size:11px}
+
+  .proto-bar{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(31,35,40,.92);color:#e8e2d8;font-size:12px;display:flex;align-items:center;gap:16px;padding:8px 20px}
+  .proto-bar .f-ji{font-size:10.5px;opacity:.7}
+  .proto-bar button{background:transparent;border:1px solid rgba(232,226,216,.4);color:#e8e2d8;font-size:11.5px;padding:4px 12px;border-radius:3px;cursor:pointer;font-family:inherit}
+  .proto-bar button:hover{border-color:#e8e2d8}
+
+  @media (max-width:640px){
+    .drift-layer{display:none}
+    .axis{padding-top:76px}
+    .dossier{grid-template-columns:1fr}
+    .sheet-chat{padding:16px 16px 18px}
+    .sheet-archive{padding:12px 16px 8px}
+    .dossier-head .d-meta{display:none}
+    .module-sub{flex-basis:100%}
+    .module-sub::before{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="mountains" aria-hidden="true">
+  <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+    <path d="M0,224 C180,140 320,180 480,120 C640,60 760,160 920,110 C1080,60 1240,150 1440,90 L1440,320 L0,320 Z" fill="#2f4a5e" opacity=".1"/>
+    <path d="M0,260 C220,190 420,230 640,180 C860,130 1080,210 1440,160 L1440,320 L0,320 Z" fill="#2f4a5e" opacity=".08"/>
+    <path id="ridgeNear" d="M0,300 C260,240 520,290 780,250 C1040,210 1240,270 1440,230 L1440,320 L0,320 Z" fill="#2f4a5e" opacity=".14"/>
+  </svg>
+</div>
+
+<div class="drift-layer" id="driftLayer" aria-hidden="true"></div>
+<div class="waiting-seal" id="waitingSeal" aria-hidden="true"><span>候</span><span>墨</span><span>中</span></div>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <div class="brand"><span class="brand-seal">姜</span><span class="brand-name">姜华</span></div>
+    <div class="navlinks">
+      <a class="navlink current" href="#"><span class="idx">01</span>首页</a>
+      <a class="navlink" href="#"><span class="idx">02</span>案例志</a>
+      <a class="navlink" href="#"><span class="idx">03</span>思考集</a>
+      <a class="navlink" href="#"><span class="idx">04</span>其人</a>
+      <a class="navlink" href="#"><span class="idx">05</span>简历</a>
+      <a class="navlink" href="#"><span class="idx">06</span>联系</a>
+    </div>
+  </div>
+</nav>
+
+<div class="axis">
+
+  <!-- 卷首 B：问句即卷首 -->
+  <header class="hero-q">
+    <h1>你想知道姜华的什么<span class="qm">？</span></h1>
+    <div class="hero-sub">
+      <span class="role">独立经营顾问</span>
+      <span class="exp">15 年互联网产品及用户运营、管理经验 · 向企业和个人提供咨询与运营陪跑</span>
+    </div>
+  </header>
+
+  <div class="hairline"></div>
+
+  <!-- 引导文案：对话框之上（AI 占位，待姜华亲笔替换） -->
+  <div style="margin-bottom:36px">
+    <p class="site-intro">
+      这个站点没有模板，也没有后端团队——它是姜华用 <em>vibe coding</em> 的方式，与 AI 一行一行对话建成的。
+      站里住着一个了解他经历的 AI 助理：读过他的简历，翻过他的案例，也知道哪些事他不擅长。
+      你可以把它当作<em>最了解姜华的引路人</em>。
+    </p>
+    <p class="site-intro">
+      三种打开方式：<em>面试官</em>可以贴一段 JD，看它如何掂量匹配度；<em>有合作或项目</em>的朋友，说说你的业务，它会直言能不能帮上忙；或者，只是<em>随便聊聊</em>。
+    </p>
+    <p class="intro-tag" style="margin-bottom:0">SITE INTRO · AI 起草占位 · 待姜华亲笔替换</p>
+  </div>
+
+  <!-- 模块题签：标题与副标题同一行 -->
+  <div class="module-head">
+    <div class="module-title">
+      <span class="zh">透过 AI 看姜华</span>
+      <span class="en">ASK JIANGHUA · VIA AI</span>
+    </div>
+    <span class="module-sub">山水已阅，不如开口。</span>
+  </div>
+
+  <!-- 对话纸面 -->
+  <section class="sheet">
+    <div class="sheet-chat">
+      <div class="status-line">
+        <span class="live-dot"></span><span style="color:var(--ink-60)">AI 助理在线</span>
+        <span class="sep">·</span><span>语料在案：212 本书 / 2,621 条划线 / 14 段记忆</span>
+        <span class="sep">·</span><span>今日已答 3 问</span>
+      </div>
+
+      <!-- 对话流（多轮追加） -->
+      <div class="thread" id="thread"></div>
+
+      <!-- 候墨块（动态插入到 thread 内） -->
+
+      <!-- 输入沉底 -->
+      <div class="composer">
+        <div class="input-row">
+          <div class="input-wrap">
+            <input id="chatInput" type="text" placeholder="问点什么——例如：他做过文旅项目吗？" autocomplete="off">
+          </div>
+          <button class="send-btn" id="sendBtn">寄出</button>
+        </div>
+        <div class="intent-row">
+          <div class="intent-token" data-intent="interview"><span class="niu"></span>我是面试官</div>
+          <div class="intent-token" data-intent="coop"><span class="niu"></span>我有合作或项目</div>
+          <div class="intent-token" data-intent="chat"><span class="niu"></span>随便聊聊</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑥ 对话存档：标题常显，逐条点开 -->
+    <div class="sheet-archive">
+      <div class="archive-head">
+        <span class="t-zh">对话存档</span>
+        <span class="t-meta">ARCHIVE · 3 则精选 · 真实测试记录脱敏整理</span>
+      </div>
+      <div class="dossier">
+        <button class="dossier-head">
+          <span class="no">档 001</span>
+          <span class="d-title">「AI 产品运营（文旅方向）的 JD，他匹配吗？」</span>
+          <span class="d-meta">08-11 · 面试官</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="dossier-body">
+          <p>分身给出 90 分：文旅资源、AI 实战、运营方法论三线都有实证；同时直言两点——SQL 自助取数未在底稿中体现、景区一线驻场经验偏少。</p>
+          <span class="verdict">判断：高度匹配，缺口直说</span>
+        </div>
+      </div>
+      <div class="dossier">
+        <button class="dossier-head">
+          <span class="no">档 002</span>
+          <span class="d-title">「Java 后端工程师，能投他吗？」</span>
+          <span class="d-meta">08-11 · 面试官</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="dossier-body">
+          <p>10 分，直接不推荐。不硬凑、不浪费彼此时间——这条反向测试记录被留下来，是因为它最能说明这个分身的脾气。</p>
+          <span class="verdict">判断：不匹配，如实告知</span>
+        </div>
+      </div>
+      <div class="dossier">
+        <button class="dossier-head">
+          <span class="no">档 003</span>
+          <span class="d-title">「我们是个小景区，想做 AI 导览，他能帮什么？」</span>
+          <span class="d-meta">08-12 · 合作</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="dossier-body">
+          <p>分身先反问了三个问题（客流结构、现有讲解成本、预算区间），再给出两种合作形式，并指出重度定制开发不是他的强项，推荐了更轻的路径。</p>
+          <span class="verdict">判断：先问诊，后开方</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="type-legend">
+    <span class="f-ren">人 · 手写体：姜华本人的声音</span>
+    <span>文 · 宋体：内容叙事</span>
+    <span class="f-ji">机 · 等宽体：系统与 AI</span>
+  </div>
+
+</div>
+
+<div class="proto-bar">
+  <span class="f-ji">PROTOTYPE v3 · 视觉稿 · 非生产代码</span>
+  <button id="replayBtn">↻ 再发一条</button>
+  <span class="f-ji" id="protoState">待机</span>
+</div>
+
+<script>
+(function(){
+  /* 字集：每列带出处（悬停可拾读） */
+  var DAILY=[
+    ['慢功夫，才是真功夫','姜华的工作笔记'],
+    ['凡墙皆是门','读书划线（占位）'],
+    ['读万卷书，行万里路','案头旧句'],
+    ['山水有相逢','读书划线（占位）'],
+    ['凡事预则立，不预则废','《礼记》· 晨读'],
+    ['事上磨练','读《传习录》（占位）'],
+    ['但行好事，莫问前程','案头旧句'],
+    ['风物长宜放眼量','读书划线（占位）']
+  ];
+  var WAITING=[
+    ['先问诊，后开方','工作方法 · 诊断'],
+    ['证据不足时，宁说不知','分身的规矩'],
+    ['运营的本质是日复一日','工作笔记 · 运营'],
+    ['AI 是杖，不是腿','题跋'],
+    ['十五年起落，皆成底稿','工作笔记 · 回望'],
+    ['问诊已毕，正在落笔','候墨'],
+    ['千头万绪，只取一瓢','工作方法 · 取舍'],
+    ['候墨片刻，即见分晓','候墨']
+  ];
+  var layer=document.getElementById('driftLayer');
+  var tip=document.createElement('div');tip.className='drift-tip';document.body.appendChild(tip);
+  function buildCols(set){
+    layer.innerHTML='';
+    var posX=[4,15,26,38,50,62,76,89],dur=[44,56,50,62,47,59,52,65],delay=[0,-21,-35,-9,-27,-15,-40,-5];
+    set.forEach(function(pair,i){
+      var c=document.createElement('div');c.className='drift-col';c.textContent=pair[0];
+      c.style.left=posX[i]+'%';c.style.animationDuration=dur[i]+'s';c.style.animationDelay=delay[i]+'s';
+      c.addEventListener('mouseenter',function(){
+        tip.textContent='—— '+pair[1];
+        var r=c.getBoundingClientRect();
+        tip.style.left=Math.min(r.left+r.width/2-10,window.innerWidth-190)+'px';
+        tip.style.top=(r.top+50)+'px';
+        tip.classList.add('on');
+      });
+      c.addEventListener('mouseleave',function(){tip.classList.remove('on');});
+      layer.appendChild(c);
+      setTimeout(function(){c.classList.add('show')},250+i*200);
+    });
+  }
+  buildCols(DAILY);
+
+  /* 触墨生漪：点击空白处，落墨晕开 */
+  document.addEventListener('pointerdown',function(e){
+    if(e.target.closest('.sheet,.topnav,.proto-bar,.drift-col,.drift-tip'))return;
+    var b=document.createElement('div');b.className='ink-bloom';
+    b.style.left=e.clientX+'px';b.style.top=e.clientY+'px';
+    document.body.appendChild(b);
+    setTimeout(function(){b.remove()},2900);
+  });
+
+  /* 山有呼吸：近山动得多，远山动得少，字层反向轻随 */
+  var mt=document.querySelector('.mountains');
+  var ridge=document.getElementById('ridgeNear');
+  document.addEventListener('mousemove',function(e){
+    var nx=e.clientX/window.innerWidth-0.5, ny=e.clientY/window.innerHeight-0.5;
+    mt.style.transform='translate('+(nx*-26)+'px,'+(ny*-6)+'px)';
+    ridge.style.transform='translateX('+(nx*-46)+'px)';
+    layer.style.transform='translateX('+(nx*14)+'px)';
+  });
+
+  var CARDS=[
+    {tag:'HOU MO · 等待时翻看一页',body:'「凡属严重的事情都有一个特点：它就是急不来的。」',src:'—— 姜华的读书划线 ·《不连续的时代》（占位）'},
+    {tag:'HOU MO · 等待时翻看一页',body:'15 年互联网，从蚂蚁到美团到同程，一直在做产品和用户运营——慢功夫，是真功夫。',src:'—— 经历碎片（占位）'},
+    {tag:'HOU MO · 等待时翻看一页',body:'先问诊，后开方。经营诊断最怕的，是急着给答案。',src:'—— 工作方法（占位）'},
+    {tag:'HOU MO · 等待时翻看一页',body:'这个站点没有后端团队，是姜华和 AI 一行一行聊出来的。你正在使用的对话，就是它的一部分。',src:'—— AI 协作花絮（占位）'}
+  ];
+
+  var REPLY='做过。最近一个是苏州某文旅集团的经营诊断与运营方案（脱敏案例，复盘整理中）；更早之前，在同程做的正是出行的生意。如果你手里有 JD，可以直接贴给我，我会给出匹配度、带证据的匹配点，以及——他到底缺什么，我也照实说。详细经历可见 <a href="/resume">简历</a> 与 <a href="/work">案例志</a>，看完想聊，随时回来接着问。';
+
+  var state=document.getElementById('protoState');
+  var thread=document.getElementById('thread');
+  var seal=document.getElementById('waitingSeal');
+  var input=document.getElementById('chatInput');
+  var busy=false;
+
+  document.querySelectorAll('.intent-token').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.intent-token').forEach(function(x){x.classList.remove('active')});
+      t.classList.add('active');
+      var hints={interview:'贴一段 JD 试试，例如：AI 产品运营（文旅方向）…',
+                 coop:'说说你的业务和卡点，例如：我们是个小景区，想做 AI 导览…',
+                 chat:'随便问，例如：他为什么离开大厂做独立顾问？'};
+      input.placeholder=hints[t.dataset.intent];
+      input.focus();
+    });
+  });
+
+  /* 存档：逐条展开 */
+  document.querySelectorAll('.dossier-head').forEach(function(h){
+    h.addEventListener('click',function(){
+      h.parentElement.classList.toggle('open');
+    });
+  });
+
+  function el(html){var d=document.createElement('div');d.innerHTML=html;return d.firstElementChild;}
+
+  function send(){
+    if(busy)return; busy=true;
+    var q=input.value.trim()||'他做过文旅项目吗？';
+    input.value='';
+
+    /* 用户气泡（右侧） */
+    var qEl=el('<div class="turn-q"></div>'); qEl.textContent=q;
+    thread.appendChild(qEl);
+    requestAnimationFrame(function(){qEl.classList.add('reveal');});
+    state.textContent='① 问题已寄出';
+
+    /* 候墨块（分身位） */
+    var hEl=el('<div class="houmo"><div class="a-avatar">分</div><div class="houmo-panel">'+
+      '<div class="houmo-label"><span>候墨 · 分身正在作答</span><span class="dots"><i></i><i></i><i></i></span></div>'+
+      '<div class="ink-line"></div>'+
+      '<div class="houmo-card"><span class="tag"></span><p class="body"></p><span class="src"></span></div>'+
+      '</div></div>');
+    var cardEl=hEl.querySelector('.houmo-card'),cardIdx=0,cardTimer=null;
+    function showCard(i){
+      cardEl.classList.add('fading');
+      setTimeout(function(){
+        cardEl.querySelector('.tag').textContent=CARDS[i].tag;
+        cardEl.querySelector('.body').textContent=CARDS[i].body;
+        cardEl.querySelector('.src').textContent=CARDS[i].src;
+        cardEl.classList.remove('fading');
+      },650);
+    }
+
+    setTimeout(function(){
+      thread.appendChild(hEl);
+      requestAnimationFrame(function(){hEl.classList.add('on');});
+      hEl.scrollIntoView({behavior:'smooth',block:'nearest'});
+      layer.classList.add('waiting');buildCols(WAITING);
+      seal.classList.add('stamped');
+      showCard(0);
+      cardTimer=setInterval(function(){cardIdx=(cardIdx+1)%CARDS.length;showCard(cardIdx);},2600);
+      state.textContent='② 候墨中 · 空间正在翻检姜华的档案';
+    },900);
+
+    /* 首字抵达：候墨收 → 回复流式 */
+    setTimeout(function(){
+      clearInterval(cardTimer);
+      cardEl.classList.add('fading');
+      seal.classList.remove('stamped');
+      state.textContent='③ 首字抵达 · 回复显影';
+    },8400);
+    setTimeout(function(){
+      hEl.remove();
+      var aEl=el('<div class="turn-a"><div class="a-avatar">分</div><div class="a-body"><span class="a-name">分身 · AI ASSISTANT</span><span class="a-text"></span></div></div>');
+      thread.appendChild(aEl);
+      requestAnimationFrame(function(){aEl.classList.add('reveal');});
+      streamInto(aEl.querySelector('.a-text'),function(){
+        layer.classList.remove('waiting');buildCols(DAILY);
+        state.textContent='④ 完成 · 可继续追问';
+        busy=false;
+      });
+    },9300);
+  }
+
+  function streamInto(container,done){
+    var caret=document.createElement('span');caret.className='stream-caret';
+    var tokens=REPLY.split(/(<a.*?<\/a>)/g).filter(Boolean);
+    var spans=[];
+    tokens.forEach(function(tok){
+      if(tok.indexOf('<a')===0){
+        var d=document.createElement('span');d.className='ch';d.innerHTML=tok;spans.push(d);
+      }else{
+        tok.split('').forEach(function(ch){
+          var s=document.createElement('span');s.className='ch';s.textContent=ch;spans.push(s);
+        });
+      }
+    });
+    spans.forEach(function(s){container.appendChild(s);});
+    container.appendChild(caret);
+    var i=0;
+    var iv=setInterval(function(){
+      for(var k=0;k<2&&i<spans.length;k++,i++){spans[i].classList.add('on');}
+      if(i>=spans.length){clearInterval(iv);caret.remove();done&&done();}
+    },50);
+  }
+
+  document.getElementById('sendBtn').addEventListener('click',send);
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+  document.getElementById('replayBtn').addEventListener('click',send);
+})();
+</script>
+</body>
+</html>

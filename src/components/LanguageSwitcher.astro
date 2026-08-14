@@ -1,0 +1,26 @@
+---
+/**
+ * 语言切换器 —— 中 / EN
+ * 固定在导航右侧，切换结果写入 localStorage，刷新后保持。
+ */
+---
+
+<button
+  id="lang-switcher"
+  type="button"
+  aria-label="切换语言 / Switch language"
+  class="flex items-center gap-1 font-mono text-xs tracking-wider text-gray-mid hover:text-human-text transition-colors px-2 py-1 rounded border border-transparent hover:border-gray-200"
+>
+  <span data-i18n="zh" class="opacity-100">中<span class="opacity-40 mx-0.5">|</span><span class="opacity-40">EN</span></span>
+  <span data-i18n="en" class="hidden"><span class="opacity-40">中</span><span class="opacity-40 mx-0.5">|</span><span class="opacity-100">EN</span></span>
+</button>
+
+<script>
+  const btn = document.getElementById('lang-switcher');
+  btn?.addEventListener('click', () => {
+    const current = document.documentElement.dataset.lang === 'en' ? 'en' : 'zh';
+    const next = current === 'zh' ? 'en' : 'zh';
+    // @ts-ignore - global function defined in BaseLayout
+    window.__setLang?.(next);
+  });
+</script>

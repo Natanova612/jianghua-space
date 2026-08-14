@@ -1,4 +1,6 @@
 ---
+import Lang from './Lang.astro';
+
 export interface Props {
   field?: 'human' | 'star';
 }
@@ -9,12 +11,24 @@ const { field = 'human' } = Astro.props;
 <footer class={`py-10 px-6 border-t ${field === 'star' ? 'border-gray-deep/30' : 'border-gray-200/60'}`}>
   <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
     <div class="text-center md:text-left">
-      <p class={`text-sm font-medium ${field === 'star' ? 'font-mono text-aurora-blue' : 'font-human text-human-text'}`}>
-        姜华 × 星河
-      </p>
-      <p class={`text-xs mt-1 ${field === 'star' ? 'text-gray-light' : 'text-gray-light'}`}>
-        人机协作舞台 · 持续演化中
-      </p>
+      {field === 'star' ? (
+        <>
+          <p class="text-sm font-medium font-mono text-aurora-blue">姜华 × 星河</p>
+          <p class="text-xs mt-1 text-gray-light">人机协作舞台 · 持续演化中</p>
+        </>
+      ) : (
+        <div class="flex items-center gap-3 justify-center md:justify-start">
+          <img src="/seal.png" alt="姜华名章" class="w-8 h-8" width="32" height="32" />
+          <div>
+            <p class="text-sm font-medium font-human text-human-text">
+              <Lang zh="姜华 · 独立经营顾问" en="Jiang Hua · Independent Consultant" />
+            </p>
+            <p class="text-xs mt-1 text-gray-light">
+              <Lang zh="以 15 年互联网经验，提供咨询与运营陪跑" en="Consulting & operations partnering, built on 15 years in tech" />
+            </p>
+          </div>
+        </div>
+      )}
     </div>
     
     <div class="flex items-center gap-6">

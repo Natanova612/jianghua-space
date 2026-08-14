@@ -15,6 +15,11 @@ export default {
         'gray-mid': '#4A5568',
         'gray-light': '#718096',
         'gray-pale': '#A0AEC0',
+        // 「纸·墨·印」新视觉（2026-08 独立顾问门面）
+        'paper': '#f7f3ec',
+        'ink': '#1f2328',
+        'cinnabar': '#c8391f',
+        'dai-blue': '#2f4a5e',
         // Starfield v0.2 palette
         'starfield-bg': '#0a0a0f',
         'starfield-ai-blue': '#4a9eff',

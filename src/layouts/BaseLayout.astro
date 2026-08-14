@@ -23,6 +23,21 @@ const pageTitle = title === '姜华 × 星河' ? title : `${title} | 姜华 × �
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- 防闪烁：首帧渲染前读取语言偏好 + 四季山色 -->
+  <script is:inline>
+    (function () {
+      var lang = 'zh';
+      try { lang = localStorage.getItem('jianghua-lang') || 'zh'; } catch (e) {}
+      document.documentElement.dataset.lang = lang;
+      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+      // 四季山色：春 3-5 月 / 夏 6-8 月 / 秋 9-11 月 / 冬 12-2 月
+      var m = new Date().getMonth();
+      document.documentElement.dataset.season =
+        (m >= 2 && m <= 4) ? 'spring' : (m >= 5 && m <= 7) ? 'summer' : (m >= 8 && m <= 10) ? 'autumn' : 'winter';
+    })();
+  </script>
+
   <meta name="description" content={description} />
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
@@ -51,8 +66,17 @@ const pageTitle = title === '姜华 × 星河' ? title : `${title} | 姜华 × �
         }
       });
     }, { threshold: 0.15 });
-    
+
     document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+  </script>
+
+  <script>
+    // 全局语言切换（供 LanguageSwitcher 调用）
+    window.__setLang = function (lang) {
+      document.documentElement.dataset.lang = lang;
+      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+      try { localStorage.setItem('jianghua-lang', lang); } catch (e) {}
+    };
   </script>
 </body>
 </html>

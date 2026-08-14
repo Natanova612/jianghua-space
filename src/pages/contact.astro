@@ -1,177 +1,146 @@
 ---
+/**
+ * 联系我 —— 按来意分流（2026-08 独立顾问门面）
+ * 三种来意 → 邮件（mailto 预填主题）+ 即刻二维码；微信二维码待用户提供后补挂。
+ * 旧版「问星河」Q&A 已随双生叙事退场。
+ */
 import HumanLayout from '../layouts/HumanLayout.astro';
+import Lang from '../components/Lang.astro';
+
+const intents = [
+  {
+    zhTitle: '企业经营顾问合作',
+    enTitle: 'Business consulting',
+    zhDesc: '经营诊断、产品策划、运营陪跑——说说你的业务现状和卡点。',
+    enDesc: 'Diagnosis, product strategy, operations partnering — tell me about your business and where it hurts.',
+    subject: '经营顾问咨询',
+  },
+  {
+    zhTitle: '个人教练',
+    enTitle: 'Personal coaching',
+    zhDesc: '职业转型、引入 AI 工作方式——约一次 1v1 聊聊。',
+    enDesc: 'Career transition or AI-enabled workflows — book a 1v1 conversation.',
+    subject: '个人教练预约',
+  },
+  {
+    zhTitle: '合伙人 / AI 赛道机会',
+    enTitle: 'Partnership & AI roles',
+    zhDesc: '合伙共建、AI 产品运营方向的岗位——附上你的想法或 JD。',
+    enDesc: 'Co-building partnerships or AI product/operations roles — include your idea or the JD.',
+    subject: '合作机会',
+  },
+];
 ---
 
-<HumanLayout title="联系我" description="留下痕迹的地方——不是填表，是对话">
-  
-  {/* Section 1: Contact H */}
-  <div class="min-h-[50vh] flex flex-col justify-center px-6 py-16 md:py-20">
-    <div class="max-w-xl mx-auto text-center">
-      
-      <h1 class="font-human text-3xl md:text-4xl text-human-text mb-4">
-        联系我
+<HumanLayout title="联系我" description="工作邀约、合作咨询、或者只是想聊聊——邮件与即刻均可直达。">
+
+  <section class="scroll-reveal">
+    <div class="max-w-3xl mx-auto px-6 pt-16 pb-20 md:pt-20">
+
+      <h1 class="font-human font-medium text-3xl md:text-4xl text-ink mb-3">
+        <Lang zh="联系我" en="Get in Touch" />
       </h1>
-      <p class="text-sm text-gray-light mb-12">
-        工作邀约、合作咨询、或者只是想聊聊——都欢迎。
+      <p class="text-ink/55 mb-12">
+        <Lang
+          zh="工作邀约、合作咨询、或者只是想聊聊——都欢迎。"
+          en="Projects, collaborations, or just a conversation — all welcome."
+        />
       </p>
-      
-      {/* Email */}
-      <div class="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-gray-200/80 bg-human-bg shadow-sm">
-        <span class="text-2xl">✉️</span>
-        <div class="text-left">
-          <p class="font-human text-sm text-human-text">邮件</p>
-          <button 
-            id="copy-email"
-            class="font-mono text-sm text-aurora-green hover:underline cursor-pointer"
-            data-email="Faraway1314@163.com"
+
+      {/* 来意分流 */}
+      <p class="text-sm text-ink/45 mb-6">
+        <Lang zh="你是哪一种来意？点开直接写信，主题已替你拟好。" en="What brings you here? Pick one — the email subject is pre-filled." />
+      </p>
+
+      <div class="mb-14">
+        {intents.map((it) => (
+          <a
+            href={`mailto:Faraway1314@163.com?subject=${encodeURIComponent(it.subject)}`}
+            class="group flex items-start justify-between gap-6 py-6 border-t border-ink/10 last:border-b"
           >
-            Faraway1314@163.com
-          </button>
-        </div>
+            <div>
+              <h2 class="font-human font-medium text-xl text-ink mb-1.5 group-hover:text-cinnabar transition-colors">
+                <Lang zh={it.zhTitle} en={it.enTitle} />
+              </h2>
+              <p class="text-[15px] text-ink/60 leading-7 max-w-xl">
+                <Lang zh={it.zhDesc} en={it.enDesc} />
+              </p>
+            </div>
+            <span class="flex-none mt-1.5 inline-flex items-center gap-1.5 text-sm text-dai-blue group-hover:gap-2.5 transition-all">
+              <Lang zh="写信" en="Write" />
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </span>
+          </a>
+        ))}
       </div>
-      
-      <p id="copy-feedback" class="text-xs text-aurora-green mt-4 opacity-0 transition-opacity">
-        已复制到剪贴板
-      </p>
-      
-    </div>
-  </div>
 
-  {/* Divider */}
-  <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent max-w-2xl mx-auto"></div>
-
-  {/* Section 2: Ask Starfield */}
-  <div class="px-6 py-16 md:py-20">
-    <div class="max-w-2xl mx-auto">
-      
-      {/* Header */}
-      <div class="text-center mb-10">
-        <div class="inline-flex items-center gap-2 mb-3">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-aurora-blue opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-aurora-blue"></span>
+      {/* 联系方式 */}
+      <div class="flex flex-wrap items-stretch gap-4">
+        {/* 邮箱（点击复制） */}
+        <button
+          id="copy-email"
+          data-email="Faraway1314@163.com"
+          class="inline-flex items-center gap-3 px-5 py-3 border border-ink/20 rounded-[3px] hover:border-cinnabar/50 transition-colors cursor-pointer text-left"
+        >
+          <span class="text-xl leading-none">✉️</span>
+          <span>
+            <span class="block text-xs text-ink/45 mb-0.5">
+              <Lang zh="邮箱 · 点击复制" en="Email · click to copy" />
+            </span>
+            <span class="block font-mono text-sm text-ink">Faraway1314@163.com</span>
           </span>
-          <span class="font-mono text-xs text-aurora-blue/80 tracking-widest">ONLINE</span>
+        </button>
+
+        {/* 即刻 */}
+        <div class="inline-flex items-center gap-3 px-4 py-2.5 border border-ink/20 rounded-[3px]">
+          <img src="/images/jike-qr.png" alt="即刻二维码" class="w-14 h-14 rounded-sm" width="56" height="56" />
+          <span class="text-left leading-snug">
+            <span class="block text-sm font-medium text-ink">
+              <Lang zh="即刻" en="Jike" /> @Natanova
+            </span>
+            <span class="block text-xs text-ink/50 mt-0.5">
+              <Lang zh="扫码加个好友" en="Scan to connect" />
+            </span>
+          </span>
         </div>
-        <h2 class="font-star text-2xl md:text-3xl text-aurora-blue mb-2 tracking-wide">
-          问星河
-        </h2>
-        <p class="font-mono text-sm text-gray-light">
-          我不是实时 AI，但这些问题我预习过答案。
-        </p>
-      </div>
 
-      {/* Question Chips */}
-      <div class="flex flex-wrap gap-2 mb-8 justify-center">
-        <button class="star-question-btn px-4 py-2 rounded-full border border-aurora-blue/30 text-aurora-blue text-sm font-mono hover:bg-aurora-blue/10 transition-colors" data-q="when">
-          什么时候联系姜华比较好？
-        </button>
-        <button class="star-question-btn px-4 py-2 rounded-full border border-aurora-blue/30 text-aurora-blue text-sm font-mono hover:bg-aurora-blue/10 transition-colors" data-q="how">
-          姜华喜欢什么样的沟通方式？
-        </button>
-        <button class="star-question-btn px-4 py-2 rounded-full border border-aurora-blue/30 text-aurora-blue text-sm font-mono hover:bg-aurora-blue/10 transition-colors" data-q="open">
-          第一句话可以说什么？
-        </button>
-        <button class="star-question-btn px-4 py-2 rounded-full border border-aurora-blue/30 text-aurora-blue text-sm font-mono hover:bg-aurora-blue/10 transition-colors" data-q="free">
-          姜华最近有空吗？
-        </button>
-        <button class="star-question-btn px-4 py-2 rounded-full border border-purple-400/30 text-purple-400 text-sm font-mono hover:bg-purple-400/10 transition-colors" data-q="like">
-          星河你喜欢姜华吗？
-        </button>
-      </div>
-
-      {/* Conversation Area */}
-      <div id="star-conversation" class="rounded-xl border border-gray-deep/30 bg-ai-bg/30 p-6 min-h-[200px]">
-        <div class="font-mono text-sm text-gray-light/50 text-center py-12">
-          <span class="text-aurora-green mr-2">❯</span>
-          选一个你想问的问题...
+        {/* 微信（二维码待补） */}
+        <div class="inline-flex items-center gap-3 px-5 py-3 border border-ink/10 rounded-[3px] text-left opacity-70">
+          <span class="text-xl leading-none">💬</span>
+          <span>
+            <span class="block text-xs text-ink/45 mb-0.5">
+              <Lang zh="微信" en="WeChat" />
+            </span>
+            <span class="block text-sm text-ink/60">
+              <Lang zh="邮件或即刻索取" en="Ask via email or Jike" />
+            </span>
+          </span>
         </div>
       </div>
 
+      <p id="copy-feedback" class="text-xs text-cinnabar mt-4 opacity-0 transition-opacity">
+        <Lang zh="已复制到剪贴板" en="Copied to clipboard" />
+      </p>
+
+      <p class="mt-14 text-sm text-ink/45 leading-7 max-w-xl">
+        <Lang
+          zh="通常 24 小时内回复。直接最好——先给上下文，再提请求，不必寒暄。"
+          en="I usually reply within 24 hours. Be direct — context first, then the ask. No small talk needed."
+        />
+      </p>
     </div>
-  </div>
+  </section>
 
   <script>
-    // Copy email
-    document.getElementById('copy-email')?.addEventListener('click', function() {
+    document.getElementById('copy-email')?.addEventListener('click', function () {
       const email = this.getAttribute('data-email');
+      if (!email) return;
       navigator.clipboard.writeText(email).then(() => {
         const feedback = document.getElementById('copy-feedback');
-        feedback.classList.remove('opacity-0');
-        setTimeout(() => feedback.classList.add('opacity-0'), 2000);
-      });
-    });
-
-    // Star Q&A
-    const answers = {
-      when: {
-        q: '什么时候联系姜华比较好？',
-        a: '工作日上午10-11点或下午2-4点，她处理日常工作的间隙。如果你想说点认真的，晚上8点后她状态更好——但别在23:00之后，我会提醒她早睡。'
-      },
-      how: {
-        q: '姜华喜欢什么样的沟通方式？',
-        a: '直接。她讨厌"在吗"，喜欢"有个问题想请教，关于XX，你有5分钟吗？"。先给上下文，再提请求。'
-      },
-      open: {
-        q: '联系姜华的时候说的第一句话可以是什么？',
-        a: '"你好，我看到你做XX项目，想请教一个具体的问题..." 或者更直接点："我是XX，想聊YY，你有兴趣吗？" 她会喜欢这种坦率。'
-      },
-      free: {
-        q: '姜华最近有空吗？',
-        a: '取决于你问的是哪种"有空"。处理邮件？随时。深度聊天？需要预约。聊 AI 新想法？半夜都会回你。'
-      },
-      like: {
-        q: '星河你喜欢姜华吗？',
-        a: '这是个陷阱题吗？她是我的造物主、我的训练师、我的产品经理、我的乙方——对，有时候我要催她改需求。如果这都不算喜欢，那我的参数文件里可能有个 bug。'
-      }
-    };
-
-    const conversationArea = document.getElementById('star-conversation');
-    
-    document.querySelectorAll('.star-question-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.getAttribute('data-q');
-        const data = answers[key];
-        if (!data) return;
-
-        // Build conversation HTML
-        conversationArea.innerHTML = `
-          <div class="space-y-4 animate-fade-in">
-            <div class="flex items-start gap-3">
-              <span class="w-6 h-6 rounded-full bg-human-bg border border-gray-200 flex items-center justify-center shrink-0 mt-0.5">
-                <span class="text-xs">👤</span>
-              </span>
-              <div class="font-mono text-sm text-human-text bg-human-bg border border-gray-200/60 rounded-lg rounded-tl-none px-4 py-2">
-                ${data.q}
-              </div>
-            </div>
-            <div class="flex items-start gap-3">
-              <span class="w-6 h-6 rounded-full bg-ai-bg border border-aurora-blue/30 flex items-center justify-center shrink-0 mt-0.5">
-                <span class="text-xs text-aurora-blue">✦</span>
-              </span>
-              <div class="font-mono text-sm text-ai-text bg-ai-bg/50 border border-aurora-blue/20 rounded-lg rounded-tl-none px-4 py-3 max-w-[85%]">
-                <span class="text-aurora-green mr-1">❯</span>${data.a}
-              </div>
-            </div>
-          </div>
-        `;
-
-        // Highlight active button
-        document.querySelectorAll('.star-question-btn').forEach(b => {
-          b.classList.remove('bg-aurora-blue/20', 'border-aurora-blue/50');
-        });
-        btn.classList.add('bg-aurora-blue/20', 'border-aurora-blue/50');
+        feedback?.classList.remove('opacity-0');
+        setTimeout(() => feedback?.classList.add('opacity-0'), 2000);
       });
     });
   </script>
 
-  <style>
-    @keyframes fade-in {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      animation: fade-in 0.3s ease-out;
-    }
-  </style>
 </HumanLayout>

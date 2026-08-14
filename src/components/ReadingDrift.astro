@@ -1,0 +1,73 @@
+---
+/**
+ * ReadingDrift —— 三层架构的中间层「字」
+ *
+ * 底层「画」：富春山居图卷轴（landscape-layer，320s 往返）
+ * 中层「字」：本组件——真实读书划线竖排漂字，2800px 幅宽双副本无缝轮播，
+ *            190s 线性单向，与画轴速度/节奏均不同，肉眼可辨两个图层
+ * 上层「人」：页面主体内容
+ *
+ * 排版：摘要与出处各占独立竖列（display:block 在 vertical-rl 下自动分列），
+ *      列高给足，避免半句截断换列。
+ * 内容：全部来自用户微信读书真实划线；更新直接改 excerpts 数组。
+ */
+
+const excerpts = [
+  { text: '胜兵先胜而后求战，败兵先战而后求胜。', source: '善战者说' },
+  { text: '静、幽、正、治。', source: '善战者说' },
+  { text: '三军可夺气，将军可夺心。', source: '善战者说' },
+  { text: '稳慎徐图，谋定后战。', source: '善战者说' },
+  { text: '定而后能静，静而后能安，安而后能虑，虑而后能得。', source: '大学' },
+  { text: '大自然没有提纲，想象力有提纲。', source: '有限与无限的游戏' },
+  { text: '瞬间一旦被拥有，就不可能再度被拥有。', source: '有限与无限的游戏' },
+  { text: '社会由其边界来定义，而文化则由其视界来定义。', source: '有限与无限的游戏' },
+  { text: '人的幸福，由日积月累的小惠而生者比比皆是。', source: '富兰克林自传' },
+  { text: '只靠阅读别人的东西，理解不可能产出新知。', source: '置身事内' },
+  { text: '土地本身并不值钱，值钱的是土地之上的经济活动。', source: '置身事内' },
+  { text: '许多新技术并非新知识，而是新的认知。', source: '不连续的时代' },
+  { text: '行动本身也是感知的一部分。', source: '具身智能' },
+  { text: '古之学者为己，其终至于成物。', source: '孔子与论语' },
+  { text: '小富由勤，大富由命。', source: '论语别裁' },
+];
+
+/* 每条列的排布：横向位置（px）+ 纵向起点（vh）+ 列高上限（vh），
+   top + h ≤ 88，长句给足高度尽量不截断 */
+const layout = [
+  { x: 60,   top: 10, h: 44 },
+  { x: 245,  top: 52, h: 30 },
+  { x: 430,  top: 14, h: 36 },
+  { x: 615,  top: 48, h: 30 },
+  { x: 800,  top: 8,  h: 48 },
+  { x: 985,  top: 42, h: 38 },
+  { x: 1170, top: 12, h: 40 },
+  { x: 1355, top: 44, h: 44 },
+  { x: 1540, top: 10, h: 46 },
+  { x: 1725, top: 42, h: 44 },
+  { x: 1910, top: 12, h: 46 },
+  { x: 2095, top: 46, h: 40 },
+  { x: 2280, top: 10, h: 36 },
+  { x: 2465, top: 42, h: 38 },
+  { x: 2650, top: 22, h: 32 },
+];
+---
+
+<div class="reading-layer" aria-hidden="true">
+  <div class="reading-strip">
+    {[0, 1].map(() => (
+      <div class="reading-copy">
+        {excerpts.map((e, i) => {
+          const l = layout[i % layout.length];
+          return (
+            <p
+              class="reading-col"
+              style={`left: ${l.x}px; top: ${l.top}vh; max-height: ${l.h}vh;`}
+            >
+              <span class="reading-q">「{e.text}」</span>
+              <span class="reading-src">《{e.source}》</span>
+            </p>
+          );
+        })}
+      </div>
+    ))}
+  </div>
+</div>

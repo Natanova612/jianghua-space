@@ -1,0 +1,65 @@
+---
+/**
+ * Ridge —— 「纸上山水」的山脊分隔带
+ *
+ * 手卷式章节分隔：淡墨远山（双层）+ 流动云雾 + 摩崖石刻（竖排读书划线）。
+ * - 四个变体山势渐进（徐行入山），quote 嵌于主峰之上
+ * - 石刻文字：md 以下横排居中，md 以上竖排多列（writing-mode 自动分列，如摩崖刻石）
+ * - hover 石刻：雾气拨开、字迹变深（驻足细看）
+ * - 山体颜色由 CSS 变量 --ridge-near/far 控制，随季节变化（见 global.css）
+ */
+export interface Props {
+  variant?: 1 | 2 | 3 | 4;
+  quote: string;
+  source: string;
+}
+
+const { variant = 1, quote, source } = Astro.props;
+
+const variants = {
+  1: {
+    far: 'M0,150 C240,130 420,100 640,115 C860,130 1080,160 1440,135 L1440,220 L0,220 Z',
+    near: 'M0,180 C260,170 520,150 780,165 C1040,180 1240,195 1440,185 L1440,220 L0,220 Z',
+    qx: '60%',
+  },
+  2: {
+    far: 'M0,140 C200,120 320,60 520,80 C720,100 900,150 1120,140 C1260,133 1360,125 1440,130 L1440,220 L0,220 Z',
+    near: 'M0,185 C280,175 560,150 840,168 C1120,186 1300,195 1440,190 L1440,220 L0,220 Z',
+    qx: '34%',
+  },
+  3: {
+    far: 'M0,130 C160,110 300,55 460,80 C620,105 700,140 860,125 C980,114 1060,60 1220,80 C1330,93 1400,105 1440,100 L1440,220 L0,220 Z',
+    near: 'M0,180 C300,170 620,145 900,165 C1180,185 1340,192 1440,188 L1440,220 L0,220 Z',
+    qx: '72%',
+  },
+  4: {
+    far: 'M0,120 C180,95 340,40 520,65 C700,90 820,130 1000,110 C1140,95 1260,55 1440,75 L1440,220 L0,220 Z',
+    near: 'M0,175 C260,160 480,120 740,145 C1000,170 1220,190 1440,180 L1440,220 L0,220 Z',
+    qx: '30%',
+  },
+};
+
+const p = variants[variant];
+---
+
+<div class="ridge relative h-44 md:h-60 select-none" data-ridge>
+  {/* 云雾（纸色柔雾，缓慢横移） */}
+  <div class="mist mist-a left-[-15%] bottom-[5%] w-[75%] h-[85%]" aria-hidden="true"></div>
+  <div class="mist mist-b right-[-15%] bottom-[25%] w-[60%] h-[70%]" aria-hidden="true"></div>
+
+  {/* 远山双层 */}
+  <svg class="ridge-svg absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+    <path class="ridge-far" d={p.far} />
+    <path class="ridge-near" d={p.near} />
+  </svg>
+
+  {/* 摩崖石刻：竖排划线，嵌于主峰之上（移动端横排） */}
+  <p
+    class="ridge-quote relative z-10 text-center mb-3 px-6 font-kai text-sm text-cinnabar/70 leading-relaxed
+           md:absolute md:px-0 md:mb-0 md:bottom-[12%] md:-translate-x-1/2
+           md:[writing-mode:vertical-rl] md:max-h-60 md:text-base md:tracking-[0.2em] md:leading-[1.7]"
+    style={`left: ${p.qx};`}
+  >
+    「{quote}」<span class="text-xs text-ink/40 tracking-[0.12em]">——《{source}》</span>
+  </p>
+</div>

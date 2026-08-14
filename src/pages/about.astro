@@ -1,176 +1,300 @@
 ---
+/**
+ * 关于我 —— 自传 + 「现在」章节（2026-08 更新）
+ * 保留自传原文；新增「现在 · 二〇二六」转型叙事；结尾服务/联系入口。
+ * 全文双语（Lang 组件）；视觉换纸墨印 tokens。
+ */
 import HumanLayout from '../layouts/HumanLayout.astro';
+import Lang from '../components/Lang.astro';
 import PhotoWall from '../components/PhotoWall.astro';
 ---
 
 <HumanLayout title="关于我" description="姜华的故事——不是简历，是自我介绍信">
   <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
-        
+
         {/* Autobiography */}
         <div class="prose-custom">
-          <p class="text-lg leading-[1.875] text-human-text first-letter:text-5xl first-letter:font-human first-letter:text-aurora-green first-letter:float-left first-letter:mr-2 first-letter:mt-[-6px]">
-            我是一个很普通的80后，但我普通的家庭小背景和时代的大激流为我冲刷出我独特的内心和面貌。坚韧而努力的父母不仅给了我健康的身体，也是我心态稳定、内核自信的根源；从学校到社会职场历经的时代变革则教会我保持客观理性和谦逊低调、常常反思内省并且保持开放学习。
-          </p>
-          
-          <p class="text-lg leading-[1.875] text-human-text mt-6">
-            我因为想突破一个小的生活圈子而选择了我的大学，与其说选择学校专业，不如说我只是坚定的选择了一个漂泊的方向。大学并没有真的让我学进去，我的"大学"开始于2006年加入仍是创业公司的同程做实习生的时候，截至目前，我仍在上"大学"。
-          </p>
-          
-          <p class="text-lg leading-[1.875] text-human-text mt-6">
-            同程是个意外，当时完全不在我头脑中极其有限的未来画面中，感谢互联网产业的发展，这个意外是时代的馈赠。然后我学会了自己制造意外，工作两年多后，我辞职去留学。那是一个我开始感受外界信号和内心信号的时期，我第一次听到了内心的声音——<span class="text-aurora-green font-medium">"视野是另一种学历"</span>。从那时起，我的成长和我为自己设计的成长路线就一直是两种作用力结合的产物，一种是外界的输入，我努力听更多、看更多让自己有更好的消化能力；另一种是我内心的声音，我不停的发问和反问，让自己假设和决策，塑造着我真正的价值观和人格。
-          </p>
-          
-          <p class="text-lg leading-[1.875] text-human-text mt-6">
-            对我的专业旅游管理来说，我满意自己见识和参与了产业链的尽量多的环节，对产业链的理解是丰满的，这算是我对自己专业的不辜负。对我的行业互联网来说，我庆幸自己经历了"周期性"，帮我把经济学理论的很多文字描绘映射进现实；也兴奋于自己通过互联网产品、运营的岗位进行创造性和优化性产出的过程。很多时候我想象自己是爸妈一辈更能理解的农民、工人、厨师、教师这些职业人，我种地、修零件、试验食谱、培养后辈，我的岗位让我体会了这么多种不同的职业画像。
-          </p>
-          
-          <p class="text-lg leading-[1.875] text-human-text mt-6">
-            现在，AI时代。
-          </p>
-          
-          <p class="text-lg leading-[1.875] text-human-text mt-6">
-            有意思的是，就在这短短几个月时间里，我感觉自己像一个重新选专业的高中生了。我对AI时代的公司、岗位充满陌生和好奇，我相信自己即将接受社会的考核和选择，以及做出我自己的选择。我感觉时光倒流了一次，像《夏洛特烦恼》。
-          </p>
-          
-          <p class="text-lg leading-[1.875] text-human-text mt-6">
-            我带着20年的记忆、回到了20年前的状态，看看这一次我跟AI一起会开启一段怎样的旅程。
-          </p>
+          <Lang>
+            <p slot="zh" class="text-lg leading-[1.875] text-ink first-letter:text-5xl first-letter:font-human first-letter:text-cinnabar first-letter:float-left first-letter:mr-2 first-letter:mt-[-6px]">
+              我是一个很普通的80后，但我普通的家庭小背景和时代的大激流为我冲刷出我独特的内心和面貌。坚韧而努力的父母不仅给了我健康的身体，也是我心态稳定、内核自信的根源；从学校到社会职场历经的时代变革则教会我保持客观理性和谦逊低调、常常反思内省并且保持开放学习。
+            </p>
+            <p slot="en" class="text-lg leading-[1.875] text-ink">
+              I am an ordinary child of China's post-80s generation — but an ordinary family and an extraordinary era shaped who I am. My resilient, hard-working parents gave me not just health, but a steady mind and quiet confidence; the transformations I've lived through, from school to the workplace, taught me rationality, humility, introspection, and openness to learning.
+            </p>
+          </Lang>
+
+          <Lang>
+            <p slot="zh" class="text-lg leading-[1.875] text-ink mt-6">
+              我因为想突破一个小的生活圈子而选择了我的大学，与其说选择学校专业，不如说我只是坚定的选择了一个漂泊的方向。大学并没有真的让我学进去，我的"大学"开始于2006年加入仍是创业公司的同程做实习生的时候，截至目前，我仍在上"大学"。
+            </p>
+            <p slot="en" class="text-lg leading-[1.875] text-ink mt-6">
+              I chose my university not for its name, but for the direction of drift it offered. University never truly taught me — my real "university" began in 2006, when I joined Tongcheng, then still a startup, as an intern. In a sense, I'm still enrolled.
+            </p>
+          </Lang>
+
+          <Lang>
+            <p slot="zh" class="text-lg leading-[1.875] text-ink mt-6">
+              同程是个意外，当时完全不在我头脑中极其有限的未来画面中，感谢互联网产业的发展，这个意外是时代的馈赠。然后我学会了自己制造意外，工作两年多后，我辞职去留学。那是一个我开始感受外界信号和内心信号的时期，我第一次听到了内心的声音——<span class="text-cinnabar font-medium">"视野是另一种学历"</span>。从那时起，我的成长和我为自己设计的成长路线就一直是两种作用力结合的产物，一种是外界的输入，我努力听更多、看更多让自己有更好的消化能力；另一种是我内心的声音，我不停的发问和反问，让自己假设和决策，塑造着我真正的价值观和人格。
+            </p>
+            <p slot="en" class="text-lg leading-[1.875] text-ink mt-6">
+              Tongcheng was an accident — nowhere in my narrow picture of the future. I owe it to the rise of China's internet; the accident was the era's gift. Then I learned to make my own accidents: two years in, I quit to study abroad. That was when I first heard my inner voice — <span class="text-cinnabar font-medium">"vision is another kind of degree."</span> Since then, my growth has been the product of two forces: input from the world, which I take in widely and digest carefully; and my own questioning, which shapes my judgment, my values, and who I am.
+            </p>
+          </Lang>
+
+          <Lang>
+            <p slot="zh" class="text-lg leading-[1.875] text-ink mt-6">
+              对我的专业旅游管理来说，我满意自己见识和参与了产业链的尽量多的环节，对产业链的理解是丰满的，这算是我对自己专业的不辜负。对我的行业互联网来说，我庆幸自己经历了"周期性"，帮我把经济学理论的很多文字描绘映射进现实；也兴奋于自己通过互联网产品、运营的岗位进行创造性和优化性产出的过程。很多时候我想象自己是爸妈一辈更能理解的农民、工人、厨师、教师这些职业人，我种地、修零件、试验食谱、培养后辈，我的岗位让我体会了这么多种不同的职业画像。
+            </p>
+            <p slot="en" class="text-lg leading-[1.875] text-ink mt-6">
+              I studied tourism management, and I'm glad to have touched nearly every link of that industry chain — a full, lived understanding. In the internet industry, I'm grateful to have ridden whole cycles, watching economic theory turn into reality; and I loved the creative, iterative craft of product and operations work. I often imagine myself in the trades my parents' generation understands — farmer, mechanic, cook, teacher. My roles let me live all of them: tilling soil, fixing parts, testing recipes, mentoring the young.
+            </p>
+          </Lang>
+
+          <Lang>
+            <p slot="zh" class="text-lg leading-[1.875] text-ink mt-6">现在，AI时代。</p>
+            <p slot="en" class="text-lg leading-[1.875] text-ink mt-6">And now, the age of AI.</p>
+          </Lang>
+
+          <Lang>
+            <p slot="zh" class="text-lg leading-[1.875] text-ink mt-6">
+              有意思的是，就在这短短几个月时间里，我感觉自己像一个重新选专业的高中生了。我对AI时代的公司、岗位充满陌生和好奇，我相信自己即将接受社会的考核和选择，以及做出我自己的选择。我感觉时光倒流了一次，像《夏洛特烦恼》。
+            </p>
+            <p slot="en" class="text-lg leading-[1.875] text-ink mt-6">
+              Strangely, these past months I've felt like a high-schooler choosing a major all over again. The companies and roles of the AI era feel unfamiliar and fascinating. I expect to be examined and chosen by the world — and to make my own choice in return. It feels like time folded back on itself.
+            </p>
+          </Lang>
+
+          <Lang>
+            <p slot="zh" class="text-lg leading-[1.875] text-ink mt-6">
+              我带着20年的记忆、回到了20年前的状态，看看这一次我跟AI一起会开启一段怎样的旅程。
+            </p>
+            <p slot="en" class="text-lg leading-[1.875] text-ink mt-6">
+              I carry twenty years of memory in a twenty-years-ago state of mind — curious what journey AI and I will begin this time.
+            </p>
+          </Lang>
         </div>
-        
+
+        {/* ===== 「现在 · 二〇二六」章节 ===== */}
+        <div class="mt-16 md:mt-20">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="flex-none w-9 h-14 bg-cinnabar rounded-[3px] rotate-[-2deg] shadow-[0_2px_8px_rgba(200,57,31,0.3)] flex flex-col items-center justify-center gap-1" aria-hidden="true">
+              <span class="text-paper text-sm leading-none font-human">现</span>
+              <span class="text-paper text-sm leading-none font-human">在</span>
+            </div>
+            <h2 class="font-human font-medium text-2xl md:text-3xl text-ink/90">
+              <Lang zh="二〇二六，我的新一章" en="2026: A New Chapter" />
+            </h2>
+          </div>
+
+          <div class="prose-custom">
+            <Lang>
+              <p slot="zh" class="text-lg leading-[1.875] text-ink">
+                2026 年，我离开了大厂操盘手的位置，成为一名<span class="text-cinnabar font-medium">独立经营顾问</span>。这不是退场，是把 15 年产品、运营、管理的积累，从"一个组织的杠杆"变成"很多人的杠杆"。
+              </p>
+              <p slot="en" class="text-lg leading-[1.875] text-ink">
+                In 2026, I stepped away from my role as a big-tech operator to become an <span class="text-cinnabar font-medium">independent business consultant</span>. Not a retreat — a way to turn 15 years of product, operations, and management experience from one company's leverage into leverage for many.
+              </p>
+            </Lang>
+
+            <Lang>
+              <p slot="zh" class="text-lg leading-[1.875] text-ink mt-6">
+                正在做的事：为文旅与本地生活方向的企业做经营诊断和运营陪跑；备考国际中文教师证书（CTC）；把 AI 变成日常的工作方式——调研、分析、写作、构建，都有它的影子。
+              </p>
+              <p slot="en" class="text-lg leading-[1.875] text-ink mt-6">
+                What I'm doing now: business diagnosis and operations partnering for companies in cultural tourism and local services; preparing for the CTC (Certificate for Teachers of Chinese); and making AI my everyday way of working — research, analysis, writing, building.
+              </p>
+            </Lang>
+
+            <Lang>
+              <p slot="zh" class="text-lg leading-[1.875] text-ink mt-6">
+                开放的机会：企业顾问合作、个人教练、理念相合的合伙人，以及 AI 赛道的 product/operations 岗位。
+              </p>
+              <p slot="en" class="text-lg leading-[1.875] text-ink mt-6">
+                Open to: consulting engagements, personal coaching, like-minded partners, and AI product/operations roles.
+              </p>
+            </Lang>
+          </div>
+        </div>
+
         {/* Energy Formula */}
-        <div class="mt-12 md:mt-16 p-6 md:p-8 rounded-2xl border border-gray-200/60 bg-human-bg">
-          <h2 class="font-human text-xl text-human-text mb-6">我的能量公式</h2>
+        <div class="mt-16 md:mt-20 p-6 md:p-8 rounded-[3px] border border-ink/10">
+          <h2 class="font-human font-medium text-xl text-ink mb-6">
+            <Lang zh="我的能量公式" en="My Energy Equation" />
+          </h2>
           <div class="grid md:grid-cols-2 gap-6">
             <div>
-              <h3 class="text-sm font-medium text-aurora-green mb-3 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-aurora-green"></span>
-                高能量来源
+              <h3 class="text-sm font-medium text-cinnabar mb-3 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-cinnabar"></span>
+                <Lang zh="高能量来源" en="What charges me" />
               </h3>
-              <ul class="space-y-2 text-sm text-human-text">
-                <li class="flex items-start gap-2">
-                  <span class="text-aurora-green mt-0.5">+</span>
-                  <span>与人深度连接</span>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-aurora-green mt-0.5">+</span>
-                  <span>帮助他人成长</span>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-aurora-green mt-0.5">+</span>
-                  <span>持续学习输入</span>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-aurora-green mt-0.5">+</span>
-                  <span>保持真实公平</span>
-                </li>
+              <ul class="space-y-2 text-sm text-ink">
+                <li class="flex items-start gap-2"><span class="text-cinnabar mt-0.5">+</span><span><Lang zh="与人深度连接" en="Deep connection with people" /></span></li>
+                <li class="flex items-start gap-2"><span class="text-cinnabar mt-0.5">+</span><span><Lang zh="帮助他人成长" en="Helping others grow" /></span></li>
+                <li class="flex items-start gap-2"><span class="text-cinnabar mt-0.5">+</span><span><Lang zh="持续学习输入" en="Continuous learning" /></span></li>
+                <li class="flex items-start gap-2"><span class="text-cinnabar mt-0.5">+</span><span><Lang zh="保持真实公平" en="Staying honest and fair" /></span></li>
               </ul>
             </div>
             <div>
-              <h3 class="text-sm font-medium text-red-400 mb-3 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-red-400"></span>
-                低能量消耗
+              <h3 class="text-sm font-medium text-ink/50 mb-3 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-ink/40"></span>
+                <Lang zh="低能量消耗" en="What drains me" />
               </h3>
-              <ul class="space-y-2 text-sm text-human-text">
-                <li class="flex items-start gap-2">
-                  <span class="text-red-400 mt-0.5">−</span>
-                  <span>虚伪应酬</span>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-red-400 mt-0.5">−</span>
-                  <span>重复执行</span>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-red-400 mt-0.5">−</span>
-                  <span>无标准的人情博弈</span>
-                </li>
-                <li class="flex items-start gap-2">
-                  <span class="text-red-400 mt-0.5">−</span>
-                  <span>被迫冒险</span>
-                </li>
+              <ul class="space-y-2 text-sm text-ink">
+                <li class="flex items-start gap-2"><span class="text-ink/40 mt-0.5">−</span><span><Lang zh="虚伪应酬" en="Insincere socializing" /></span></li>
+                <li class="flex items-start gap-2"><span class="text-ink/40 mt-0.5">−</span><span><Lang zh="重复执行" en="Repetitive execution" /></span></li>
+                <li class="flex items-start gap-2"><span class="text-ink/40 mt-0.5">−</span><span><Lang zh="无标准的人情博弈" en="Political games without rules" /></span></li>
+                <li class="flex items-start gap-2"><span class="text-ink/40 mt-0.5">−</span><span><Lang zh="被迫冒险" en="Being pushed into risks" /></span></li>
               </ul>
             </div>
           </div>
         </div>
-        
+
         {/* Trajectory Chart */}
-        <div class="mt-12 md:mt-16">
-          <h2 class="font-human text-2xl text-human-text mb-2">我的轨迹</h2>
-          <p class="text-sm text-gray-light mb-6">工作成就感 · 学习获得感 · 生活幸福指数</p>
-          <div class="rounded-xl border border-gray-200/60 bg-human-bg p-4 md:p-6">
+        <div class="mt-16 md:mt-20">
+          <h2 class="font-human font-medium text-2xl text-ink mb-2">
+            <Lang zh="我的轨迹" en="My Trajectory" />
+          </h2>
+          <p class="text-sm text-ink/50 mb-6">
+            <Lang zh="工作成就感 · 学习获得感 · 生活幸福指数" en="Fulfillment at work · growth from learning · happiness in life" />
+          </p>
+          <div class="rounded-[3px] border border-ink/10 p-4 md:p-6">
             <canvas id="trajectory-chart" class="w-full" style="max-height: 360px;"></canvas>
           </div>
         </div>
-        
+
         {/* Wishes */}
-        <div class="mt-12 md:mt-16">
-          <h2 class="font-human text-2xl text-human-text mb-2">我的心愿</h2>
-          <div class="w-24 h-px bg-gray-200 mb-8"></div>
-          
+        <div class="mt-16 md:mt-20">
+          <h2 class="font-human font-medium text-2xl text-ink mb-2">
+            <Lang zh="我的心愿" en="My Wishes" />
+          </h2>
+          <div class="w-24 h-px bg-ink/15 mb-8"></div>
+
           {/* Past Wish */}
-          <div class="mb-10 p-6 md:p-8 rounded-2xl border border-gray-200/60 bg-gradient-to-br from-human-bg to-gray-50/50">
+          <div class="mb-10 p-6 md:p-8 rounded-[3px] border border-ink/10">
             <div class="flex items-center gap-3 mb-4">
               <span class="text-2xl">🌅</span>
-              <h3 class="font-human text-lg text-human-text">曾经</h3>
+              <h3 class="font-human text-lg text-ink"><Lang zh="曾经" en="Then" /></h3>
             </div>
-            <p class="text-human-text leading-[1.875] mb-4">
-              想成为像<span class="font-medium text-aurora-green">"杨澜"</span>那样的女性——用对话连接世界，用表达留下痕迹。
-            </p>
-            <p class="text-sm text-gray-mid leading-relaxed mb-4">
-              外界看来，这个心愿"没达成"：我没有成为主持人，没有登上更大的舞台。
-            </p>
-            <p class="text-sm text-gray-mid leading-relaxed">
-              但回头看，这十几年我用另一种方式完成了它——在同程操盘一个从0到千人的项目，在美团设计一套影响千万用户的会员体系，在蚂蚁组织一次让团队AI化的培训。我做的从来不是"主持"，但一直在<span class="text-aurora-green font-medium">"对话"</span>和<span class="text-aurora-green font-medium">"连接"</span>。这个心愿，换一种形式，已经达成了。
-            </p>
+            <Lang>
+              <div slot="zh">
+                <p class="text-ink leading-[1.875] mb-4">
+                  想成为像<span class="font-medium text-cinnabar">"杨澜"</span>那样的女性——用对话连接世界，用表达留下痕迹。
+                </p>
+                <p class="text-sm text-ink/60 leading-relaxed mb-4">
+                  外界看来，这个心愿"没达成"：我没有成为主持人，没有登上更大的舞台。
+                </p>
+                <p class="text-sm text-ink/60 leading-relaxed">
+                  但回头看，这十几年我用另一种方式完成了它——在同程操盘一个从0到千人的项目，在美团设计一套影响千万用户的会员体系，在蚂蚁组织一次让团队AI化的培训。我做的从来不是"主持"，但一直在<span class="text-cinnabar font-medium">"对话"</span>和<span class="text-cinnabar font-medium">"连接"</span>。这个心愿，换一种形式，已经达成了。
+                </p>
+              </div>
+              <div slot="en">
+                <p class="text-ink leading-[1.875] mb-4">
+                  I wanted to become someone like <span class="font-medium text-cinnabar">Yang Lan</span> — connecting the world through conversation, leaving a mark through expression.
+                </p>
+                <p class="text-sm text-ink/60 leading-relaxed mb-4">
+                  From the outside, that wish "failed": I never became a host, never stood on a bigger stage.
+                </p>
+                <p class="text-sm text-ink/60 leading-relaxed">
+                  But looking back, I fulfilled it differently — scaling a project from zero to a thousand people at Tongcheng, designing a membership system for millions at Meituan, leading an AI-enablement program at Ant. I was never "hosting," but I was always <span class="text-cinnabar font-medium">conversing</span> and <span class="text-cinnabar font-medium">connecting</span>. The wish came true in another form.
+                </p>
+              </div>
+            </Lang>
           </div>
-          
+
           {/* Now Wish */}
-          <div class="p-6 md:p-8 rounded-2xl border border-aurora-green/20 bg-gradient-to-br from-aurora-green/5 to-transparent">
+          <div class="p-6 md:p-8 rounded-[3px] border border-cinnabar/20 bg-cinnabar/[0.03]">
             <div class="flex items-center gap-3 mb-4">
               <span class="text-2xl">🌟</span>
-              <h3 class="font-human text-lg text-human-text">现在</h3>
+              <h3 class="font-human text-lg text-ink"><Lang zh="现在" en="Now" /></h3>
             </div>
-            <p class="text-human-text leading-[1.875] mb-4 font-medium">
-              跳出思维惯性，尝试不一样的职业选择和生活方式。
-            </p>
-            <p class="text-sm text-gray-mid leading-relaxed mb-4">
-              15年来我只走了一条路——平台运营、用户增长、产品操盘。这条路我走得不错，但我也看到了它的边界。
-            </p>
-            <p class="text-sm text-gray-mid leading-relaxed">
-              2026年，我开始和AI对话，研究Agent技术，探索适老化项目，甚至想做一个帮助小酒店老板的工具。这些都不是我"应该"做的事，但它们让我重新感到：我在学习，我在生长，我在选择。下一个心愿，不是抵达某个头衔，而是保持<span class="text-aurora-green font-medium">"可以选择"</span>的能力。
-            </p>
+            <Lang>
+              <div slot="zh">
+                <p class="text-ink leading-[1.875] mb-4 font-medium">
+                  跳出思维惯性，尝试不一样的职业选择和生活方式。
+                </p>
+                <p class="text-sm text-ink/60 leading-relaxed mb-4">
+                  15年来我只走了一条路——平台运营、用户增长、产品操盘。这条路我走得不错，但我也看到了它的边界。
+                </p>
+                <p class="text-sm text-ink/60 leading-relaxed">
+                  2026年，我开始独立顾问实践，备考 CTC，把 AI 变成日常工作方式。下一个心愿，不是抵达某个头衔，而是保持<span class="text-cinnabar font-medium">"可以选择"</span>的能力。
+                </p>
+              </div>
+              <div slot="en">
+                <p class="text-ink leading-[1.875] mb-4 font-medium">
+                  To break out of mental habit — to try a different kind of career and life.
+                </p>
+                <p class="text-sm text-ink/60 leading-relaxed mb-4">
+                  For 15 years I walked one road — platform operations, user growth, product leadership. I walked it well, but I also saw its edges.
+                </p>
+                <p class="text-sm text-ink/60 leading-relaxed">
+                  In 2026 I began consulting independently, preparing for the CTC, and making AI my daily way of working. The next wish is not a title — it's keeping the ability <span class="text-cinnabar font-medium">to choose</span>.
+                </p>
+              </div>
+            </Lang>
           </div>
         </div>
-        
+
         {/* Photo Wall */}
-        <div class="mt-12 md:mt-16">
-          <h2 class="font-human text-2xl text-human-text mb-2">照片墙</h2>
-          <div class="w-24 h-px bg-gray-200 mb-6"></div>
+        <div class="mt-16 md:mt-20">
+          <h2 class="font-human font-medium text-2xl text-ink mb-2">
+            <Lang zh="照片墙" en="Photo Wall" />
+          </h2>
+          <div class="w-24 h-px bg-ink/15 mb-6"></div>
           <PhotoWall />
         </div>
-        
-        {/* Resume CTA */}
-        <div class="mt-12 md:mt-16 p-8 rounded-2xl border border-gray-200/60 bg-human-bg">
-          <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+
+        {/* 服务 / 简历 / 联系入口 */}
+        <div class="mt-16 md:mt-20 space-y-4">
+          <a href="/resume" class="group flex items-center justify-between gap-4 p-6 rounded-[3px] border border-ink/10 hover:border-cinnabar/50 transition-colors">
             <div>
-              <h3 class="font-human text-xl text-human-text mb-1">我的简历</h3>
-              <p class="text-sm text-gray-light">产品及用户运营专家 · 15 年互联网经验</p>
+              <h3 class="font-human font-medium text-xl text-ink mb-1 group-hover:text-cinnabar transition-colors">
+                <Lang zh="我的简历" en="My Résumé" />
+              </h3>
+              <p class="text-sm text-ink/50">
+                <Lang zh="独立经营顾问 · 15 年互联网产品及用户运营" en="Independent consultant · 15 years in product & user operations" />
+              </p>
             </div>
-            <a 
-              href="/resume" 
-              target="_blank"
-              class="inline-flex items-center gap-2 px-6 py-3 bg-human-text text-human-bg rounded-lg font-sans font-medium text-sm hover:opacity-90 transition-opacity"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              查看在线简历
-            </a>
-          </div>
+            <span class="flex-none inline-flex items-center gap-1.5 text-sm text-dai-blue group-hover:gap-2.5 transition-all">
+              <Lang zh="查看" en="View" />
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </span>
+          </a>
+          <a href="/#services" class="group flex items-center justify-between gap-4 p-6 rounded-[3px] border border-ink/10 hover:border-cinnabar/50 transition-colors">
+            <div>
+              <h3 class="font-human font-medium text-xl text-ink mb-1 group-hover:text-cinnabar transition-colors">
+                <Lang zh="我能为你做什么" en="What I Can Do for You" />
+              </h3>
+              <p class="text-sm text-ink/50">
+                <Lang zh="企业经营顾问 · 个人教练 · 对外汉语（筹备中）" en="Business consulting · personal coaching · Mandarin teaching (soon)" />
+              </p>
+            </div>
+            <span class="flex-none inline-flex items-center gap-1.5 text-sm text-dai-blue group-hover:gap-2.5 transition-all">
+              <Lang zh="查看" en="View" />
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </span>
+          </a>
+          <a href="/contact" class="group flex items-center justify-between gap-4 p-6 rounded-[3px] border border-cinnabar/30 bg-cinnabar/[0.03] hover:border-cinnabar transition-colors">
+            <div>
+              <h3 class="font-human font-medium text-xl text-ink mb-1 group-hover:text-cinnabar transition-colors">
+                <Lang zh="联系我" en="Get in Touch" />
+              </h3>
+              <p class="text-sm text-ink/50">
+                <Lang zh="邮件与即刻均可直达，通常 24 小时内回复" en="Email or Jike — I usually reply within 24 hours" />
+              </p>
+            </div>
+            <span class="flex-none inline-flex items-center gap-1.5 text-sm text-cinnabar group-hover:gap-2.5 transition-all">
+              <Lang zh="去联系" en="Contact" />
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </span>
+          </a>
         </div>
       </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script type="module">
-    // Chart.js trajectory
+    // Chart.js trajectory（标签随语言切换重绘）
     const ctx = document.getElementById('trajectory-chart');
+    const isEn = document.documentElement.dataset.lang === 'en';
     if (ctx) {
       new Chart(ctx, {
         type: 'line',
@@ -178,30 +302,30 @@ import PhotoWall from '../components/PhotoWall.astro';
           labels: ['2006', '2009', '2013', '2016', '2019', '2024', '2026'],
           datasets: [
             {
-              label: '工作成就感',
+              label: isEn ? 'Work fulfillment' : '工作成就感',
               data: [7, 3, 8, 5, 6, 3, 4],
-              borderColor: '#0d9488',
-              backgroundColor: 'rgba(13, 148, 136, 0.08)',
+              borderColor: '#c8391f',
+              backgroundColor: 'rgba(200, 57, 31, 0.08)',
               tension: 0.4,
               fill: true,
               pointRadius: 5,
               pointHoverRadius: 8,
             },
             {
-              label: '学习获得感',
+              label: isEn ? 'Learning growth' : '学习获得感',
               data: [10, 10, 9, 6, 8, 3, 8],
-              borderColor: '#3b82f6',
-              backgroundColor: 'rgba(59, 130, 246, 0.08)',
+              borderColor: '#2f4a5e',
+              backgroundColor: 'rgba(47, 74, 94, 0.08)',
               tension: 0.4,
               fill: true,
               pointRadius: 5,
               pointHoverRadius: 8,
             },
             {
-              label: '生活幸福指数',
+              label: isEn ? 'Life happiness' : '生活幸福指数',
               data: [8, 9, 5, 4, 5, 6, 7],
-              borderColor: '#f59e0b',
-              backgroundColor: 'rgba(245, 158, 11, 0.08)',
+              borderColor: '#b98a2f',
+              backgroundColor: 'rgba(185, 138, 47, 0.08)',
               tension: 0.4,
               fill: true,
               pointRadius: 5,
@@ -226,22 +350,30 @@ import PhotoWall from '../components/PhotoWall.astro';
               }
             },
             tooltip: {
-              backgroundColor: 'rgba(250, 246, 241, 0.95)',
-              titleColor: '#1a1a1a',
-              bodyColor: '#1a1a1a',
-              borderColor: 'rgba(0,0,0,0.1)',
+              backgroundColor: 'rgba(247, 243, 236, 0.95)',
+              titleColor: '#1f2328',
+              bodyColor: '#1f2328',
+              borderColor: 'rgba(31,35,40,0.15)',
               borderWidth: 1,
               padding: 12,
               callbacks: {
                 afterBody: function(context) {
-                  const events = {
+                  const events = isEn ? {
+                    '2006': 'Joined Tongcheng',
+                    '2009': 'Quit to study abroad',
+                    '2013': 'Led hotel+scenic ops',
+                    '2016': 'Project contraction',
+                    '2019': 'Joined Meituan',
+                    '2024': 'Ant Group chapter',
+                    '2026': 'Independent consultant'
+                  } : {
                     '2006': '同程入职',
                     '2009': '辞职留学',
                     '2013': '操盘酒+景业务',
                     '2016': '项目收缩',
                     '2019': '加入美团',
                     '2024': '蚂蚁阶段',
-                    '2026': 'AI学习阶段'
+                    '2026': '独立顾问'
                   };
                   return '\n📍 ' + (events[context[0].label] || '');
                 }
@@ -253,7 +385,7 @@ import PhotoWall from '../components/PhotoWall.astro';
               min: 0,
               max: 10,
               grid: {
-                color: 'rgba(0,0,0,0.05)'
+                color: 'rgba(31,35,40,0.06)'
               },
               ticks: {
                 stepSize: 2

@@ -1,0 +1,141 @@
+---
+/**
+ * MainNav v2 —— 「卷首题签」式导航
+ *
+ * 设计理念：导航不是悬浮的 UI chrome，而是长卷起首的题签——
+ * 加高（80px）、纸色底、与首屏连成一纸；滚动后收拢为淡色细条（墨线底边浮现）。
+ *
+ * 结构：首页 ｜ 服务 ｜ 案例 ｜ 关于 ｜ 思考 ｜ 联系 + 中/EN 切换
+ * - 服务/案例指向首页长卷锚点（#services / #cases）
+ * - 思考暂指向 /learning（P3 重构为 /notes 后更新）
+ * - starfield 已按规划移出主导航（深链仍可访问）
+ */
+import Lang from './Lang.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+const navItems = [
+  { href: '/', zh: '首页', en: 'Home' },
+  { href: '/#services', zh: '服务', en: 'Services' },
+  { href: '/#cases', zh: '案例', en: 'Work' },
+  { href: '/about', zh: '关于', en: 'About' },
+  { href: '/learning', zh: '思考', en: 'Notes' },
+  { href: '/contact', zh: '联系', en: 'Contact' },
+];
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => {
+  if (href === '/') return pathname === '/';
+  if (href.startsWith('/#')) return false; // 锚点项不做高亮
+  return pathname === href || pathname.startsWith(href + '/');
+};
+---
+
+<header id="main-nav" class="sticky top-0 z-40">
+  <nav class="nav-inner max-w-6xl mx-auto px-6 flex items-center justify-between">
+    <!-- 题签：名章 + 姓名 + 小字定位 -->
+    <a href="/" class="flex items-center gap-3 group">
+      <img src="/seal.png" alt="" class="nav-seal w-10 h-10" width="40" height="40" />
+      <span class="flex flex-col leading-none">
+        <span class="font-human text-2xl font-bold tracking-wide text-ink group-hover:text-cinnabar transition-colors">姜华</span>
+        <span class="mt-1 text-[10px] tracking-[0.2em] text-ink/40">
+          <Lang zh="独立经营顾问" en="CONSULTANT" />
+        </span>
+      </span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-2">
+      {navItems.map(item => {
+        const active = isActive(item.href);
+        return (
+          <a
+            href={item.href}
+            class={`relative px-4 py-2 text-[15px] tracking-wider transition-colors ${
+              active ? 'text-ink' : 'text-ink/55 hover:text-ink'
+            }`}
+          >
+            <Lang zh={item.zh} en={item.en} />
+            {active && (
+              <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-[3px] bg-cinnabar rounded-full"></span>
+            )}
+          </a>
+        );
+      })}
+
+      <span class="mx-3 h-5 w-px bg-ink/15"></span>
+      <LanguageSwitcher />
+    </div>
+
+    <!-- Mobile：切换器 + 菜单按钮 -->
+    <div class="md:hidden flex items-center gap-1">
+      <LanguageSwitcher />
+      <button
+        id="main-nav-menu-btn"
+        class="p-2 rounded-md"
+        aria-label="菜单 Menu"
+      >
+        <svg class="w-6 h-6 text-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="main-nav-menu" class="hidden md:hidden border-t border-ink/10 px-6 py-4 space-y-1 bg-paper">
+    {navItems.map(item => (
+      <a
+        href={item.href}
+        class="block py-2.5 text-[15px] tracking-wider text-ink/70 hover:text-ink"
+      >
+        <Lang zh={item.zh} en={item.en} />
+      </a>
+    ))}
+  </div>
+</header>
+
+<style>
+  /* 题签 → 收拢：默认 80px 高、无框线（与首屏一纸）；
+     滚动后 56px、纸色微透 + 墨线底边浮现 */
+  #main-nav {
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  #main-nav .nav-inner {
+    height: 5rem;
+    transition: height 0.3s ease;
+  }
+  #main-nav .nav-seal {
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+  #main-nav.is-compact {
+    border-bottom-color: rgba(31, 35, 40, 0.12);
+    background-color: rgba(247, 243, 236, 0.92);
+    backdrop-filter: blur(10px);
+  }
+  #main-nav.is-compact .nav-inner {
+    height: 3.5rem;
+  }
+  #main-nav.is-compact .nav-seal {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+</style>
+
+<script>
+  // 滚动收拢 + 移动端菜单
+  const header = document.getElementById('main-nav');
+  const onScroll = () => {
+    header?.classList.toggle('is-compact', window.scrollY > 24);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const btn = document.getElementById('main-nav-menu-btn');
+  const menu = document.getElementById('main-nav-menu');
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  }
+</script>

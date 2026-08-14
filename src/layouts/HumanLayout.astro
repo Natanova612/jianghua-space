@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import DualHeader from '../components/DualHeader.astro';
+import MainNav from '../components/MainNav.astro';
 import Footer from '../components/Footer.astro';
 
 export interface Props {
@@ -13,8 +13,8 @@ const { title, description, ogImage } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage} field="human">
-  <div class="min-h-screen flex flex-col bg-human-bg text-human-text">
-    <DualHeader currentField="human" />
+  <div class="min-h-screen flex flex-col paper-texture text-ink isolate">
+    <MainNav />
     <main class="flex-1">
       <slot />
     </main>

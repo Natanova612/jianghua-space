@@ -1,0 +1,35 @@
+---
+/**
+ * Lang 组件 —— 单站点双语的基础单元
+ *
+ * 用法一（简单文本）：
+ *   <Lang zh="独立经营顾问" en="Independent Business Consultant" />
+ *
+ * 用法二（富文本内容）：
+ *   <Lang>
+ *     <p slot="zh">中文 <strong>富文本</strong></p>
+ *     <p slot="en">English <strong>rich text</strong></p>
+ *   </Lang>
+ *
+ * 渲染规则：zh 默认可见，en 默认隐藏；全局切换由 <html data-lang> 控制（见 global.css）。
+ */
+export interface Props {
+  zh?: string;
+  en?: string;
+}
+
+const { zh = '', en = '' } = Astro.props;
+const hasSlots = Astro.slots.has('zh') || Astro.slots.has('en');
+---
+
+{hasSlots ? (
+  <>
+    <span data-i18n="zh"><slot name="zh" /></span>
+    <span data-i18n="en"><slot name="en" /></span>
+  </>
+) : (
+  <>
+    <span data-i18n="zh">{zh}</span>
+    <span data-i18n="en">{en}</span>
+  </>
+)}
