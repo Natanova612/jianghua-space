@@ -13,6 +13,26 @@
 import type { APIRoute } from 'astro';
 import profileData from '../../data/profile.json';
 
+/* 私有补充档案（内化语料）：本地 src/data/kbase/*.md，gitignore 不入库。
+   构建时打包进函数； fresh clone 无此目录时 glob 为空，自动降级为仅公开层。 */
+const kbaseModules = import.meta.glob('../../data/kbase/*.md', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+}) as Record<string, string>;
+const KBASE_LABELS: Record<string, string> = {
+  'bio': '其人档案（她是谁）',
+  'cases-private': '案例手感（她怎么看问题、怎么解题）',
+  'voice': '她的原话语料（语气样本；可偶尔化用其语感，禁止整段照搬）',
+  'faq': '高频问题的当前真实口径',
+};
+const kbaseDigest = Object.entries(kbaseModules)
+  .map(([path, content]) => {
+    const key = path.split('/').pop()?.replace('.md', '') ?? '';
+    return `### ${KBASE_LABELS[key] ?? key}\n${String(content).trim()}`;
+  })
+  .join('\n\n');
+
 export const prerender = false;
 
 const MAX_MSG_LEN = 4000;
@@ -73,6 +93,10 @@ function buildSystem(intent: Intent | null): string {
 
 【能力底稿（唯一事实来源，禁止超出其范围编造任何经历、数据、案例）】
 ${profile}
+${kbaseDigest ? `
+【补充档案（内化语料，与底稿同属事实来源）】
+使用规则：用于理解她与表达判断；回答时融入你的语言，禁止大段逐字复述原文；其中涉及隐私边界的内容按护栏第 4 条处理。
+${kbaseDigest}` : ''}
 
 【护栏（六条红线，不可违反）】
 1. 话题边界：只谈职业相关话题；政治、隐私或与姜华职业无关的请求，礼貌引回正题
